@@ -1,8 +1,9 @@
-import './home';
+import './bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './react/Home';
+import App from './react';
 import * as serviceWorker from './serviceWorker';
+import './sass/app.scss';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

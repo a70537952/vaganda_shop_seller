@@ -1,11 +1,8 @@
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-import Select from '@material-ui/core/Select';
 import { withStyles } from '@material-ui/core/styles/index';
-
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
@@ -14,17 +11,16 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-
-import SellerHelmet from '../../components/seller/SellerHelmet';
-import LocaleMoment from '../../components/LocaleMoment';
-import ModalCreateEditShopAdminRole from '../../components/seller/Modal/ModalCreateEditShopAdminRole';
-import SellerReactTable from '../../components/seller/SellerReactTable';
-import { AppContext } from '../../contexts/seller/Context';
-import { shopAdminRoleQuery } from '../../graphql/query/ShopAdminRoleQuery';
+import SellerHelmet from '../components/seller/SellerHelmet';
+import LocaleMoment from '../components/LocaleMoment';
+import SellerReactTable from '../components/seller/SellerReactTable';
+import { AppContext } from '../contexts/Context';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import gql from 'graphql-tag';
 import { RouteComponentProps } from 'react-router';
-import { shopAdminRoleFragments } from '../../graphql/fragment/query/ShopAdminRoleFragment';
+import ModalCreateEditShopProductCategory from '../components/seller/Modal/ModalCreateEditShopProductCategory';
+import { shopProductCategoryQuery } from '../graphql/query/ShopProductCategoryQuery';
+import { shopProductCategoryFragments } from '../graphql/fragment/query/ShopProductCategoryFragment';
 
 interface IProps {
   classes: any;
@@ -32,12 +28,14 @@ interface IProps {
 }
 
 interface IState {
-  modal: any;
-  editingShopAdminRole: any | null;
+  modal: {
+    createEditShopProductCategory: boolean;
+  };
+  editingShopProductCategory: any;
   tableKey: number;
 }
 
-class AdminRole extends React.Component<
+class ProductCategory extends React.Component<
   IProps & RouteComponentProps & WithTranslation & WithSnackbarProps,
   IState
 > {
@@ -47,35 +45,22 @@ class AdminRole extends React.Component<
     super(props);
     this.state = {
       modal: {
-        createEditShopAdminRole: false
+        createEditShopProductCategory: false
       },
-      editingShopAdminRole: null,
+      editingShopProductCategory: null,
       tableKey: +new Date()
     };
   }
 
-  toggleModalCreateAdminRole() {
+  toggleModalProductCategory(product: any = null) {
     this.setState(
       update(this.state, {
         modal: {
-          createEditShopAdminRole: {
-            $set: !this.state.modal.createEditShopAdminRole
+          createEditShopProductCategory: {
+            $set: !this.state.modal.createEditShopProductCategory
           }
         },
-        editingShopAdminRole: { $set: null }
-      })
-    );
-  }
-
-  toggleModalEditAdminRole(product: any) {
-    this.setState(
-      update(this.state, {
-        modal: {
-          createEditShopAdminRole: {
-            $set: !this.state.modal.createEditShopAdminRole
-          }
-        },
-        editingShopAdminRole: { $set: product }
+        editingShopProductCategory: { $set: product }
       })
     );
   }
@@ -94,31 +79,16 @@ class AdminRole extends React.Component<
     let columns = [
       {
         id: 'title',
-        Header: t('role title'),
+        Header: t('title'),
         accessor: (d: any) => d.title,
+        sortable: true,
         filterable: true
       },
       {
-        id: 'permission',
-        Header: t('permission'),
-        sortable: false,
-        accessor: (d: any) => d.permission.length
-      },
-      {
-        id: 'is_shop_owner_role',
-        Header: t('is shop owner role'),
-        filterable: true,
-        filterType: 'select',
-        filterComponent: (props: any) => {
-          return (
-            <Select {...props}>
-              <MenuItem value={''}>{t('all')}</MenuItem>
-              <MenuItem value={'0'}>{t('no')}</MenuItem>
-              <MenuItem value={1}>{t('yes')}</MenuItem>
-            </Select>
-          );
-        },
-        accessor: (d: any) => (d.is_shop_owner_role ? t('yes') : t('no'))
+        id: 'product_count',
+        Header: t('product count'),
+        sortable: true,
+        accessor: (d: any) => d.product_count
       },
       {
         id: 'created_at',
@@ -149,10 +119,10 @@ class AdminRole extends React.Component<
           return (
             <>
               {(this.props.context.permission.includes(
-                'UPDATE_SHOP_ADMIN_ROLE'
+                'UPDATE_SHOP_PRODUCT_CATEGORY'
               ) ||
                 this.props.context.permission.includes(
-                  'VIEW_SHOP_ADMIN_ROLE'
+                  'VIEW_SHOP_PRODUCT_CATEGORY'
                 )) && (
                 <Tooltip title={t('edit')}>
                   <Fab
@@ -160,7 +130,7 @@ class AdminRole extends React.Component<
                     variant="round"
                     color="primary"
                     onClick={() => {
-                      this.toggleModalEditAdminRole(value);
+                      this.toggleModalProductCategory(value);
                     }}
                   >
                     <EditIcon />
@@ -174,24 +144,23 @@ class AdminRole extends React.Component<
     ];
     let actionList: any[] = [];
 
-    if (this.props.context.permission.includes('DELETE_SHOP_ADMIN_ROLE')) {
+    if (
+      this.props.context.permission.includes('DELETE_SHOP_PRODUCT_CATEGORY')
+    ) {
       actionList.push({
         title: t('delete'),
-        confirmMessage: t(
-          'delete show admin role will also delete related shop admin'
-        ),
         component: (component: any) => {
           return (
             <Mutation
-              key={'deleteShopAdminRoleMutation'}
+              key={'deleteShopProductCategoryMutation'}
               mutation={gql`
-                mutation DeleteShopAdminRoleMutation(
+                mutation DeleteShopProductCategoryMutation(
                   $shop_id: String!
-                  $shop_admin_role_ids: [String]!
+                  $shop_product_category_ids: [String]!
                 ) {
-                  deleteShopAdminRoleMutation(
+                  deleteShopProductCategoryMutation(
                     shop_id: $shop_id
-                    shop_admin_role_ids: $shop_admin_role_ids
+                    shop_product_category_ids: $shop_product_category_ids
                   ) {
                     id
                   }
@@ -200,34 +169,26 @@ class AdminRole extends React.Component<
               onCompleted={data => {
                 this.props.enqueueSnackbar(
                   t('{{count}} selected successfully delete', {
-                    count: data.deleteShopAdminRoleMutation.length
+                    count: data.deleteShopProductCategoryMutation.length
                   })
                 );
                 this.updateTableKey();
               }}
             >
-              {(deleteShopAdminRoleMutation, { data, loading, error }) => {
+              {(
+                deleteShopProductCategoryMutation,
+                { data, loading, error }
+              ) => {
                 return React.createElement(component, {
                   onClick: async (selectedData: any) => {
-                    let ownerRoleCount = selectedData.filter(
-                      (data: any) => data.is_shop_owner_role
-                    ).length;
-                    if (ownerRoleCount !== selectedData.length) {
-                      await deleteShopAdminRoleMutation({
-                        variables: {
-                          shop_id: this.props.context.shop.id,
-                          shop_admin_role_ids: selectedData.map(
-                            (data: any) => data.id
-                          )
-                        }
-                      });
-                    }
-
-                    if (ownerRoleCount) {
-                      this.props.enqueueSnackbar(
-                        t('you cant delete shop owner role')
-                      );
-                    }
+                    await deleteShopProductCategoryMutation({
+                      variables: {
+                        shop_id: this.props.context.shop.id,
+                        shop_product_category_ids: selectedData.map(
+                          (data: any) => data.id
+                        )
+                      }
+                    });
                   },
                   loading: loading
                 });
@@ -243,55 +204,57 @@ class AdminRole extends React.Component<
         {context => (
           <React.Fragment>
             <SellerHelmet
-              title={t('shop admin role')}
+              title={t('product category')}
               description={''}
-              keywords={t('shop admin role')}
+              keywords={t('product category')}
               ogImage="/images/favicon-228.png"
             />
 
             <Paper className={classes.root} elevation={1}>
               <Grid container justify={'center'}>
-                {context.permission.includes('CREATE_SHOP_ADMIN_ROLE') && (
+                {context.permission.includes(
+                  'CREATE_SHOP_PRODUCT_CATEGORY'
+                ) && (
                   <Grid container justify={'flex-end'}>
                     <Button
                       size="small"
                       variant="contained"
                       color="primary"
-                      onClick={this.toggleModalCreateAdminRole.bind(this)}
+                      onClick={this.toggleModalProductCategory.bind(this)}
                     >
                       <AddIcon />
-                      {t('add admin role')}
+                      {t('add product category')}
                     </Button>
                   </Grid>
                 )}
 
-                <ModalCreateEditShopAdminRole
-                  shopAdminRoleId={
-                    this.state.editingShopAdminRole
-                      ? this.state.editingShopAdminRole.id
+                <ModalCreateEditShopProductCategory
+                  shopProductCategoryId={
+                    this.state.editingShopProductCategory
+                      ? this.state.editingShopProductCategory.id
                       : null
                   }
                   shopId={context.shop.id}
                   disabled={
-                    !context.permission.includes('UPDATE_SHOP_ADMIN_ROLE')
+                    !context.permission.includes('UPDATE_SHOP_PRODUCT_CATEGORY')
                   }
-                  toggle={this.toggleModalCreateAdminRole.bind(this)}
-                  isOpen={this.state.modal.createEditShopAdminRole}
+                  toggle={this.toggleModalProductCategory.bind(this)}
+                  isOpen={this.state.modal.createEditShopProductCategory}
                   refetchData={this.updateTableKey.bind(this)}
                 />
 
                 <SellerReactTable
                   showCheckbox
                   showFilter
-                  title={t('admin role')}
+                  title={t('shop product category')}
                   columns={columns}
-                  query={shopAdminRoleQuery(
-                    shopAdminRoleFragments.SellerAdminRole
+                  query={shopProductCategoryQuery(
+                    shopProductCategoryFragments.ProductCategory
                   )}
                   variables={{
                     shop_id: context.shop.id,
                     key: this.state.tableKey,
-                    sort_is_shop_owner_role: 'desc'
+                    sort_created_at: 'desc'
                   }}
                   actionList={actionList}
                 />
@@ -309,5 +272,6 @@ export default withStyles(theme => ({
     width: '100%',
     padding: theme.spacing(3),
     overflow: 'auto'
-  }
-}))(withSnackbar(withTranslation()(withRouter(AdminRole))));
+  },
+  progress: {}
+}))(withSnackbar(withTranslation()(withRouter(ProductCategory))));

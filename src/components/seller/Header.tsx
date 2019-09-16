@@ -17,13 +17,13 @@ import { withStyles } from '@material-ui/core/styles/index';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import MenuIcon from '@material-ui/icons/menu';
-import RepeatIcon from '@material-ui/icons/repeat';
+import MenuIcon from '@material-ui/icons/Menu';
+import RepeatIcon from '@material-ui/icons/Repeat';
 import classnames from 'classnames';
 import React from 'react';
 
 import { Link, NavLink, Route, Switch, withRouter } from 'react-router-dom';
-import { AppContext } from '../../contexts/seller/Context';
+import { AppContext } from '../../contexts/Context';
 import sellerRoutes from '../../routes/seller';
 import ShopLogo from './../ShopLogo';
 import UserAvatar from './../UserAvatar';
@@ -106,7 +106,7 @@ class Header extends React.Component<
                     color="inherit"
                     aria-label="Open drawer"
                     onClick={this.handleDrawerToggle.bind(this)}
-                    className={classnames(classes.menuButton, open)}
+                    className={classnames(classes.menuButton)}
                   >
                     <MenuIcon />
                   </IconButton>

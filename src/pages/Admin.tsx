@@ -10,17 +10,17 @@ import update from 'immutability-helper';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import React from 'react';
 import { Mutation } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import SellerHelmet from '../../components/seller/SellerHelmet';
-import LocaleMoment from '../../components/LocaleMoment';
-import SellerReactTable from '../../components/seller/SellerReactTable';
-import { AppContext } from '../../contexts/seller/Context';
 import { WithTranslation, withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router-dom';
+import SellerHelmet from '../components/seller/SellerHelmet';
+import LocaleMoment from '../components/LocaleMoment';
+import ModalCreateEditShopAdmin from '../components/seller/Modal/ModalCreateEditShopAdmin';
+import SellerReactTable from '../components/seller/SellerReactTable';
+import { AppContext } from '../contexts/Context';
 import gql from 'graphql-tag';
 import { RouteComponentProps } from 'react-router';
-import ModalCreateEditShopProductCategory from '../../components/seller/Modal/ModalCreateEditShopProductCategory';
-import { shopProductCategoryQuery } from '../../graphql/query/ShopProductCategoryQuery';
-import { shopProductCategoryFragments } from '../../graphql/fragment/query/ShopProductCategoryFragment';
+import { shopAdminQuery } from '../graphql/query/ShopAdminQuery';
+import { shopAdminFragments } from '../graphql/fragment/query/ShopAdminFragment';
 
 interface IProps {
   classes: any;
@@ -28,14 +28,12 @@ interface IProps {
 }
 
 interface IState {
-  modal: {
-    createEditShopProductCategory: boolean;
-  };
-  editingShopProductCategory: any;
+  modal: any;
+  editingShopAdmin: any;
   tableKey: number;
 }
 
-class ProductCategory extends React.Component<
+class Admin extends React.Component<
   IProps & RouteComponentProps & WithTranslation & WithSnackbarProps,
   IState
 > {
@@ -45,22 +43,31 @@ class ProductCategory extends React.Component<
     super(props);
     this.state = {
       modal: {
-        createEditShopProductCategory: false
+        createEditShopAdmin: false
       },
-      editingShopProductCategory: null,
+      editingShopAdmin: null,
       tableKey: +new Date()
     };
   }
 
-  toggleModalProductCategory(product: any = null) {
+  toggleModalCreateAdmin() {
     this.setState(
       update(this.state, {
         modal: {
-          createEditShopProductCategory: {
-            $set: !this.state.modal.createEditShopProductCategory
-          }
+          createEditShopAdmin: { $set: !this.state.modal.createEditShopAdmin }
         },
-        editingShopProductCategory: { $set: product }
+        editingShopAdmin: { $set: null }
+      })
+    );
+  }
+
+  toggleModalEditAdmin(product: any) {
+    this.setState(
+      update(this.state, {
+        modal: {
+          createEditShopAdmin: { $set: !this.state.modal.createEditShopAdmin }
+        },
+        editingShopAdmin: { $set: product }
       })
     );
   }
@@ -78,17 +85,18 @@ class ProductCategory extends React.Component<
 
     let columns = [
       {
-        id: 'title',
-        Header: t('title'),
-        accessor: (d: any) => d.title,
-        sortable: true,
+        id: 'userName',
+        Header: t('user'),
+        accessor: (d: any) => d.user.name + ` (${d.user.username})`,
+        sortable: false,
         filterable: true
       },
       {
-        id: 'product_count',
-        Header: t('product count'),
-        sortable: true,
-        accessor: (d: any) => d.product_count
+        id: 'shop_admin_roleTitle',
+        Header: t('shop admin role'),
+        sortable: false,
+        filterable: true,
+        accessor: (d: any) => d.shop_admin_role.title
       },
       {
         id: 'created_at',
@@ -118,19 +126,15 @@ class ProductCategory extends React.Component<
         Cell: ({ value }: any) => {
           return (
             <>
-              {(this.props.context.permission.includes(
-                'UPDATE_SHOP_PRODUCT_CATEGORY'
-              ) ||
-                this.props.context.permission.includes(
-                  'VIEW_SHOP_PRODUCT_CATEGORY'
-                )) && (
+              {(this.props.context.permission.includes('UPDATE_SHOP_ADMIN') ||
+                this.props.context.permission.includes('VIEW_SHOP_ADMIN')) && (
                 <Tooltip title={t('edit')}>
                   <Fab
                     size="small"
                     variant="round"
                     color="primary"
                     onClick={() => {
-                      this.toggleModalProductCategory(value);
+                      this.toggleModalEditAdmin(value);
                     }}
                   >
                     <EditIcon />
@@ -144,23 +148,21 @@ class ProductCategory extends React.Component<
     ];
     let actionList: any[] = [];
 
-    if (
-      this.props.context.permission.includes('DELETE_SHOP_PRODUCT_CATEGORY')
-    ) {
+    if (this.props.context.permission.includes('DELETE_SHOP_ADMIN')) {
       actionList.push({
         title: t('delete'),
         component: (component: any) => {
           return (
             <Mutation
-              key={'deleteShopProductCategoryMutation'}
+              key={'deleteShopAdminMutation'}
               mutation={gql`
-                mutation DeleteShopProductCategoryMutation(
+                mutation DeleteShopAdminMutation(
                   $shop_id: String!
-                  $shop_product_category_ids: [String]!
+                  $shop_admin_ids: [String]!
                 ) {
-                  deleteShopProductCategoryMutation(
+                  deleteShopAdminMutation(
                     shop_id: $shop_id
-                    shop_product_category_ids: $shop_product_category_ids
+                    shop_admin_ids: $shop_admin_ids
                   ) {
                     id
                   }
@@ -169,26 +171,34 @@ class ProductCategory extends React.Component<
               onCompleted={data => {
                 this.props.enqueueSnackbar(
                   t('{{count}} selected successfully delete', {
-                    count: data.deleteShopProductCategoryMutation.length
+                    count: data.deleteShopAdminMutation.length
                   })
                 );
                 this.updateTableKey();
               }}
             >
-              {(
-                deleteShopProductCategoryMutation,
-                { data, loading, error }
-              ) => {
+              {(deleteShopAdminMutation, { data, loading, error }) => {
                 return React.createElement(component, {
                   onClick: async (selectedData: any) => {
-                    await deleteShopProductCategoryMutation({
-                      variables: {
-                        shop_id: this.props.context.shop.id,
-                        shop_product_category_ids: selectedData.map(
-                          (data: any) => data.id
-                        )
-                      }
-                    });
+                    let ownerRoleCount = selectedData.filter(
+                      (data: any) => data.shop_admin_role.is_shop_owner_role
+                    ).length;
+                    if (ownerRoleCount !== selectedData.length) {
+                      await deleteShopAdminMutation({
+                        variables: {
+                          shop_id: this.props.context.shop.id,
+                          shop_admin_ids: selectedData.map(
+                            (data: any) => data.id
+                          )
+                        }
+                      });
+                    }
+
+                    if (ownerRoleCount) {
+                      this.props.enqueueSnackbar(
+                        t('you cant delete shop owner admin')
+                      );
+                    }
                   },
                   loading: loading
                 });
@@ -202,55 +212,49 @@ class ProductCategory extends React.Component<
     return (
       <AppContext.Consumer>
         {context => (
-          <React.Fragment>
+          <>
             <SellerHelmet
-              title={t('product category')}
+              title={t('shop admin')}
               description={''}
-              keywords={t('product category')}
+              keywords={t('shop admin')}
               ogImage="/images/favicon-228.png"
             />
 
             <Paper className={classes.root} elevation={1}>
               <Grid container justify={'center'}>
-                {context.permission.includes(
-                  'CREATE_SHOP_PRODUCT_CATEGORY'
-                ) && (
+                {context.permission.includes('CREATE_SHOP_ADMIN') && (
                   <Grid container justify={'flex-end'}>
                     <Button
                       size="small"
                       variant="contained"
                       color="primary"
-                      onClick={this.toggleModalProductCategory.bind(this)}
+                      onClick={this.toggleModalCreateAdmin.bind(this)}
                     >
                       <AddIcon />
-                      {t('add product category')}
+                      {t('add admin role')}
                     </Button>
                   </Grid>
                 )}
 
-                <ModalCreateEditShopProductCategory
-                  shopProductCategoryId={
-                    this.state.editingShopProductCategory
-                      ? this.state.editingShopProductCategory.id
+                <ModalCreateEditShopAdmin
+                  shopAdminId={
+                    this.state.editingShopAdmin
+                      ? this.state.editingShopAdmin.id
                       : null
                   }
                   shopId={context.shop.id}
-                  disabled={
-                    !context.permission.includes('UPDATE_SHOP_PRODUCT_CATEGORY')
-                  }
-                  toggle={this.toggleModalProductCategory.bind(this)}
-                  isOpen={this.state.modal.createEditShopProductCategory}
+                  disabled={!context.permission.includes('UPDATE_SHOP_ADMIN')}
+                  toggle={this.toggleModalCreateAdmin.bind(this)}
+                  isOpen={this.state.modal.createEditShopAdmin}
                   refetchData={this.updateTableKey.bind(this)}
                 />
 
                 <SellerReactTable
                   showCheckbox
                   showFilter
-                  title={t('shop product category')}
+                  title={t('shop admin')}
                   columns={columns}
-                  query={shopProductCategoryQuery(
-                    shopProductCategoryFragments.ProductCategory
-                  )}
+                  query={shopAdminQuery(shopAdminFragments.Admin)}
                   variables={{
                     shop_id: context.shop.id,
                     key: this.state.tableKey,
@@ -260,7 +264,7 @@ class ProductCategory extends React.Component<
                 />
               </Grid>
             </Paper>
-          </React.Fragment>
+          </>
         )}
       </AppContext.Consumer>
     );
@@ -272,6 +276,5 @@ export default withStyles(theme => ({
     width: '100%',
     padding: theme.spacing(3),
     overflow: 'auto'
-  },
-  progress: {}
-}))(withSnackbar(withTranslation()(withRouter(ProductCategory))));
+  }
+}))(withSnackbar(withTranslation()(withRouter(Admin))));

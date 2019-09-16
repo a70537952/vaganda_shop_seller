@@ -28,7 +28,7 @@ import React from 'react';
 import { Mutation, withApollo, WithApolloClient } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { AppContext } from '../../../contexts/seller/Context';
+import { AppContext } from '../../../contexts/Context';
 import { productQuery, ProductVars } from '../../../graphql/query/ProductQuery';
 import FormUtil from '../../../utils/FormUtil';
 import DiscountUnitSelect from '../../_select/DiscountUnitSelect';

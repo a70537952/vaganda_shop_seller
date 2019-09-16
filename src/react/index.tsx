@@ -10,12 +10,11 @@ import ReactDOM from 'react-dom';
 import './i18n'; //must import i18n
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
-import Header from '../../components/seller/Header';
-import { AppContext, IContext } from '../../contexts/seller/Context';
-import apolloClient from '../../apolloClient';
+import Header from '../components/seller/Header';
+import { AppContext, IContext } from '../contexts/Context';
+import apolloClient from '../apolloClient';
 import gql from 'graphql-tag';
 import { ReactCookieProps } from 'react-cookie/es6/types';
-import '../../sass/seller.scss';
 
 interface IProps {
   cookies?: any;

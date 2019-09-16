@@ -7,19 +7,19 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import SellerHelmet from '../../components/seller/SellerHelmet';
-import LocaleMoment from '../../components/LocaleMoment';
-import SellerReactTable from '../../components/seller/SellerReactTable';
-import { AppContext } from '../../contexts/seller/Context';
+import SellerHelmet from '../components/seller/SellerHelmet';
+import LocaleMoment from '../components/LocaleMoment';
+import SellerReactTable from '../components/seller/SellerReactTable';
+import { AppContext } from '../contexts/Context';
 import { RouteComponentProps } from 'react-router';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { userOrderDetailCommentQuery } from '../../graphql/query/UserOrderDetailCommentQuery';
+import { userOrderDetailCommentQuery } from '../graphql/query/UserOrderDetailCommentQuery';
 import LinesEllipsis from 'react-lines-ellipsis';
-import Image from '../../components/Image';
-import ImagesCarousel from '../../components/ImagesCarousel';
-import StarRating from '../../components/_rating/StarRating';
-import { userOrderDetailCommentFragments } from '../../graphql/fragment/query/UserOrderDetailCommentFragment';
+import Image from '../components/Image';
+import ImagesCarousel from '../components/ImagesCarousel';
+import StarRating from '../components/_rating/StarRating';
+import { userOrderDetailCommentFragments } from '../graphql/fragment/query/UserOrderDetailCommentFragment';
 
 interface IProps {
   classes: any;

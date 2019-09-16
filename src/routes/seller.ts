@@ -1,22 +1,22 @@
-// import BubbleChartIcon from '@material-ui/icons/bubbleChart';
-//
-// import DashboardIcon from '@material-ui/icons/dashboard';
-// import PermIdentityIcon from '@material-ui/icons/permIdentity';
-// import SupervisorAccountIcon from '@material-ui/icons/supervisorAccount';
-// import SettingsIcon from '@material-ui/icons/settings';
-// import CategoryIcon from '@material-ui/icons/category';
-// import ReceiptIcon from '@material-ui/icons/receipt';
-// import CommentIcon from '@material-ui/icons/Comment';
+import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import SettingsIcon from '@material-ui/icons/Settings';
+import CategoryIcon from '@material-ui/icons/Category';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import CommentIcon from '@material-ui/icons/Comment';
 
 import Error404 from '../components/seller/Error404';
-import Admin from '../pages/seller/Admin';
-import AdminRole from '../pages/seller/AdminRole';
-import Dashboard from '../pages/seller/Dashboard';
-import Product from '../pages/seller/Product';
-import ProductCategory from '../pages/seller/ProductCategory';
-import Setting from '../pages/seller/Setting';
-import OrderDetail from '../pages/seller/OrderDetail';
-import OrderComment from '../pages/seller/OrderComment';
+import Admin from '../pages/Admin';
+import AdminRole from '../pages/AdminRole';
+import Dashboard from '../pages/Dashboard';
+import Product from '../pages/Product';
+import ProductCategory from '../pages/ProductCategory';
+import Setting from '../pages/Setting';
+import OrderDetail from '../pages/OrderDetail';
+import OrderComment from '../pages/OrderComment';
 
 export default <any>{
   dashboard: {
@@ -24,8 +24,8 @@ export default <any>{
     exact: true,
     component: Dashboard,
     showInDrawer: {
-      text: 'dashboard'
-      // icon: DashboardIcon
+      text: 'dashboard',
+      icon: DashboardIcon
     },
     permission: []
   },
@@ -34,8 +34,8 @@ export default <any>{
     exact: true,
     component: OrderComment,
     showInDrawer: {
-      text: 'order comment'
-      // icon: CommentIcon
+      text: 'order comment',
+      icon: CommentIcon
     },
     permission: ['VIEW_SHOP_USER_ORDER_DETAIL_COMMENT']
   },
@@ -44,8 +44,8 @@ export default <any>{
     exact: true,
     component: OrderDetail,
     showInDrawer: {
-      text: 'order detail'
-      // icon: ReceiptIcon
+      text: 'order detail',
+      icon: ReceiptIcon
     },
     permission: ['VIEW_SHOP_USER_ORDER_DETAIL']
   },
@@ -54,8 +54,8 @@ export default <any>{
     exact: true,
     component: ProductCategory,
     showInDrawer: {
-      text: 'product category'
-      // icon: CategoryIcon
+      text: 'product category',
+      icon: CategoryIcon
     },
     permission: ['VIEW_SHOP_PRODUCT_CATEGORY']
   },
@@ -64,8 +64,8 @@ export default <any>{
     exact: true,
     component: Product,
     showInDrawer: {
-      text: 'product'
-      // icon: BubbleChartIcon
+      text: 'product',
+      icon: BubbleChartIcon
     },
     permission: ['VIEW_PRODUCT']
   },
@@ -74,8 +74,8 @@ export default <any>{
     exact: true,
     component: Admin,
     showInDrawer: {
-      text: 'admin'
-      // icon: SupervisorAccountIcon
+      text: 'admin',
+      icon: SupervisorAccountIcon
     },
     permission: ['VIEW_SHOP_ADMIN']
   },
@@ -84,8 +84,8 @@ export default <any>{
     exact: true,
     component: AdminRole,
     showInDrawer: {
-      text: 'admin role'
-      // icon: PermIdentityIcon
+      text: 'admin role',
+      icon: PermIdentityIcon
     },
     permission: ['VIEW_SHOP_ADMIN_ROLE']
   },
@@ -94,8 +94,8 @@ export default <any>{
     exact: true,
     component: Setting,
     showInDrawer: {
-      text: 'setting'
-      // icon: SettingsIcon
+      text: 'setting',
+      icon: SettingsIcon
     },
     permission: ['VIEW_SHOP_SETTING']
   },
