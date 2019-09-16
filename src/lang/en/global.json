@@ -1504,5 +1504,7 @@
   "back": "Back",
   "shop admin role": "Shop admin role",
   "shop category": "Shop category",
-  "order detail status": "Order detail status"
+  "order detail status": "Order detail status",
+  "rows per page:": "Rows per page:",
+  "{{from}} - {{to}} of {{count}}": "{{from}} - {{to}} of {{count}}"
 }

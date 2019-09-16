@@ -1,8 +1,8 @@
-import Select from './Select';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import USER_ORDER_DETAIL from '../../constant/USER_ORDER_DETAIL';
-import { PropTypes } from '@material-ui/core';
+import Select from "./Select";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import USER_ORDER_DETAIL from "../../constant/USER_ORDER_DETAIL";
+import { PropTypes } from "@material-ui/core";
 
 interface IProps {
   onChange: (value: unknown) => void;

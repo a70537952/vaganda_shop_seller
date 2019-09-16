@@ -1,5 +1,5 @@
-import TableHead from '@material-ui/core/TableHead';
-import React from 'react';
+import TableHead from "@material-ui/core/TableHead";
+import React from "react";
 
 export default class ReactTableThead extends React.Component<any, any> {
   render() {

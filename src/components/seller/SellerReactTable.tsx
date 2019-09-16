@@ -1,10 +1,8 @@
-import { withStyles } from '@material-ui/core/styles/index';
-import update from 'immutability-helper';
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import ReactTable from './ReactTable/ReactTable';
-import { RouteComponentProps } from 'react-router';
-import { withApollo, WithApolloClient } from 'react-apollo';
+import { withStyles } from "@material-ui/core/styles/index";
+import update from "immutability-helper";
+import React from "react";
+import ReactTable from "./ReactTable/ReactTable";
+import { withApollo, WithApolloClient } from "react-apollo";
 
 interface IState {
   data: any;

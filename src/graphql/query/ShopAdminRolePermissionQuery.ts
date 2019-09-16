@@ -1,6 +1,6 @@
-import gql, { disableFragmentWarnings } from 'graphql-tag';
-import { DocumentNode } from 'graphql';
-import { QueryHookOptions, useQuery } from '@apollo/react-hooks';
+import gql, { disableFragmentWarnings } from "graphql-tag";
+import { DocumentNode } from "graphql";
+import { QueryHookOptions, useQuery } from "@apollo/react-hooks";
 
 disableFragmentWarnings();
 

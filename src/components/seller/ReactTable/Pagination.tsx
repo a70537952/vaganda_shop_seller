@@ -1,7 +1,7 @@
-import { withStyles } from '@material-ui/core/styles/index';
-import TablePagination from '@material-ui/core/TablePagination';
-import React from 'react';
-import { withTranslation } from 'react-i18next';
+import { withStyles } from "@material-ui/core/styles/index";
+import TablePagination from "@material-ui/core/TablePagination";
+import React from "react";
+import { withTranslation } from "react-i18next";
 
 const defaultButton = (props: any) => (
   <button type="button" {...props} className="-btn">

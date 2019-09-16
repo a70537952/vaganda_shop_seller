@@ -1,5 +1,5 @@
-import TableCell from '@material-ui/core/TableCell';
-import React from 'react';
+import TableCell from "@material-ui/core/TableCell";
+import React from "react";
 
 export default class ReactTableTh extends React.Component<any, any> {
   render() {

@@ -1,6 +1,6 @@
-import React from 'react';
-import Helmet, { IProps } from '../Helmet';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import React from "react";
+import Helmet, { IProps } from "../Helmet";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 class SellerHelmet extends React.Component<
   IProps & WithTranslation,

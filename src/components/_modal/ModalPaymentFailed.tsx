@@ -1,12 +1,12 @@
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { Theme } from '@material-ui/core';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import Modal from './Modal';
-import Typography from '@material-ui/core/Typography';
-import IconClose from '@material-ui/icons/Close';
-import { makeStyles } from '@material-ui/styles';
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { Theme } from "@material-ui/core";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import Modal from "./Modal";
+import Typography from "@material-ui/core/Typography";
+import IconClose from "@material-ui/icons/Close";
+import { makeStyles } from "@material-ui/styles";
 
 interface IProps {
   isOpen: boolean;

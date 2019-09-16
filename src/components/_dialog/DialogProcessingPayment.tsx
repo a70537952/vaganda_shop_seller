@@ -1,10 +1,10 @@
-import Grid from '@material-ui/core/Grid';
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import { makeStyles } from '@material-ui/styles';
-import { useTranslation } from 'react-i18next';
+import Grid from "@material-ui/core/Grid";
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Dialog from "@material-ui/core/Dialog";
+import { makeStyles } from "@material-ui/styles";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   open: boolean;

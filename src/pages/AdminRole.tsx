@@ -1,30 +1,30 @@
-import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import Select from '@material-ui/core/Select';
-import { withStyles } from '@material-ui/core/styles/index';
+import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import Grid from "@material-ui/core/Grid";
+import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
+import Select from "@material-ui/core/Select";
+import { withStyles } from "@material-ui/core/styles/index";
 
-import Tooltip from '@material-ui/core/Tooltip';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import update from 'immutability-helper';
-import { withSnackbar, WithSnackbarProps } from 'notistack';
-import React from 'react';
-import { Mutation } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
+import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import update from "immutability-helper";
+import { withSnackbar, WithSnackbarProps } from "notistack";
+import React from "react";
+import { Mutation } from "react-apollo";
+import { withRouter } from "react-router-dom";
 
-import SellerHelmet from '../components/seller/SellerHelmet';
-import LocaleMoment from '../components/LocaleMoment';
-import ModalCreateEditShopAdminRole from '../components/seller/Modal/ModalCreateEditShopAdminRole';
-import SellerReactTable from '../components/seller/SellerReactTable';
-import { AppContext } from '../contexts/Context';
-import { shopAdminRoleQuery } from '../graphql/query/ShopAdminRoleQuery';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import gql from 'graphql-tag';
-import { RouteComponentProps } from 'react-router';
-import { shopAdminRoleFragments } from '../graphql/fragment/query/ShopAdminRoleFragment';
+import SellerHelmet from "../components/seller/SellerHelmet";
+import LocaleMoment from "../components/LocaleMoment";
+import ModalCreateEditShopAdminRole from "../components/seller/Modal/ModalCreateEditShopAdminRole";
+import SellerReactTable from "../components/seller/SellerReactTable";
+import { AppContext } from "../contexts/Context";
+import { shopAdminRoleQuery } from "../graphql/query/ShopAdminRoleQuery";
+import { WithTranslation, withTranslation } from "react-i18next";
+import gql from "graphql-tag";
+import { RouteComponentProps } from "react-router";
+import { shopAdminRoleFragments } from "../graphql/fragment/query/ShopAdminRoleFragment";
 
 interface IProps {
   classes: any;

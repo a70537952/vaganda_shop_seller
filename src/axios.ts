@@ -1,6 +1,6 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { getCookieKey } from './utils/CookieUtil';
+import axios from "axios";
+import Cookies from "js-cookie";
+import { getCookieKey } from "./utils/CookieUtil";
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.baseURL = 'https://api.vagandashop.local/';

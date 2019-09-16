@@ -1,6 +1,6 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { withStyles } from '@material-ui/core/styles/index';
-import React from 'react';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { withStyles } from "@material-ui/core/styles/index";
+import React from "react";
 
 class ReactTableLoading extends React.Component<any, any> {
   render() {

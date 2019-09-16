@@ -33,5 +33,7 @@
   "back": "返回",
   "shop admin role": "店铺管理员角色",
   "shop category": "商店类别",
-  "order detail status": "订单详细状态"
+  "order detail status": "订单详细状态",
+  "rows per page:": "每页行数：",
+  "{{from}} - {{to}} of {{count}}": "{{from}} - {{to}} 共 {{count}}"
 }

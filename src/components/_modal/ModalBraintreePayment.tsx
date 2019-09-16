@@ -1,20 +1,20 @@
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Modal from './Modal';
-import Braintree from 'braintree-web';
-import FormLabel from '@material-ui/core/FormLabel';
-import Typography from '@material-ui/core/Typography';
-import Skeleton from '@material-ui/lab/Skeleton';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import BRAINTREE_ERROR from '../../constant/BRAINTREE_ERROR';
-import DialogProcessingPayment from '../_dialog/DialogProcessingPayment';
-import { makeStyles } from '@material-ui/styles';
-import { useGetBraintreeClientTokenMutation } from '../../graphql/mutation/braintreeMutation/GetBraintreeClientTokenMutation';
-import { getBraintreeClientTokenMutationFragments } from '../../graphql/fragment/mutation/GetBraintreeClientTokenMutationFragment';
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Modal from "./Modal";
+import Braintree from "braintree-web";
+import FormLabel from "@material-ui/core/FormLabel";
+import Typography from "@material-ui/core/Typography";
+import Skeleton from "@material-ui/lab/Skeleton";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import BRAINTREE_ERROR from "../../constant/BRAINTREE_ERROR";
+import DialogProcessingPayment from "../_dialog/DialogProcessingPayment";
+import { makeStyles } from "@material-ui/styles";
+import { useGetBraintreeClientTokenMutation } from "../../graphql/mutation/braintreeMutation/GetBraintreeClientTokenMutation";
+import { getBraintreeClientTokenMutationFragments } from "../../graphql/fragment/mutation/GetBraintreeClientTokenMutationFragment";
 
 interface IProps {
   isOpen: boolean;

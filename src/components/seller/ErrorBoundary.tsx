@@ -1,15 +1,15 @@
-import { withStyles } from '@material-ui/core/styles/index';
-import React, { ErrorInfo } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { Link, withRouter } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { RouteComponentProps } from 'react-router';
-import { sellerPath } from '../../utils/RouteUtil';
+import { withStyles } from "@material-ui/core/styles/index";
+import React, { ErrorInfo } from "react";
+import { WithTranslation, withTranslation } from "react-i18next";
+import { Link, withRouter } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { RouteComponentProps } from "react-router";
+import { sellerPath } from "../../utils/RouteUtil";
 
 interface IProps {
   t: (key: string) => string;

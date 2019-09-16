@@ -1,14 +1,14 @@
-import { Theme, withStyles } from '@material-ui/core/styles';
-import React from 'react';
-import { StyledComponentProps } from '@material-ui/core/styles/withStyles';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import Paper from '@material-ui/core/Paper';
-import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from "@material-ui/core/styles";
+import React from "react";
+import { StyledComponentProps } from "@material-ui/core/styles/withStyles";
+import InputBase from "@material-ui/core/InputBase";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import Paper from "@material-ui/core/Paper";
+import { useTranslation } from "react-i18next";
+import classNames from "classnames";
+import { makeStyles } from "@material-ui/styles";
 
 interface IProps extends StyledComponentProps {
   onChange?: (value: number) => void;

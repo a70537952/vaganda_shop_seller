@@ -1,36 +1,31 @@
-import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
-import Typography, { TypographyProps } from '@material-ui/core/Typography';
+import Typography, {TypographyProps} from '@material-ui/core/Typography';
 
 interface IProps extends TypographyProps {
-  classes: any;
-  className?: string;
-  address: any;
+    className?: string;
+    address: any;
 }
 
-class Address extends React.Component<IProps, Readonly<any>> {
-  render() {
-    let {
-      classes,
-      className,
-      color,
-      gutterBottom,
-      variant,
-      address,
-      component,
-      display
-    } = this.props;
-    classes = classes || {};
+export default function Address(props: IProps) {
+    const {
+        className,
+        color,
+        gutterBottom,
+        variant,
+        address,
+        component,
+        display
+    } = props;
 
-    return (
-      <Typography
+
+    return <Typography
         variant={variant}
         display={display}
         gutterBottom={gutterBottom}
         color={color}
         component={component}
         className={className}
-      >
+    >
         {Boolean(address.address_1) && address.address_1 + ', '}
         {Boolean(address.address_2) && address.address_2 + ', '}
         {Boolean(address.address_3) && address.address_3 + ', '}
@@ -38,9 +33,5 @@ class Address extends React.Component<IProps, Readonly<any>> {
         {Boolean(address.state) && address.state + ', '}
         {Boolean(address.postal_code) && address.postal_code + ', '}
         {Boolean(address.country) && address.country}
-      </Typography>
-    );
-  }
+    </Typography>;
 }
-
-export default withStyles(theme => ({}))(Address);

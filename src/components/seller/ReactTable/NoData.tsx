@@ -1,7 +1,7 @@
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
-import React from 'react';
-import { withTranslation } from 'react-i18next';
+import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core/styles";
+import React from "react";
+import { withTranslation } from "react-i18next";
 
 class ReactTableNoData extends React.Component<any, any> {
   render() {

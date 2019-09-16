@@ -1,5 +1,5 @@
-import home from '../routes/home';
-import seller from '../routes/seller';
+import home from "../routes/home";
+import seller from "../routes/seller";
 
 let getPath = (routesFile: any, pathName: string, params: any = {}) => {
   if (routesFile[pathName]) {

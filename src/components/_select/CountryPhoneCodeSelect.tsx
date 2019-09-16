@@ -1,11 +1,10 @@
-import React from 'react';
-import { PropTypes } from '@material-ui/core';
-import Select from './Select';
-import { useTranslation } from 'react-i18next';
-import { Skeleton } from '@material-ui/lab';
-import { useCountryPhoneCodeQuery } from '../../graphql/query/CountryPhoneCodeQuery';
-import { countryPhoneCodeFragments } from '../../graphql/fragment/query/CountryPhoneCodeFragment';
-import { ICountryPhoneCodeFragmentCountryPhoneCodeSelect } from '../../graphql/fragment/interface/CountryPhoneCodeFragmentInterface';
+import React from "react";
+import { PropTypes } from "@material-ui/core";
+import Select from "./Select";
+import { useTranslation } from "react-i18next";
+import { useCountryPhoneCodeQuery } from "../../graphql/query/CountryPhoneCodeQuery";
+import { countryPhoneCodeFragments } from "../../graphql/fragment/query/CountryPhoneCodeFragment";
+import { ICountryPhoneCodeFragmentCountryPhoneCodeSelect } from "../../graphql/fragment/interface/CountryPhoneCodeFragmentInterface";
 
 interface IProps {
   onChange: (value: unknown) => void;

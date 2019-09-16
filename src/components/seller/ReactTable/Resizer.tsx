@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles/index';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
-import React from 'react';
+import { withStyles } from "@material-ui/core/styles/index";
+import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
+import React from "react";
 
 class ReactTableResizer extends React.Component<any, any> {
   render() {

@@ -1,10 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { PropTypes } from '@material-ui/core';
-import Select from './Select';
-import { useCountryQuery } from '../../graphql/query/CountryQuery';
-import { ICountryFragmentCountrySelect } from '../../graphql/fragment/interface/CountryFragmentInterface';
-import { countryFragments } from '../../graphql/fragment/query/CountryFragment';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { PropTypes } from "@material-ui/core";
+import Select from "./Select";
+import { useCountryQuery } from "../../graphql/query/CountryQuery";
+import { ICountryFragmentCountrySelect } from "../../graphql/fragment/interface/CountryFragmentInterface";
+import { countryFragments } from "../../graphql/fragment/query/CountryFragment";
 
 interface IProps {
   onChange: (value: unknown) => void;

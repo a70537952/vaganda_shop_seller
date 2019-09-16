@@ -1,43 +1,38 @@
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Grid from '@material-ui/core/Grid';
-import Modal from '../../_modal/Modal';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles/index';
-import update from 'immutability-helper';
-import { withSnackbar, WithSnackbarProps } from 'notistack';
-import React from 'react';
-import {
-  ApolloConsumer,
-  Mutation,
-  withApollo,
-  WithApolloClient
-} from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { AppContext } from '../../../contexts/Context';
-import FormUtil from '../../../utils/FormUtil';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import gql from 'graphql-tag';
-import { RouteComponentProps } from 'react-router';
-import Autosuggest from 'react-autosuggest';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import UserAvatar from '../../../components/UserAvatar';
-import ShopAdminRoleSelect from '../../_select/ShopAdminRoleSelect';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import { shopAdminFragments } from '../../../graphql/fragment/query/ShopAdminFragment';
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
+import Modal from "../../_modal/Modal";
+import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core/styles/index";
+import update from "immutability-helper";
+import { withSnackbar, WithSnackbarProps } from "notistack";
+import React from "react";
+import { ApolloConsumer, Mutation, withApollo, WithApolloClient } from "react-apollo";
+import { withRouter } from "react-router-dom";
+import Skeleton from "@material-ui/lab/Skeleton";
+import { AppContext } from "../../../contexts/Context";
+import FormUtil from "../../../utils/FormUtil";
+import { WithTranslation, withTranslation } from "react-i18next";
+import gql from "graphql-tag";
+import { RouteComponentProps } from "react-router";
+import Autosuggest from "react-autosuggest";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import UserAvatar from "../../../components/UserAvatar";
+import ShopAdminRoleSelect from "../../_select/ShopAdminRoleSelect";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Typography from "@material-ui/core/Typography";
+import { shopAdminFragments } from "../../../graphql/fragment/query/ShopAdminFragment";
 
 let shopAdminFields: any;
 let t: any;

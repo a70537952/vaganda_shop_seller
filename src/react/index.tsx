@@ -1,20 +1,20 @@
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import update from 'immutability-helper';
-import { SnackbarProvider } from 'notistack';
-import React from 'react';
-import { ApolloProvider } from 'react-apollo';
-import { CookiesProvider, withCookies } from 'react-cookie';
-import ReactDOM from 'react-dom';
-import './i18n'; //must import i18n
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { BrowserRouter } from 'react-router-dom';
-import Header from '../components/seller/Header';
-import { AppContext, IContext } from '../contexts/Context';
-import apolloClient from '../apolloClient';
-import gql from 'graphql-tag';
-import { ReactCookieProps } from 'react-cookie/es6/types';
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import update from "immutability-helper";
+import { SnackbarProvider } from "notistack";
+import React from "react";
+import { ApolloProvider } from "react-apollo";
+import { CookiesProvider, withCookies } from "react-cookie";
+import ReactDOM from "react-dom";
+import "./i18n"; //must import i18n
+import { WithTranslation, withTranslation } from "react-i18next";
+import { BrowserRouter } from "react-router-dom";
+import Header from "../components/seller/Header";
+import { AppContext, IContext } from "../contexts/Context";
+import apolloClient from "../apolloClient";
+import gql from "graphql-tag";
+import { ReactCookieProps } from "react-cookie/es6/types";
 
 interface IProps {
   cookies?: any;

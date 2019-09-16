@@ -1,5 +1,5 @@
-import TableBody from '@material-ui/core/TableBody';
-import React from 'react';
+import TableBody from "@material-ui/core/TableBody";
+import React from "react";
 
 export default class ReactTableTbody extends React.Component<any, any> {
   render() {

@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core/styles';
-import React from 'react';
-import Rating, { RatingProps } from '@material-ui/lab/Rating';
-import { makeStyles } from '@material-ui/styles';
+import { Theme } from "@material-ui/core/styles";
+import React from "react";
+import Rating, { RatingProps } from "@material-ui/lab/Rating";
+import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

@@ -1,5 +1,5 @@
-import Table from '@material-ui/core/Table';
-import React from 'react';
+import Table from "@material-ui/core/Table";
+import React from "react";
 
 export default class ReactTableTable extends React.Component<any, any> {
   render() {

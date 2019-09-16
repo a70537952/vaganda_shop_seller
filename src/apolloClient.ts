@@ -1,9 +1,9 @@
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import ApolloClient from 'apollo-client';
-import { ApolloLink, from } from 'apollo-link';
-import { createUploadLink } from 'apollo-upload-client';
-import NProgress from 'nprogress';
-import axios from './axios';
+import { InMemoryCache } from "apollo-cache-inmemory";
+import ApolloClient from "apollo-client";
+import { ApolloLink, from } from "apollo-link";
+import { createUploadLink } from "apollo-upload-client";
+import NProgress from "nprogress";
+import axios from "./axios";
 
 const customFetch = (uri: string, options: any) => {
   let optionsBody = options.body;

@@ -1,7 +1,7 @@
-import Select from './Select';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { PropTypes } from '@material-ui/core';
+import Select from "./Select";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { PropTypes } from "@material-ui/core";
 
 interface IProps {
   onChange: (value: unknown) => void;

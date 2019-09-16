@@ -1,13 +1,7 @@
-import MenuItem from '@material-ui/core/MenuItem';
-
-import React from 'react';
-import {
-  useTranslation,
-  WithTranslation,
-  withTranslation
-} from 'react-i18next';
-import Select from './Select';
-import { PropTypes } from '@material-ui/core';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import Select from "./Select";
+import { PropTypes } from "@material-ui/core";
 
 interface IProps {
   onChange: (value: unknown) => void;

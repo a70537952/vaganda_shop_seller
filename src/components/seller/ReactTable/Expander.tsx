@@ -1,7 +1,7 @@
-import { withStyles } from '@material-ui/core/styles/index';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import React from 'react';
+import { withStyles } from "@material-ui/core/styles/index";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import React from "react";
 
 class ReactTableExpander extends React.Component<any, any> {
   render() {

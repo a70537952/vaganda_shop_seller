@@ -1,9 +1,9 @@
-import { withStyles } from '@material-ui/core/styles/index';
-import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Tooltip from '@material-ui/core/Tooltip';
-import React from 'react';
-import { withTranslation } from 'react-i18next';
+import { withStyles } from "@material-ui/core/styles/index";
+import TableCell from "@material-ui/core/TableCell";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Tooltip from "@material-ui/core/Tooltip";
+import React from "react";
+import { withTranslation } from "react-i18next";
 
 class ReactTableTh extends React.Component<any, any> {
   render() {

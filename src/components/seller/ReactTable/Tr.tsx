@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles/index';
-import TableRow from '@material-ui/core/TableRow';
-import React from 'react';
+import { withStyles } from "@material-ui/core/styles/index";
+import TableRow from "@material-ui/core/TableRow";
+import React from "react";
 
 class ReactTableTr extends React.Component<any, any> {
   render() {

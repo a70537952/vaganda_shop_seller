@@ -1,24 +1,24 @@
-import Checkbox from '@material-ui/core/Checkbox';
-import { withStyles } from '@material-ui/core/styles/index';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import update from 'immutability-helper';
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import RT from 'react-table';
-import Expander from './Expander';
-import FilterList from './FilterList';
-import Loading from './Loading';
-import NoData from './NoData';
-import Pagination from './Pagination';
-import Resizer from './Resizer';
-import Table from './Table';
-import Tbody from './Tbody';
-import Td from './Td';
-import Th from './Th';
-import Thead from './Thead';
-import Tr from './Tr';
-import TrGroup from './TrGroup';
+import Checkbox from "@material-ui/core/Checkbox";
+import { withStyles } from "@material-ui/core/styles/index";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import update from "immutability-helper";
+import React from "react";
+import { withRouter } from "react-router-dom";
+import RT from "react-table";
+import Expander from "./Expander";
+import FilterList from "./FilterList";
+import Loading from "./Loading";
+import NoData from "./NoData";
+import Pagination from "./Pagination";
+import Resizer from "./Resizer";
+import Table from "./Table";
+import Tbody from "./Tbody";
+import Td from "./Td";
+import Th from "./Th";
+import Thead from "./Thead";
+import Tr from "./Tr";
+import TrGroup from "./TrGroup";
 
 class ReactTable extends React.Component<any, any> {
   constructor(props: any) {

@@ -1,10 +1,10 @@
-import Select from './Select';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useShopCategoryQuery } from '../../graphql/query/ShopCategoryQuery';
-import { PropTypes } from '@material-ui/core';
-import { IShopCategoryFragmentShopCategorySelect } from '../../graphql/fragment/interface/ShopCategoryFragmentInterface';
-import { shopCategoryFragments } from '../../graphql/fragment/query/ShopCategoryFragment';
+import Select from "./Select";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useShopCategoryQuery } from "../../graphql/query/ShopCategoryQuery";
+import { PropTypes } from "@material-ui/core";
+import { IShopCategoryFragmentShopCategorySelect } from "../../graphql/fragment/interface/ShopCategoryFragmentInterface";
+import { shopCategoryFragments } from "../../graphql/fragment/query/ShopCategoryFragment";
 
 interface IProps {
   onChange: (value: unknown) => void;
