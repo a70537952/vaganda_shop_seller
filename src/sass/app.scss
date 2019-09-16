@@ -1,0 +1,79 @@
+@import 'nprogress';
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+$main: #ff5722;
+$red: #f44336;
+$grey: #eae8e9;
+$grey2: #f3f3f3;
+$white: #fff;
+
+.hosted-field--label {
+  transform: translateY(0.4em);
+  font-size: 1.125em;
+  line-height: 32px;
+  transition: all 0.15s ease-out;
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  overflow: hidden;
+  margin-bottom: 0.5em;
+
+  &.label-float {
+    text-overflow: ellipsis;
+    color: #2196f3;
+    transition: all 0.15s ease-out;
+  }
+
+  &.filled {
+    @extend .label-float;
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  &.invalid {
+    @extend .label-float;
+    color: #f44336;
+  }
+}
+
+.hosted-field {
+  height: 32px;
+  display: block;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.87);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+  outline: 0;
+  width: 100%;
+  font-size: 16px;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+  position: relative;
+}
+
+.braintree-hosted-fields-focused {
+  border-bottom: 2px solid $main;
+  transition: all 200ms ease;
+}
+
+.braintree-hosted-fields-invalid {
+  border-bottom: 2px solid $red;
+  transition: all 200ms ease;
+}
+
+.pointer {
+  cursor: pointer;
+}

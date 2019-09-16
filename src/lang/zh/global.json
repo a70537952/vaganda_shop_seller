@@ -1,0 +1,37 @@
+{
+  "": "",
+  "moment": {
+    "year": "年",
+    "month": "月",
+    "second": "秒",
+    "day": "日"
+  },
+  "payment successful": "支付成功",
+  "your payment was successful! you can now continue browsing.": "您的付款成功了！您现在可以继续浏览了。",
+  "close": "关闭",
+  "payment failed": "支付失败",
+  "your payment has failed. please try again.": "您的付款失败了。请再试一次。",
+  "orderDetailStatus": {
+    "PROCESSING": "处理中",
+    "PAID": "已付费",
+    "SHIPPED": "已发货",
+    "RECEIVED": "已收货",
+    "CANCELLED": "已取消",
+    "REFUNDED": "已退款",
+    "FAILED": "失败"
+  },
+  "DEFAULT": "默认",
+  "countryKey": {
+    "Default": "默认"
+  },
+  "order is processing...": "订单正在处理......",
+  "please select": "请选择",
+  "product category": "产品分类",
+  "country": "国家",
+  "currency": "货币",
+  "discount unit": "折扣单位",
+  "back": "返回",
+  "shop admin role": "店铺管理员角色",
+  "shop category": "商店类别",
+  "order detail status": "订单详细状态"
+}

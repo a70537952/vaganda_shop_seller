@@ -1,0 +1,11 @@
+export default {
+  ORDER_DETAIL_STATUS: {
+    PROCESSING: 'PROCESSING',
+    PAID: 'PAID',
+    SHIPPED: 'SHIPPED',
+    RECEIVED: 'RECEIVED',
+    CANCELLED: 'CANCELLED',
+    REFUNDED: 'REFUNDED',
+    FAILED: 'FAILED'
+  }
+} as any;
