@@ -12,7 +12,7 @@ import React from "react";
 import { Mutation } from "react-apollo";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import LocaleMoment from "../components/LocaleMoment";
 import ModalCreateEditShopAdmin from "../components/seller/Modal/ModalCreateEditShopAdmin";
 import SellerReactTable from "../components/seller/SellerReactTable";
@@ -213,7 +213,7 @@ class Admin extends React.Component<
       <AppContext.Consumer>
         {context => (
           <>
-            <SellerHelmet
+            <Helmet
               title={t('shop admin')}
               description={''}
               keywords={t('shop admin')}

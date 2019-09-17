@@ -18,7 +18,7 @@ export function UploadProductDescriptionImageMutation(fragment: DocumentNode): D
     mutation UploadProductDescriptionImageMutation
     (
 $shop_id: String,
-$files: Upload!,
+$files: [Upload]!,
 )
     {
             uploadProductDescriptionImageMutation

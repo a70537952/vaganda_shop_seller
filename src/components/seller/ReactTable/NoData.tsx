@@ -1,24 +1,26 @@
 import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
-import { withTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
-class ReactTableNoData extends React.Component<any, any> {
-  render() {
-    const { children, classes, loading, t } = this.props;
-    if (loading) return null;
-    return (
-      <Paper className={classes.root} elevation={0}>
-        {t('no data found')}
-      </Paper>
-    );
-  }
-}
-
-export default withStyles(theme => ({
+const useStyles = makeStyles({
   root: {
-    position: 'absolute',
-    top: 'calc(50% - 10px)',
-    left: 'calc(50% - 56px)'
+    position: "absolute",
+    top: "calc(50% - 10px)",
+    left: "calc(50% - 56px)"
   }
-}))(withTranslation()(ReactTableNoData));
+});
+
+export default function ReactTableNoData(props: any) {
+  const classes = useStyles();
+  const { t } = useTranslation();
+  const {
+    loading
+  } = props;
+
+  if (loading) return null;
+
+  return <Paper className={classes.root} elevation={0}>
+    {t("no data found")}
+  </Paper>;
+}

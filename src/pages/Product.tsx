@@ -13,7 +13,7 @@ import { withSnackbar, WithSnackbarProps } from "notistack";
 import React from "react";
 import { Mutation, Query } from "react-apollo";
 import { withRouter } from "react-router-dom";
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import LocaleMoment from "../components/LocaleMoment";
 import ModalCreateEditProduct from "../components/seller/Modal/ModalCreateEditProduct";
 import ReactTable from "../components/seller/ReactTable/ReactTable";
@@ -1009,7 +1009,7 @@ class Product extends React.Component<
       <AppContext.Consumer>
         {context => (
           <React.Fragment>
-            <SellerHelmet
+            <Helmet
               title={t('product')}
               description={''}
               keywords={t('product')}

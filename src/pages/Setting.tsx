@@ -3,7 +3,7 @@ import { withSnackbar, WithSnackbarProps } from "notistack";
 import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import { AppContext } from "../contexts/Context";
 import { RouteComponentProps } from "react-router";
 import Card from "@material-ui/core/Card";
@@ -117,7 +117,7 @@ class Setting extends React.Component<
       <AppContext.Consumer>
         {context => (
           <>
-            <SellerHelmet
+            <Helmet
               title={t('setting')}
               description={''}
               keywords={t('setting')}

@@ -1,10 +1,10 @@
 import TableBody from "@material-ui/core/TableBody";
 import React from "react";
 
-export default class ReactTableTbody extends React.Component<any, any> {
-  render() {
-    const { children, className, style } = this.props;
+export default function ReactTableTbody(props: any) {
+  const {
+    children, style
+  } = props;
 
-    return <TableBody style={style}>{children}</TableBody>;
-  }
+  return <TableBody style={style}>{children}</TableBody>;
 }

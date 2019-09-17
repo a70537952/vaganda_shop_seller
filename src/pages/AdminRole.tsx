@@ -15,7 +15,7 @@ import React from "react";
 import { Mutation } from "react-apollo";
 import { withRouter } from "react-router-dom";
 
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import LocaleMoment from "../components/LocaleMoment";
 import ModalCreateEditShopAdminRole from "../components/seller/Modal/ModalCreateEditShopAdminRole";
 import SellerReactTable from "../components/seller/SellerReactTable";
@@ -242,7 +242,7 @@ class AdminRole extends React.Component<
       <AppContext.Consumer>
         {context => (
           <React.Fragment>
-            <SellerHelmet
+            <Helmet
               title={t('shop admin role')}
               description={''}
               keywords={t('shop admin role')}

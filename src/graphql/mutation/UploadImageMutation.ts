@@ -16,7 +16,7 @@ export function UploadImageMutation(fragment: DocumentNode): DocumentNode {
     return gql`
     mutation UploadImageMutation
     (
-$images: Upload!,
+$images: [Upload]!,
 )
     {
             uploadImageMutation

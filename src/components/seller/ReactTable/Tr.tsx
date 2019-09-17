@@ -1,23 +1,21 @@
-import { withStyles } from "@material-ui/core/styles/index";
+import { makeStyles } from "@material-ui/core/styles/index";
 import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 
-class ReactTableTr extends React.Component<any, any> {
-  render() {
-    const { children, className, style, classes } = this.props;
 
-    return (
-      <TableRow className={classes.row} style={style}>
-        {children}
-      </TableRow>
-    );
-  }
-}
-
-export default withStyles(theme => ({
+const useStyles = makeStyles({
   row: {
-    '&:nth-of-type(odd)': {
-      //backgroundColor: theme.palette.background.default,
-    }
+    "&:nth-of-type(odd)": {}
   }
-}))(ReactTableTr);
+});
+
+export default function ReactTableTr(props: any) {
+  const classes = useStyles();
+  const {
+    children, style
+  } = props;
+
+  return <TableRow className={classes.row} style={style}>
+    {children}
+  </TableRow>;
+}

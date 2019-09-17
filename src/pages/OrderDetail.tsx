@@ -10,7 +10,7 @@ import React from "react";
 import { Mutation } from "react-apollo";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import LocaleMoment from "../components/LocaleMoment";
 import ModalUpdateUserOrderDetail from "../components/seller/Modal/ModalUpdateUserOrderDetail";
 import SellerReactTable from "../components/seller/SellerReactTable";
@@ -359,7 +359,7 @@ class OrderDetail extends React.Component<
       <AppContext.Consumer>
         {context => (
           <>
-            <SellerHelmet
+            <Helmet
               title={t('order detail')}
               description={''}
               keywords={t('order detail')}

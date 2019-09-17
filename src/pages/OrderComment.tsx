@@ -7,7 +7,7 @@ import { withSnackbar, WithSnackbarProps } from "notistack";
 import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import LocaleMoment from "../components/LocaleMoment";
 import SellerReactTable from "../components/seller/SellerReactTable";
 import { AppContext } from "../contexts/Context";
@@ -228,7 +228,7 @@ class OrderComment extends React.Component<
       <AppContext.Consumer>
         {context => (
           <>
-            <SellerHelmet
+            <Helmet
               title={t('order comment')}
               description={''}
               keywords={t('order comment')}

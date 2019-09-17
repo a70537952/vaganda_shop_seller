@@ -2,7 +2,7 @@ import { withStyles } from "@material-ui/core/styles/index";
 import { withSnackbar, WithSnackbarProps } from "notistack";
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import { AppContext } from "../contexts/Context";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { RouteComponentProps } from "react-router";
@@ -47,7 +47,7 @@ class Dashboard extends React.Component<
       <AppContext.Consumer>
         {context => (
           <React.Fragment>
-            <SellerHelmet
+            <Helmet
               title={t('dashboard')}
               description={''}
               keywords={t('dashboard')}

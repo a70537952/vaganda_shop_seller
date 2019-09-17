@@ -11,7 +11,7 @@ import { withSnackbar, WithSnackbarProps } from "notistack";
 import React from "react";
 import { Mutation } from "react-apollo";
 import { withRouter } from "react-router-dom";
-import SellerHelmet from "../components/seller/SellerHelmet";
+import Helmet from "../components/seller/Helmet";
 import LocaleMoment from "../components/LocaleMoment";
 import SellerReactTable from "../components/seller/SellerReactTable";
 import { AppContext } from "../contexts/Context";
@@ -203,7 +203,7 @@ class ProductCategory extends React.Component<
       <AppContext.Consumer>
         {context => (
           <React.Fragment>
-            <SellerHelmet
+            <Helmet
               title={t('product category')}
               description={''}
               keywords={t('product category')}
