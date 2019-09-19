@@ -9,5 +9,5 @@ export let getCookieKey = (key: CookiesKey): string => {
 };
 
 export let getCookieOption = () => {
-  return { domain: '.' + process.env.REACT_APP_COOKIE_DOMAIN, secure: true };
+  return { domain: process.env.REACT_APP_COOKIE_DOMAIN, secure: true };
 };
