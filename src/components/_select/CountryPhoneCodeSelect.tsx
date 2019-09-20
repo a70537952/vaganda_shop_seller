@@ -4,7 +4,7 @@ import Select from "./Select";
 import { useTranslation } from "react-i18next";
 import { useCountryPhoneCodeQuery } from "../../graphql/query/CountryPhoneCodeQuery";
 import { countryPhoneCodeFragments } from "../../graphql/fragment/query/CountryPhoneCodeFragment";
-import { ICountryPhoneCodeFragmentCountryPhoneCodeSelect } from "../../graphql/fragment/interface/CountryPhoneCodeFragmentInterface";
+import { ICountryPhoneCodeFragmentCountryPhoneCodeSelect } from "../../graphql/fragmentType/query/CountryPhoneCodeFragmentInterface";
 
 interface IProps {
   onChange: (value: unknown) => void;

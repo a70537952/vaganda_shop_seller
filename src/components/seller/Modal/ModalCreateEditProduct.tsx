@@ -47,7 +47,7 @@ import PRODUCT_SHIPPING from "../../../constant/PRODUCT_SHIPPING";
 import { WithPagination } from "../../../graphql/query/Query";
 import axios from "../../../axios";
 import { productFragments } from "../../../graphql/fragment/query/ProductFragment";
-import { IProductFragmentModalCreateEditProduct } from "../../../graphql/fragment/interface/ProductFragmentInterface";
+import { IProductFragmentModalCreateEditProduct } from "../../../graphql/fragmentType/query/ProductFragmentInterface";
 
 let productShippingFields: any;
 let productTypeFields: any;

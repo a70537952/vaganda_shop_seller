@@ -5,7 +5,7 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 
 interface ChangeUserAvatarMutationVars {
     
-userAvatar: File;
+userAvatar?: File;
 }
 
 export function useChangeUserAvatarMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ changeUserAvatarMutation: TData }, ChangeUserAvatarMutationVars>) {

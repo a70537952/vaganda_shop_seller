@@ -6,7 +6,7 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 interface UpdateShopAccountMutationVars {
     
 shop_id: String;
-account: String;
+account?: String;
 }
 
 export function useUpdateShopAccountMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ updateShopAccountMutation: TData }, UpdateShopAccountMutationVars>) {

@@ -5,7 +5,7 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 
 interface ResendVerifyUserEmailMutationVars {
     
-email: String;
+email?: String;
 }
 
 export function useResendVerifyUserEmailMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ resendVerifyUserEmailMutation: TData }, ResendVerifyUserEmailMutationVars>) {

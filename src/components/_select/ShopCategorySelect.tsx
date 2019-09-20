@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useShopCategoryQuery } from "../../graphql/query/ShopCategoryQuery";
 import { PropTypes } from "@material-ui/core";
-import { IShopCategoryFragmentShopCategorySelect } from "../../graphql/fragment/interface/ShopCategoryFragmentInterface";
+import { IShopCategoryFragmentShopCategorySelect } from "../../graphql/fragmentType/query/ShopCategoryFragmentInterface";
 import { shopCategoryFragments } from "../../graphql/fragment/query/ShopCategoryFragment";
 
 interface IProps {

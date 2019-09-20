@@ -8,25 +8,25 @@ import ProductShippingInput from "../../input/ProductShippingInput";
 
 interface EditProductMutationVars {
     
-product_id: String;
-shop_id: String;
-productInfoTitle: String;
-productInfoProductCategoryId: String;
+product_id?: String;
+shop_id?: String;
+productInfoTitle?: String;
+productInfoProductCategoryId?: String;
 productInfoExtraOption: ExtraOptionInput[];
-productInfoWidth: String;
-productInfoWidthUnit: String;
-productInfoHeight: String;
-productInfoHeightUnit: String;
-productInfoLength: String;
-productInfoLengthUnit: String;
-productInfoWeight: String;
-productInfoWeightUnit: String;
-productInfoIsPublish: boolean;
+productInfoWidth?: String;
+productInfoWidthUnit?: String;
+productInfoHeight?: String;
+productInfoHeightUnit?: String;
+productInfoLength?: String;
+productInfoLengthUnit?: String;
+productInfoWeight?: String;
+productInfoWeightUnit?: String;
+productInfoIsPublish?: boolean;
 productInfoImages: String[];
-productInfoDescription: String;
+productInfoDescription?: String;
 productType: ProductTypeInput[];
 productShipping: ProductShippingInput[];
-productDescriptionImages: String[];
+productDescriptionImages?: String[];
 }
 
 export function useEditProductMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ editProductMutation: TData }, EditProductMutationVars>) {

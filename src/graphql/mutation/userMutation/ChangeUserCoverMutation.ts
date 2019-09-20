@@ -5,7 +5,7 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 
 interface ChangeUserCoverMutationVars {
     
-file: File;
+file?: File;
 }
 
 export function useChangeUserCoverMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ changeUserCoverMutation: TData }, ChangeUserCoverMutationVars>) {

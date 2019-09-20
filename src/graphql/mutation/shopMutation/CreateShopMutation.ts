@@ -5,28 +5,28 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 
 interface CreateShopMutationVars {
     
-shopSetupName: String;
-shopSetupShopCategory: String;
-shopSetupShopCurrency: String;
-shopSetupHasPhysicalShop: boolean;
-shopInfoSummary: String;
-shopInfoLogo: String;
-shopInfoBanner: String;
-shopAddressAddress1: String;
-shopAddressAddress2: String;
-shopAddressAddress3: String;
-shopAddressCity: String;
-shopAddressState: String;
-shopAddressPostalCode: String;
-shopAddressCountry: String;
-shopAddressLatitude: String;
-shopAddressLongitude: String;
-shopContactEmail: String;
-shopContactWebsite: String;
-shopContactTelephoneCountryCode: String;
-shopContactTelephone: String;
-shopContactPhoneCountryCode: String;
-shopContactPhone: String;
+shopSetupName?: String;
+shopSetupShopCategory?: String;
+shopSetupShopCurrency?: String;
+shopSetupHasPhysicalShop?: boolean;
+shopInfoSummary?: String;
+shopInfoLogo?: String;
+shopInfoBanner?: String;
+shopAddressAddress1?: String;
+shopAddressAddress2?: String;
+shopAddressAddress3?: String;
+shopAddressCity?: String;
+shopAddressState?: String;
+shopAddressPostalCode?: String;
+shopAddressCountry?: String;
+shopAddressLatitude?: String;
+shopAddressLongitude?: String;
+shopContactEmail?: String;
+shopContactWebsite?: String;
+shopContactTelephoneCountryCode?: String;
+shopContactTelephone?: String;
+shopContactPhoneCountryCode?: String;
+shopContactPhone?: String;
 }
 
 export function useCreateShopMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ createShopMutation: TData }, CreateShopMutationVars>) {

@@ -6,7 +6,7 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 interface UpdateShopBannerMutationVars {
     
 shop_id: String;
-banner: File;
+banner?: File;
 }
 
 export function useUpdateShopBannerMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ updateShopBannerMutation: TData }, UpdateShopBannerMutationVars>) {

@@ -6,16 +6,16 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 interface UpdateShopAddressMutationVars {
     
 shop_id: String;
-has_physical_shop: boolean;
-address_1: String;
-address_2: String;
-address_3: String;
-city: String;
-state: String;
-postal_code: String;
-country: String;
-latitude: String;
-longitude: String;
+has_physical_shop?: boolean;
+address_1?: String;
+address_2?: String;
+address_3?: String;
+city?: String;
+state?: String;
+postal_code?: String;
+country?: String;
+latitude?: String;
+longitude?: String;
 }
 
 export function useUpdateShopAddressMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ updateShopAddressMutation: TData }, UpdateShopAddressMutationVars>) {

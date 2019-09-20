@@ -5,8 +5,8 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 
 interface UpdateUserInfoMutationVars {
     
-name: String;
-gender: number;
+name?: String;
+gender?: number;
 }
 
 export function useUpdateUserInfoMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ updateUserInfoMutation: TData }, UpdateUserInfoMutationVars>) {

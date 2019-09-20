@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import Select from "./Select";
 import { PropTypes } from "@material-ui/core";
 import { useShopAdminRoleQuery } from "../../graphql/query/ShopAdminRoleQuery";
-import { IShopAdminRoleFragmentShopAdminRoleSelect } from "../../graphql/fragment/interface/ShopAdminRoleFragmentInterface";
+import { IShopAdminRoleFragmentShopAdminRoleSelect } from "../../graphql/fragmentType/query/ShopAdminRoleFragmentInterface";
 import { shopAdminRoleFragments } from "../../graphql/fragment/query/ShopAdminRoleFragment";
 
 interface IProps {

@@ -5,7 +5,7 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 
 interface UpdateUserOrderDetailStatusMutationVars {
     
-shop_id: String;
+shop_id?: String;
 userOrderDetailIds: String[];
 order_detail_status: String;
 }

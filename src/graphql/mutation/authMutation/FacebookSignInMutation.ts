@@ -6,8 +6,8 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 interface FacebookSignInMutationVars {
     
 facebookID: String;
-email: String;
-name: String;
+email?: String;
+name?: String;
 }
 
 export function useFacebookSignInMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ facebookSignInMutation: TData }, FacebookSignInMutationVars>) {

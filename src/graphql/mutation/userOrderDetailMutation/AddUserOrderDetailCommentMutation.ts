@@ -8,7 +8,7 @@ interface AddUserOrderDetailCommentMutationVars {
 userOrderDetailId: String;
 comment: String;
 star: number;
-commentImages: String[];
+commentImages?: String[];
 }
 
 export function useAddUserOrderDetailCommentMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ addUserOrderDetailCommentMutation: TData }, AddUserOrderDetailCommentMutationVars>) {
