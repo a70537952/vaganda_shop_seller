@@ -5,7 +5,7 @@ import {MutationHookOptions, useMutation} from "@apollo/react-hooks";
 
 interface RemoveProductTypeFromUserCartMutationVars {
     
-user_cart_ids: number[];
+user_cart_ids: String[];
 }
 
 export function useRemoveProductTypeFromUserCartMutation<TData = any>(fragment: DocumentNode, options?: MutationHookOptions<{ removeProductTypeFromUserCartMutation: TData[] }, RemoveProductTypeFromUserCartMutationVars>) {
@@ -16,7 +16,7 @@ export function RemoveProductTypeFromUserCartMutation(fragment: DocumentNode): D
     return gql`
     mutation RemoveProductTypeFromUserCartMutation
     (
-$user_cart_ids: [Int]!,
+$user_cart_ids: [String]!,
 )
     {
             removeProductTypeFromUserCartMutation

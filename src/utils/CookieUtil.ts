@@ -5,7 +5,7 @@ const cookieKeyDefaultValue = {
 };
 
 export let getCookieKey = (key: CookiesKey): string => {
-  return process.env[key] || cookieKeyDefaultValue[key];
+  return cookieKeyDefaultValue[key];
 };
 
 export let getCookieOption = () => {
