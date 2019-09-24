@@ -1,7 +1,8 @@
 import React from "react";
+import { IUserFragmentIndex } from "../graphql/fragmentType/query/UserFragmentInterface";
 
 export interface IContext {
-  user: any;
+  user: IUserFragmentIndex | null;
   shop: any;
   getContext: () => void;
   permission: string[];
@@ -13,7 +14,7 @@ export interface IContext {
 }
 
 export const AppContext = React.createContext<IContext>({
-  user: {},
+  user: null,
   shop: {},
   getContext: () => {},
   permission: [],

@@ -34,12 +34,11 @@ import { WithWidth } from "@material-ui/core/withWidth/withWidth";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import { homePath, sellerPath } from "../../utils/RouteUtil";
 import { ReactCookieProps, withCookies } from "react-cookie";
-import { getCookieKey, getCookieOption } from "../../utils/CookieUtil";
+import { getCookieKey, getCookieOption, getGlobalCookieOption } from "../../utils/CookieUtil";
 
 interface IProps {
   classes: any;
   theme: Theme;
-  context: any;
 }
 
 interface IState {
@@ -138,7 +137,7 @@ class Header extends React.Component<
                     {t('go to shop')}
                   </Button>
 
-                  <div className={classes.grow}></div>
+                  <div className={classes.grow}/>
 
                   <div>
                     <IconButton
@@ -174,7 +173,7 @@ class Header extends React.Component<
                             if (this.props.cookies) {
                               this.props.cookies.remove(
                                 getCookieKey('api_token'),
-                                getCookieOption()
+                                getGlobalCookieOption()
                               );
                             }
                             window.location.reload();
