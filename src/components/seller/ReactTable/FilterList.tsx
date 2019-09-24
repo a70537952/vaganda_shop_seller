@@ -18,7 +18,6 @@ import Typography from "@material-ui/core/Typography";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import classnames from "classnames";
-import { debounce } from "debounce";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Popover } from "@material-ui/core";
@@ -98,7 +97,6 @@ export default function FilterList(props: IProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const [filterListAnchorEl, setFilterListAnchorEl] = useState<any>(undefined);
-  const onFetchData = debounce(props.onFetchData, 350);
 
   const {
     filterFieldValue,
@@ -134,7 +132,6 @@ export default function FilterList(props: IProps) {
             onChange: (e: any) => {
               e.persist();
               setFilterFieldValue(column.id, e.target.value);
-              onFetchData();
             },
             fullWidth: true,
             inputProps: {
@@ -152,7 +149,6 @@ export default function FilterList(props: IProps) {
           onChange={(e: { persist: () => void; target: { value: any } }) => {
             e.persist();
             setFilterFieldValue(column.id, e.target.value);
-            onFetchData();
           }}
           fullWidth
         />
@@ -239,7 +235,7 @@ export default function FilterList(props: IProps) {
                       <IconButton
                         onClick={e => {
                           e.persist();
-                          onFetchData();
+                          props.onFetchData();
                         }}
                         aria-label={t("refresh data")}
                       >
@@ -284,7 +280,6 @@ export default function FilterList(props: IProps) {
                     onClick={(e: { persist: () => void }) => {
                       e.persist();
                       resetFilterFieldValue();
-                      onFetchData();
                     }}
                   >
                   {t("reset")}

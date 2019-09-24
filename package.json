@@ -83,7 +83,8 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.2.0",
     "source-map-explorer": "^2.0.1",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "use-debounce": "^3.0.1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
