@@ -80,7 +80,7 @@ export default function ProductCategorySelect(props: IProps) {
 
   useEffect(() => {
     syncSelectedCategory(value);
-  }, [value && !selectedCategory, data]);
+  }, [open, value, value && !selectedCategory, data]);
 
   useEffect(() => {
     setValue(props.value);

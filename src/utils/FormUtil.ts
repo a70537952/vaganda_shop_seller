@@ -64,9 +64,6 @@ let resetField = (field: any) => {
   let obj = {};
 
   if (typeof field === 'object') {
-    if (field.value instanceof Set) {
-      field.value = new Set();
-    }
     (obj as any)[field.field] = {
       value: { $set: field.value !== undefined ? field.value : '' },
       is_valid: { $set: field.is_valid !== undefined ? field.is_valid : true },

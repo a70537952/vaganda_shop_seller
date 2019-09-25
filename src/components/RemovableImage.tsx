@@ -13,7 +13,7 @@ interface IProps {
     titlePosition?: 'top' | 'bottom';
     remove?: () => void;
     disabled?: boolean;
-    className: string;
+    className?: string;
 }
 
 
