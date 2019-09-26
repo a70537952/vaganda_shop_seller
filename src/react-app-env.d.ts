@@ -1,7 +1,4 @@
 /// <reference types="react-scripts" />
-declare module 'react-virtualized-auto-sizer' {
-  export default React.Component;
-}
 
 declare module 'react-geolocation' {
   export default React.Component;

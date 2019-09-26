@@ -10,7 +10,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import CancelIcon from "@material-ui/icons/Cancel";
 import classNames from "classnames";
 import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { Skeleton } from "@material-ui/lab";
 import FormControl from "@material-ui/core/FormControl";
