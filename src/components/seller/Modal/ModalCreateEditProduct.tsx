@@ -1031,6 +1031,7 @@ export default function ModalCreateEditProduct(props: IProps) {
   }
 
   function resetStateData() {
+    setIsDataLoaded(true);
     setActiveStep(0);
 
     setProductInfo((productInfo: any) => ({

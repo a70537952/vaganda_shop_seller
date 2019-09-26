@@ -193,19 +193,15 @@ function MenuList(props: any) {
   const initialOffset = options.indexOf(value) * height;
 
   return (
-    <AutoSizer disableHeight>
-      {(data: any) => (
         <List
-          width={data.width}
+          width={'100%'}
           height={maxHeight}
           itemCount={children.length}
           itemSize={height}
-          initialScrollOffset={initialOffset}
+          initialScrollOffset={children.length * height > maxHeight ? initialOffset : 0}
         >
           {({ index, style }) => <div style={style}>{children[index]}</div>}
         </List>
-      )}
-    </AutoSizer>
   );
 }
 
