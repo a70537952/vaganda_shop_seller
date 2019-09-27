@@ -74,21 +74,21 @@ export default function ButtonImage(props: IProps) {
     } = props;
 
     return <ButtonBase
-        title={title}
-        focusRipple
-        key={image.id}
-        className={classes.image}
-        style={{
-            width: width || '80px',
-            height: height || '45px'
-        }}
-        onClick={onClick}
+      title={title}
+      focusRipple
+      key={image.id}
+      className={classes.image}
+      style={{
+          width: width || '80px',
+          height: height || '45px'
+      }}
+      onClick={onClick}
     >
         <span
-            className={classes.imageSrc}
-            style={{
-                backgroundImage: `url('${image.image_small}')`
-            }}
+          className={classes.imageSrc}
+          style={{
+              backgroundImage: `url('${image.image_small}')`
+          }}
         />
 
         {isSelected && <span className={classes.imageBackdrop}/>}
