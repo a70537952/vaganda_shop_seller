@@ -176,13 +176,13 @@ export default function ReactTable(props: any) {
         );
       }}
       LoadingComponent={Loading}
-      ExpanderComponent={props => {
-        props = { ...props }; // clone readonly props to modify property
-        delete props.classes;
+      ExpanderComponent={(expanderProps) => {
+        expanderProps = { ...expanderProps }; // clone readonly props to modify property
+        delete expanderProps.classes;
         return (
           <Expander
             hasSubComponent={!!props.SubComponent}
-            {...props}
+            {...expanderProps}
           />
         );
       }}
