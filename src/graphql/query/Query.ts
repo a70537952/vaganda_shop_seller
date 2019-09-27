@@ -1,12 +1,15 @@
 export interface WithPagination<TData> {
   items: TData[];
-  cursor: {
-    total: number;
-    perPage: number;
-    currentPage: number;
-    hasPages: boolean;
-  };
+  cursor: Pagination;
 }
+
+export type Pagination = {
+  total: number;
+  perPage: number;
+  currentPage: number;
+  hasPages: boolean;
+}
+
 
 export interface WithPaginationVars {
   offset: number;
