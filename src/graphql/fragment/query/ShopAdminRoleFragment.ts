@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export let shopAdminRoleFragments: any = {
-  SellerAdminRole: gql`
+  AdminRole: gql`
     fragment fragment on ShopAdminRole {
       id
       title
@@ -11,6 +11,14 @@ export let shopAdminRoleFragments: any = {
     }
   `,
   ShopAdminRoleSelect: gql`
+    fragment fragment on ShopAdminRole {
+      id
+      title
+      permission
+      is_shop_owner_role
+    }
+  `,
+  ModalCreateEditShopAdminRole: gql`
     fragment fragment on ShopAdminRole {
       id
       title

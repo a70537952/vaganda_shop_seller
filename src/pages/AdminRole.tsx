@@ -286,7 +286,7 @@ class AdminRole extends React.Component<
                   title={t('admin role')}
                   columns={columns}
                   query={shopAdminRoleQuery(
-                    shopAdminRoleFragments.SellerAdminRole
+                    shopAdminRoleFragments.AdminRole
                   )}
                   variables={{
                     shop_id: context.shop.id,
