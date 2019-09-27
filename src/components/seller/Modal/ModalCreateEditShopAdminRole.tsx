@@ -21,8 +21,7 @@ import { useTranslation } from "react-i18next";
 import gql from "graphql-tag";
 import useToast from "../../_hook/useToast";
 import { WithPagination } from "../../../graphql/query/Query";
-import { ShopAdminVars } from "../../../graphql/query/ShopAdminQuery";
-import { shopAdminRoleQuery } from "../../../graphql/query/ShopAdminRoleQuery";
+import { shopAdminRoleQuery, ShopAdminRoleVars } from "../../../graphql/query/ShopAdminRoleQuery";
 import { IShopAdminRoleFragmentModalCreateEditShopAdminRole } from "../../../graphql/fragmentType/query/ShopAdminRoleFragmentInterface";
 import { useCreateShopAdminRoleMutation } from "../../../graphql/mutation/shopAdminRoleMutation/CreateShopAdminRoleMutation";
 import { useEditShopAdminRoleMutation } from "../../../graphql/mutation/shopAdminRoleMutation/EditShopAdminRoleMutation";
@@ -124,7 +123,7 @@ export default function ModalCreateEditShopAdminRole(props: IProps) {
     if (shopAdminRoleId && shopId) {
       setIsDataLoaded(false);
       let { data } = await client.query<{ shopAdminRole: WithPagination<IShopAdminRoleFragmentModalCreateEditShopAdminRole> },
-        ShopAdminVars>({
+        ShopAdminRoleVars>({
         query: shopAdminRoleQuery(shopAdminRoleFragments.ModalCreateEditShopAdminRole),
         variables: {
           id: shopAdminRoleId

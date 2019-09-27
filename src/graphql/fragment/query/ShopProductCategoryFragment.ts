@@ -14,11 +14,7 @@ export let shopProductCategoryFragments: any = {
   ModalCreateEditShopProductCategory: gql`
     fragment fragment on ShopProductCategory {
       id
-      shop_id
       title
-      created_at
-      updated_at
-      product_count
     }
   `
 };
