@@ -84,10 +84,10 @@ export default function ModalUpdateShopAccount(props: IProps) {
   useEffect(() => {
     resetStateData();
     getShopAccount();
-  }, [shopId]);
+  }, [isOpen, shopId]);
 
   async function getShopAccount() {
-    if (shopId) {
+    if (shopId && isOpen) {
       setIsDataLoaded(false);
       let { data } = await client.query<{ shopSetting: WithPagination<IShopSettingFragmentModalUpdateShopAccount> },
         ShopSettingVars>({
@@ -119,6 +119,7 @@ export default function ModalUpdateShopAccount(props: IProps) {
   }
 
   async function handleOkCloseDialog() {
+    resetStateData();
     setIsCloseDialogOpen(false);
     await toggle();
   }
