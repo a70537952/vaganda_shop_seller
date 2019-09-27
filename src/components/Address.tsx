@@ -3,7 +3,15 @@ import Typography, {TypographyProps} from '@material-ui/core/Typography';
 
 interface IProps extends TypographyProps {
     className?: string;
-    address: any;
+    address: {
+        address_1: string;
+        address_2: string;
+        address_3: string;
+        city: string;
+        state: string;
+        postal_code: string;
+        country: string;
+    };
 }
 
 export default function Address(props: IProps) {

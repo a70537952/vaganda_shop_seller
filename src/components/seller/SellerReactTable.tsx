@@ -31,7 +31,7 @@ export default function SellerReactTable(props: any) {
 
   useEffect(() => {
     setTableKey(+new Date());
-  }, [props.variables]);
+  }, [JSON.stringify(props.variables)]);
 
 
   return <ReactTable
