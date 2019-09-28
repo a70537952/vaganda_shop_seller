@@ -27,7 +27,7 @@ import { useCreateShopAdminRoleMutation } from "../../../graphql/mutation/shopAd
 import { useEditShopAdminRoleMutation } from "../../../graphql/mutation/shopAdminRoleMutation/EditShopAdminRoleMutation";
 
 interface IProps {
-  shopAdminRoleId: string;
+  shopAdminRoleId?: string;
   shopId: string;
   disabled?: boolean;
   refetchData: any;
