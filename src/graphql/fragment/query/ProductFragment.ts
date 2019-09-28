@@ -161,77 +161,41 @@ export let productFragments: any = {
     fragment fragment on Product {
       id
       title
-      product_category_id
-      description
-      extra_option {
-        key
-        value
-      }
-      width
-      width_unit
-      height
-      height_unit
-      length
-      length_unit
-      weight
-      weight_unit
       is_publish
       created_at
-
-      product_image {
-        id
-        product_id
-        path
-        image_medium
-        image_large
-        image_original
+      shop_product_category_product{
+         id
+         shop_product_category {
+            id
+            title
+          }
       }
-
       product_category {
         id
         title
       }
-
       product_type {
         id
-        product_id
         title
         quantity
-        cost
-        cost_currency
-        price
         currency
-        discount
+        price
         discount_unit
-        discounted_price
-        final_price
+        discount
         discount_amount
+        final_price
         product_type_image {
           id
-          product_type_id
           path
-          image_medium
-          image_large
-          image_original
+        image_medium
+        image_original
         }
       }
-
-      product_shipping {
+      product_image {
         id
-        product_id
-        shipping_method
-        shipping_fee
-        shipping_country
-        is_disabled
-      }
-
-      shop_product_category_product {
-        id
-        shop_product_category_id
-        shop_product_category {
-          id
-          title
-        }
+        path
+        image_medium
+        image_original
       }
     }
   `

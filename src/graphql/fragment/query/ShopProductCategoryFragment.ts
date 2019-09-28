@@ -15,5 +15,12 @@ export let shopProductCategoryFragments: any = {
       id
       title
     }
+  `,
+  Product: gql`
+    fragment fragment on ShopProductCategory {
+        id
+        shop_id
+        title
+    }
   `
 };
