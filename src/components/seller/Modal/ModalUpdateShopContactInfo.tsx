@@ -18,7 +18,7 @@ import CountryPhoneCodeSelect from "../../_select/CountryPhoneCodeSelect";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import useToast from "../../_hook/useToast";
 import { WithPagination } from "../../../graphql/query/Query";
-import { useUpdateShopContactInfoMutation } from "../../../graphql/mutation/shopMutation/UpdateShopContactInfoMutation";
+import { useUpdateShopContactInfoMutation } from "../../../graphql/mutation/shopContactInfoMutation/UpdateShopContactInfoMutation";
 import { shopContactInfoQuery, ShopContactInfoVars } from "../../../graphql/query/ShopContactInfoQuery";
 import { shopContactInfoFragments } from "../../../graphql/fragment/query/ShopContactInfoFragment";
 import { IShopContactInfoFragmentModalUpdateShopContactInfo } from "../../../graphql/fragmentType/query/ShopContactInfoFragmentInterface";

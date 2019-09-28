@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import TextField from "@material-ui/core/TextField";
 import useToast from "../../_hook/useToast";
 import { WithPagination } from "../../../graphql/query/Query";
-import { useUpdateShopInfoMutation } from "../../../graphql/mutation/shopMutation/UpdateShopInfoMutation";
+import { useUpdateShopInfoMutation } from "../../../graphql/mutation/shopInfoMutation/UpdateShopInfoMutation";
 import { shopInfoFragments } from "../../../graphql/fragment/query/ShopInfoFragment";
 import { shopContactInfoQuery, ShopContactInfoVars } from "../../../graphql/query/ShopContactInfoQuery";
 import { IShopInfoFragmentModalUpdateShopInfo } from "../../../graphql/fragmentType/query/ShopInfoFragmentInterface";

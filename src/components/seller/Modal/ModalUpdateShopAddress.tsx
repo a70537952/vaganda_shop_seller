@@ -25,7 +25,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 import useToast from "../../_hook/useToast";
 import { WithPagination } from "../../../graphql/query/Query";
-import { useUpdateShopAddressMutation } from "../../../graphql/mutation/shopMutation/UpdateShopAddressMutation";
+import { useUpdateShopAddressMutation } from "../../../graphql/mutation/shopAddressMutation/UpdateShopAddressMutation";
 import { shopAddressFragments } from "../../../graphql/fragment/query/ShopAddressFragment";
 import { IShopAddressFragmentModalUpdateShopAddress } from "../../../graphql/fragmentType/query/ShopAddressFragmentInterface";
 import { shopAddressQuery, ShopAddressVars } from "../../../graphql/query/ShopAddressQuery";

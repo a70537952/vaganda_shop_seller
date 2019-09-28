@@ -22,12 +22,12 @@ import FormUtil from "../utils/FormUtil";
 import classNames from "classnames";
 import Image from "../components/Image";
 import useToast from "../components/_hook/useToast";
-import { useUpdateShopLogoMutation } from "../graphql/mutation/shopMutation/UpdateShopLogoMutation";
-import { updateShopLogoMutationFragments } from "../graphql/fragment/mutation/shopMutation/UpdateShopLogoMutationFragment";
-import { IUpdateShopLogoMutationFragmentSetting } from "../graphql/fragmentType/mutation/shopMutation/UpdateShopLogoMutationFragmentInterface";
-import { useUpdateShopBannerMutation } from "../graphql/mutation/shopMutation/UpdateShopBannerMutation";
-import { IUpdateShopBannerMutationFragmentSetting } from "../graphql/fragmentType/mutation/shopMutation/UpdateShopBannerMutationFragmentInterface";
-import { updateShopBannerMutationFragments } from "../graphql/fragment/mutation/shopMutation/UpdateShopBannerMutationFragment";
+import { useUpdateShopLogoMutation } from "../graphql/mutation/shopInfoMutation/UpdateShopLogoMutation";
+import { updateShopLogoMutationFragments } from "../graphql/fragment/mutation/shopInfoMutation/UpdateShopLogoMutationFragment";
+import { IUpdateShopLogoMutationFragmentSetting } from "../graphql/fragmentType/mutation/shopInfoMutation/UpdateShopLogoMutationFragmentInterface";
+import { useUpdateShopBannerMutation } from "../graphql/mutation/shopInfoMutation/UpdateShopBannerMutation";
+import { IUpdateShopBannerMutationFragmentSetting } from "../graphql/fragmentType/mutation/shopInfoMutation/UpdateShopBannerMutationFragmentInterface";
+import { updateShopBannerMutationFragments } from "../graphql/fragment/mutation/shopInfoMutation/UpdateShopBannerMutationFragment";
 
 const useStyles = makeStyles((theme: Theme) => ({
   card: {
