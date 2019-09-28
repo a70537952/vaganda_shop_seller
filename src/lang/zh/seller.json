@@ -376,5 +376,7 @@
   "latest order comment": "最新订单评论",
   "see more": "看更多",
   "view more": "查看更多",
-  "are you sure cancel edit address?": "您确定要取消编辑地址吗？"
+  "are you sure cancel edit address?": "您确定要取消编辑地址吗？",
+  "close": "关闭",
+  "you cant delete shop owner admin": "您无法删除商店所有者管理员"
 }

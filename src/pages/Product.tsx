@@ -84,7 +84,7 @@ export default function Product() {
     createEditProduct: false,
     createEditShopProductCategory: false
   });
-  const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [editingProduct, setEditingProduct] = useState<IProductFragmentProduct | undefined>(undefined);
 
   const [lightbox, setLightbox] = useState<{
     isOpen: boolean,
@@ -99,7 +99,7 @@ export default function Product() {
   const [removeFromCategoryAnchorEl, setRemoveFromCategoryAnchorEl] = useState<any>(null);
   const [removeFromCategory, setRemoveFromCategory] = useState<Set<string>>(new Set());
 
-  function toggleModalProduct(product?: any) {
+  function toggleModalProduct(product?: IProductFragmentProduct) {
     setEditingProduct(product);
     setModal(
       update(modal, {
@@ -195,7 +195,7 @@ export default function Product() {
                       {t("added to shop product category")}
                     </Typography>
                     {value.shop_product_category_product.map(
-                      (category_product: any) => (
+                      (category_product) => (
                         <React.Fragment
                           key={category_product.shop_product_category.id}
                         >
@@ -251,7 +251,7 @@ export default function Product() {
       Header: t("price"),
       accessor: (d: IProductFragmentProduct) => {
         let sortProductType = d.product_type.sort(
-          (a: any, b: any) => a.price - b.price
+          (a, b) => a.price - b.price
         );
         let priceString =
           sortProductType[0].currency + " " + sortProductType[0].price;
@@ -293,7 +293,7 @@ export default function Product() {
         return (
           <Select {...props}>
             <MenuItem value={""}>{t("all")}</MenuItem>
-            {shopProductCategories.map((shopProductCategory: any) => (
+            {shopProductCategories.map((shopProductCategory) => (
               <MenuItem
                 value={shopProductCategory.id}
                 key={shopProductCategory.id}
@@ -511,7 +511,7 @@ export default function Product() {
     )
   ) {
     actionList.push({
-      customComponent: (selectedData: any) => (
+      customComponent: (selectedData: IProductFragmentProduct[]) => (
         <>
           <Button
             variant="outlined"
@@ -540,7 +540,7 @@ export default function Product() {
           >
             <List disablePadding>
               {shopProductCategories.map(
-                (shopProductCategory: any) => (
+                (shopProductCategory) => (
                   <ListItem
                     button
                     key={shopProductCategory.id}
@@ -589,7 +589,7 @@ export default function Product() {
                           variables: {
                             shop_id: context.shop.id,
                             product_ids: selectedData.map(
-                              (data: any) => data.id
+                              (data) => data.id
                             ),
                             shop_product_category_ids: Array.from(removeFromCategory)
                           }
@@ -610,7 +610,7 @@ export default function Product() {
 
   if (context.permission.includes("CREATE_SHOP_PRODUCT_CATEGORY_PRODUCT")) {
     actionList.push({
-      customComponent: (selectedData: any) => (
+      customComponent: (selectedData: IProductFragmentProduct[]) => (
         <>
           <Button
             variant="outlined"
@@ -639,7 +639,7 @@ export default function Product() {
           >
             <List disablePadding>
               {shopProductCategories.map(
-                (shopProductCategory: any) => (
+                (shopProductCategory) => (
                   <ListItem
                     button
                     key={shopProductCategory.id}
@@ -717,7 +717,7 @@ export default function Product() {
                           variables: {
                             shop_id: context.shop.id,
                             product_ids: selectedData.map(
-                              (data: any) => data.id
+                              (data) => data.id
                             ),
                             shop_product_category_ids: Array.from(addToCategory)
                           }
@@ -742,11 +742,11 @@ export default function Product() {
       component: (component: any) => {
         return (
           React.createElement(component, {
-            onClick: (selectedData: any) => {
+            onClick: (selectedData: IProductFragmentProduct[]) => {
               return publishProductMutation({
                 variables: {
                   shop_id: context.shop.id,
-                  productIds: selectedData.map((data: any) => data.id)
+                  productIds: selectedData.map((data) => data.id)
                 }
               });
             },
@@ -760,11 +760,11 @@ export default function Product() {
       component: (component: any) => {
         return (
           React.createElement(component, {
-            onClick: (selectedData: any) => {
+            onClick: (selectedData: IProductFragmentProduct[]) => {
               return unpublishProductMutation({
                 variables: {
                   shop_id: context.shop.id,
-                  productIds: selectedData.map((data: any) => data.id)
+                  productIds: selectedData.map((data) => data.id)
                 }
               });
             },
@@ -781,11 +781,11 @@ export default function Product() {
       component: (component: any) => {
         return (
           React.createElement(component, {
-            onClick: (selectedData: any) => {
+            onClick: (selectedData: IProductFragmentProduct[]) => {
               return deleteProductMutation({
                 variables: {
                   shop_id: context.shop.id,
-                  productIds: selectedData.map((data: any) => data.id)
+                  productIds: selectedData.map((data) => data.id)
                 }
               });
             },
@@ -822,7 +822,7 @@ export default function Product() {
               size="small"
               variant="contained"
               color="primary"
-              onClick={toggleModalProduct}
+              onClick={() => toggleModalProduct()}
             >
               <AddIcon/>
               {t("add product")}
@@ -833,7 +833,7 @@ export default function Product() {
           productId={
             editingProduct
               ? editingProduct.id
-              : null
+              : undefined
           }
           shopId={context.shop.id}
           disabled={!context.permission.includes("UPDATE_PRODUCT")}

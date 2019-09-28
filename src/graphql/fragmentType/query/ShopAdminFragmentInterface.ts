@@ -44,3 +44,19 @@ export interface IShopAdminFragmentModalCreateEditShopAdmin {
     permission: string;
   }
 }
+
+
+export interface IShopAdminFragmentAdmin {
+  id: string;
+  user: {
+    id: string;
+    username: string;
+    name: string;
+  }
+  shop_admin_role: {
+    id: string;
+    title: string;
+    is_shop_owner_role: number;
+  }
+  created_at: string;
+}

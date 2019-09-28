@@ -105,7 +105,7 @@ export interface IProductFragmentProductIProductType {
   title: string;
   quantity: string;
   currency: string;
-  price: string;
+  price: number;
   discount_unit: string;
   discount: string;
   discount_amount: string;
