@@ -7,7 +7,6 @@ export let shopProductCategoryFragments: any = {
       shop_id
       title
       created_at
-      updated_at
       product_count
     }
   `,
