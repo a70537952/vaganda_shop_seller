@@ -22,7 +22,7 @@ import { userOrderDetailFragments } from "../graphql/fragment/query/UserOrderDet
 import useToast from "../components/_hook/useToast";
 import { IUserOrderDetailFragmentOrderDetail } from "../graphql/fragmentType/query/UserOrderDetailFragmentInterface";
 import { useUpdateUserOrderDetailStatusMutation } from "../graphql/mutation/userOrderDetailMutation/UpdateUserOrderDetailStatusMutation";
-import { updateUserOrderDetailStatusMutationFragments } from "../graphql/fragment/mutation/UpdateUserOrderDetailStatusMutationFragment";
+import { updateUserOrderDetailStatusMutationFragments } from "../graphql/fragment/mutation/userOrderDetailMutation/UpdateUserOrderDetailStatusMutationFragment";
 import { IUpdateUserOrderDetailStatusMutationFragmentOrderDetail } from "../graphql/fragmentType/mutation/userOrderDetailMutation/AddProductTypeToUserCartMutationFragmentInterface";
 
 

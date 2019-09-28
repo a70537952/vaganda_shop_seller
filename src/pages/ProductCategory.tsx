@@ -19,7 +19,7 @@ import { shopProductCategoryFragments } from "../graphql/fragment/query/ShopProd
 import useToast from "../components/_hook/useToast";
 import { useDeleteShopProductCategoryMutation } from "../graphql/mutation/shopProductCategoryMutation/DeleteShopProductCategoryMutation";
 import { IDeleteShopProductCategoryMutationFragmentDefaultFragment } from "../graphql/fragmentType/mutation/shopProductCategoryMutation/DeleteShopProductCategoryMutationFragmentInterface";
-import { deleteShopProductCategoryMutationFragments } from "../graphql/fragment/mutation/DeleteShopProductCategoryMutationFragment";
+import { deleteShopProductCategoryMutationFragments } from "../graphql/fragment/mutation/shopProductCategoryMutation/DeleteShopProductCategoryMutationFragment";
 import { IShopProductCategoryFragmentProductCategory } from "../graphql/fragmentType/query/ShopProductCategoryFragmentInterface";
 
 const useStyles = makeStyles((theme: Theme) => ({
