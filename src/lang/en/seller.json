@@ -379,5 +379,7 @@
   "view more": "View more",
   "are you sure cancel edit address?": "Are you sure cancel edit address?",
   "close": "Close",
-  "you cant delete shop owner admin": "You cant delete shop owner admin"
+  "you cant delete shop owner admin": "You cant delete shop owner admin",
+  "creating": "Creating",
+  "editing": "Editing"
 }

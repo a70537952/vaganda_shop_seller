@@ -378,5 +378,7 @@
   "view more": "查看更多",
   "are you sure cancel edit address?": "您确定要取消编辑地址吗？",
   "close": "关闭",
-  "you cant delete shop owner admin": "您无法删除商店所有者管理员"
+  "you cant delete shop owner admin": "您无法删除商店所有者管理员",
+  "creating": "创建中",
+  "editing": "编辑中"
 }

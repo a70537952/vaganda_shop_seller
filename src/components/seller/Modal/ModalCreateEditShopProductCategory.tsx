@@ -1,17 +1,11 @@
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Modal from "../../_modal/Modal";
 import { makeStyles, Theme } from "@material-ui/core/styles/index";
-import update from "immutability-helper";
 import React, { useContext, useEffect, useState } from "react";
 import { useApolloClient } from "react-apollo";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { AppContext } from "../../../contexts/Context";
-import FormUtil, { Fields } from "../../../utils/FormUtil";
 import { useTranslation } from "react-i18next";
 import TextField from "@material-ui/core/TextField";
 import { shopProductCategoryFragments } from "../../../graphql/fragment/query/ShopProductCategoryFragment";
@@ -21,6 +15,9 @@ import { useCreateShopProductCategoryMutation } from "../../../graphql/mutation/
 import { IShopProductCategoryFragmentModalCreateEditShopProductCategory } from "../../../graphql/fragmentType/query/ShopProductCategoryFragmentInterface";
 import { useEditShopProductCategoryMutation } from "../../../graphql/mutation/shopProductCategoryMutation/EditShopProductCategoryMutation";
 import { shopProductCategoryQuery, ShopProductCategoryVars } from "../../../graphql/query/ShopProductCategoryQuery";
+import useForm from "../../_hook/useForm";
+import ButtonSubmit from "../../ButtonSubmit";
+import DialogConfirm from "../../_dialog/DialogConfirm";
 
 interface IProps {
   shopProductCategoryId?: string;
@@ -45,6 +42,17 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
   const context = useContext(AppContext);
   const { t } = useTranslation();
   const { toast } = useToast();
+  const {
+    value, error, disable,
+    setDisable, setValue,
+    validate, checkApolloError, resetValue
+  } = useForm({
+    title: {
+      value: "",
+      emptyMessage: t("please enter title")
+    }
+  });
+
   const client = useApolloClient();
   const {
     shopProductCategoryId,
@@ -55,18 +63,8 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
     isOpen
   } = props;
 
-  let shopProductCategoryFields = [
-    {
-      field: "title",
-      isCheckEmpty: true,
-      emptyMessage: t("please enter title"),
-      value: ""
-    }
-  ];
-
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState<boolean>(false);
-  const [shopProductCategory, setShopProductCategory] = useState<Fields>(FormUtil.generateFieldsState(shopProductCategoryFields));
 
   const [
     createShopProductCategoryMutation,
@@ -75,14 +73,14 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
     onCompleted: () => {
       toast.default(
         t("{{title}} successfully created", {
-          title: shopProductCategory.title.value
+          title: value.title
         })
       );
       handleOkCloseDialog();
       if (refetchData) refetchData();
     },
-    onError: async (error) => {
-      await checkShopProductCategoryForm(error);
+    onError: (error) => {
+      checkApolloError(error);
     }
   });
 
@@ -93,13 +91,13 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
     onCompleted: () => {
       toast.default(
         t("{{title}} successfully updated", {
-          title: shopProductCategory.title.value
+          title: value.title
         })
       );
       handleOkCloseDialog();
     },
-    onError: async (error) => {
-      await checkShopProductCategoryForm(error);
+    onError: (error) => {
+      checkApolloError(error);
     }
   });
 
@@ -120,22 +118,16 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
       });
 
       let shopProductCategoryData = data.shopProductCategory.items[0];
-      setShopProductCategory(
-        update(shopProductCategory, {
-          title: {
-            value: { $set: shopProductCategoryData.title },
-            disabled: { $set: disabled }
-          }
-        })
-      );
 
+      setValue("title", shopProductCategoryData.title);
+      setDisable("title", disabled);
       setIsDataLoaded(true);
     }
   }
 
   function resetStateData() {
     setIsDataLoaded(true);
-    setShopProductCategory(shopProductCategory => FormUtil.generateResetFieldsStateHook(shopProductCategoryFields, shopProductCategory));
+    resetValue();
   }
 
   function handleCancelCloseDialog() {
@@ -152,89 +144,43 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
     setIsCloseDialogOpen(true);
   }
 
-  async function checkShopProductCategoryForm(error?: any) {
-    let {
-      state: checkedEmptyState,
-      isValid: emptyIsValid
-    } = FormUtil.generateFieldsEmptyErrorHook(
-      shopProductCategoryFields,
-      shopProductCategory
-    );
-
-    let {
-      state: checkedErrorState,
-      isValid: validationIsValid
-    } = FormUtil.validationErrorHandlerHook(
-      shopProductCategoryFields,
-      error,
-      checkedEmptyState
-    );
-
-    setShopProductCategory(checkedErrorState);
-
-    return emptyIsValid && validationIsValid;
-  }
-
   async function createShopProductCategory() {
-    if (await checkShopProductCategoryForm()) {
+    if (await validate()) {
       createShopProductCategoryMutation({
         variables: {
           shop_id: shopId,
-          title: shopProductCategory.title.value
+          title: value.title
         }
       });
     }
   }
 
   async function editShopProductCategory() {
-    if (shopProductCategoryId && await checkShopProductCategoryForm()) {
+    if (shopProductCategoryId && await validate()) {
       editShopProductCategoryMutation({
         variables: {
           shop_product_category_id: shopProductCategoryId,
           shop_id: shopId,
-          title: shopProductCategory.title.value
+          title: value.title
         }
       });
     }
   }
 
   return <>
-    <Dialog
-      maxWidth="sm"
-      open={isCloseDialogOpen}
-      onClose={handleCancelCloseDialog}
-    >
-      <DialogTitle>
-        {shopProductCategoryId
-          ? t("cancel edit shop product category")
-          : t("cancel add shop product category")}
-      </DialogTitle>
-      <DialogContent>
-        {shopProductCategoryId
-          ? t("are you sure cancel edit shop product category?")
-          : t("are you sure cancel add shop product category?")}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={handleCancelCloseDialog}
-          color="primary"
-        >
-          {t("cancel")}
-        </Button>
-        <Button
-          onClick={handleOkCloseDialog}
-          color="primary"
-        >
-          {t("ok")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <DialogConfirm open={isCloseDialogOpen}
+                   onClose={handleCancelCloseDialog}
+                   title={shopProductCategoryId
+                     ? t("cancel edit shop product category")
+                     : t("cancel add shop product category")}
+                   content={shopProductCategoryId
+                     ? t("are you sure cancel edit shop product category?")
+                     : t("are you sure cancel add shop product category?")}
+                   onConfirm={handleOkCloseDialog}/>
     <Modal
       disableAutoFocus
       open={isOpen}
-      onClose={() => {
-        toggleCloseDialog();
-      }}
+      onClose={toggleCloseDialog}
       maxWidth={"sm"}
       fullWidth
     >
@@ -250,23 +196,18 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
           <>
             <Grid item xs={12}>
               <TextField
-                disabled={shopProductCategory.title.disabled}
+                disabled={disable.title}
                 required
-                error={!shopProductCategory.title.is_valid}
+                error={Boolean(error.title)}
                 label={t("shop product category title")}
-                value={shopProductCategory.title.value}
+                value={value.title}
                 onChange={(e: { target: { value: any } }) => {
-                  setShopProductCategory(
-                    update(shopProductCategory, {
-                      title: { value: { $set: e.target.value } }
-                    })
-                  );
+                  setValue("title", e.target.value);
                 }}
-                helperText={
-                  shopProductCategory.title.feedback
-                }
+                helperText={error.title}
                 fullWidth
                 margin={"normal"}
+                onBlur={() => validate("title")}
               />
             </Grid>
             <Grid
@@ -289,54 +230,22 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
                 {context.permission.includes(
                   "CREATE_SHOP_PRODUCT_CATEGORY"
                 ) && !shopProductCategoryId && (
-                  <>
-                    {isCreatingShopProductCategoryMutation ?
-                      <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                      >
-                        {t("creating...")}
-                      </Button>
-                      :
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={async () => {
-                          if (await checkShopProductCategoryForm())
-                            createShopProductCategory();
-                        }}
-                      >
-                        {t("create shop product category")}
-                      </Button>
-                    }
-                  </>
+                  <ButtonSubmit onClick={createShopProductCategory}
+                                variant="contained"
+                                color="primary"
+                                loading={isCreatingShopProductCategoryMutation}
+                                loadingLabel={t("creating")}
+                                label={t("create shop product category")}/>
                 )}
                 {context.permission.includes(
                   "UPDATE_SHOP_PRODUCT_CATEGORY"
                 ) && shopProductCategoryId && (
-                  <>
-                    {isEditingShopProductCategoryMutation ?
-                      <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                      >
-                        {t("editing...")}
-                      </Button>
-                      :
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={async () => {
-                          if (await checkShopProductCategoryForm())
-                            editShopProductCategory();
-                        }}
-                      >
-                        {t("edit shop product category")}
-                      </Button>
-                    }
-                  </>
+                  <ButtonSubmit onClick={editShopProductCategory}
+                                variant="contained"
+                                color="primary"
+                                loading={isEditingShopProductCategoryMutation}
+                                loadingLabel={t("editing")}
+                                label={t("edit shop product category")}/>
                 )}
               </Grid>
             </Grid>

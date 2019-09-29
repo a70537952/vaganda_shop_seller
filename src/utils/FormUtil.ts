@@ -93,35 +93,8 @@ export default {
     });
     return fields;
   },
-  generateResetFieldsState: (fields: any) => {
-    return resetFields(fields);
-  },
   generateResetFieldsStateHook: (fields: any, state: any) => {
     return update(state, resetFields(fields));
-  },
-  resetFieldsIsValid: (fields: any) => {
-    fields = parseFields(fields);
-    let obj = {};
-    Object.keys(fields).forEach(field => {
-      (obj as any)[field] = {
-        feedback: { $set: '' },
-        is_valid: { $set: true }
-      };
-    });
-
-    return obj;
-  },
-  resetFieldsIsValidHook: (fields: any, state: any) => {
-    fields = parseFields(fields);
-    let obj = {};
-    Object.keys(fields).forEach(field => {
-      (obj as any)[field] = {
-        feedback: { $set: '' },
-        is_valid: { $set: true }
-      };
-    });
-
-    return update(state, obj);
   },
   validationErrorHandler: (fields: any, error: any) => {
     fields = parseFields(fields);
@@ -249,22 +222,5 @@ export default {
       }
     }
     return '';
-  },
-  getAllValidationErrorMessage: (error: any) => {
-    let validationError = error.graphQLErrors[0].extensions.validation;
-    return Object.keys(validationError).map(key => validationError[key][0]);
-  },
-  isExtraOptionsValid: (array = []) => {
-    let valid = true;
-    array.forEach(option => {
-      let keys = Object.keys(option);
-      keys.forEach(key => {
-        if (option[key] === '') {
-          valid = false;
-        }
-      });
-    });
-
-    return valid;
   }
 };
