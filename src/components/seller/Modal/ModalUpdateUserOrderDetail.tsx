@@ -1,8 +1,4 @@
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Modal from "../../_modal/Modal";
 import { makeStyles, Theme } from "@material-ui/core/styles/index";
@@ -11,7 +7,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useApolloClient } from "react-apollo";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { AppContext } from "../../../contexts/Context";
-import FormUtil, { Fields } from "../../../utils/FormUtil";
 import { useTranslation } from "react-i18next";
 import TextField from "@material-ui/core/TextField";
 import UserOrderDetailStatusSelect from "../../_select/UserOrderDetailStatusSelect";
@@ -28,6 +23,8 @@ import { WithPagination } from "../../../graphql/query/Query";
 import { useUpdateUserOrderDetailMutation } from "../../../graphql/mutation/userOrderDetailMutation/UpdateUserOrderDetailMutation";
 import { IUserOrderDetailFragmentModalUpdateUserOrderDetail } from "../../../graphql/fragmentType/query/UserOrderDetailFragmentInterface";
 import { userOrderDetailQuery, UserOrderDetailVars } from "../../../graphql/query/UserOrderDetailQuery";
+import useForm from "../../_hook/useForm";
+import DialogConfirm from "../../_dialog/DialogConfirm";
 
 interface IProps {
   orderDetailId: string;
@@ -54,6 +51,22 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
   const { toast } = useToast();
   const client = useApolloClient();
   const {
+    value, error, disable,
+    setDisable, setValue,
+    validate, checkApolloError, resetValue
+  } = useForm({
+    order_detail_status: {
+      value: "",
+      emptyMessage: t("please select order detail status")
+    },
+    product_shipping_track_number: {
+      value: ""
+    },
+    remark: {
+      value: ""
+    }
+  });
+  const {
     orderDetailId,
     shopId,
     disabled,
@@ -61,27 +74,9 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
     isOpen
   } = props;
 
-  let orderDetailFields = [
-    {
-      field: "order_detail_status",
-      isCheckEmpty: true,
-      emptyMessage: t("please select order detail status"),
-      value: ""
-    },
-    {
-      field: "product_shipping_track_number",
-      value: ""
-    },
-    {
-      field: "remark",
-      value: ""
-    }
-  ];
-
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState<boolean>(false);
   const [rawUserOrderDetail, setRawUserOrderDetail] = useState<IUserOrderDetailFragmentModalUpdateUserOrderDetail | null>(null);
-  const [userOrderDetail, setUserOrderDetail] = useState<Fields>(FormUtil.generateFieldsState(orderDetailFields));
   const [lightbox, setLightbox] = useState<{
     isOpen: boolean,
     imgSrc: string,
@@ -105,7 +100,7 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
       handleOkCloseDialog();
     },
     onError: async (error) => {
-      await checkUserOrderDetailForm(error);
+      await checkApolloError(error);
     }
   });
 
@@ -124,22 +119,10 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
       });
 
       let userOrderDetailData = data.userOrderDetail.items[0];
-      setUserOrderDetail(
-        update(userOrderDetail, {
-          order_detail_status: {
-            value: { $set: userOrderDetailData.order_detail_status },
-            disabled: { $set: disabled }
-          },
-          product_shipping_track_number: {
-            value: { $set: userOrderDetailData.product_shipping_track_number },
-            disabled: { $set: disabled }
-          },
-          remark: {
-            value: { $set: userOrderDetailData.remark },
-            disabled: { $set: disabled }
-          }
-        })
-      );
+      setValue("order_detail_status", userOrderDetailData.order_detail_status);
+      setValue("product_shipping_track_number", userOrderDetailData.product_shipping_track_number);
+      setValue("remark", userOrderDetailData.remark);
+      setDisable("", disabled);
       setRawUserOrderDetail(userOrderDetailData);
       setIsDataLoaded(true);
     }
@@ -148,7 +131,7 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
   function resetStateData() {
     setIsDataLoaded(true);
     setRawUserOrderDetail(null);
-    setUserOrderDetail(userOrderDetail => FormUtil.generateResetFieldsStateHook(orderDetailFields, userOrderDetail));
+    resetValue();
   }
 
   function handleCancelCloseDialog() {
@@ -165,70 +148,26 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
     setIsCloseDialogOpen(true);
   }
 
-  async function checkUserOrderDetailForm(error?: any) {
-    let {
-      state: checkedEmptyState,
-      isValid: emptyIsValid
-    } = FormUtil.generateFieldsEmptyErrorHook(
-      orderDetailFields,
-      userOrderDetail
-    );
-
-    let {
-      state: checkedErrorState,
-      isValid: validationIsValid
-    } = FormUtil.validationErrorHandlerHook(
-      orderDetailFields,
-      error,
-      checkedEmptyState
-    );
-
-    setUserOrderDetail(checkedErrorState);
-
-    return emptyIsValid && validationIsValid;
-  }
-
   async function updateUserOrderDetail() {
-    if (await checkUserOrderDetailForm()) {
+    if (await validate()) {
       updateUserOrderDetailMutation({
         variables: {
           user_order_detail_id: orderDetailId,
           shop_id: shopId,
-          order_detail_status: userOrderDetail.order_detail_status
-            .value,
-          product_shipping_track_number: userOrderDetail
-            .product_shipping_track_number.value,
-          remark: userOrderDetail.remark.value
+          order_detail_status: value.order_detail_status,
+          product_shipping_track_number: value.product_shipping_track_number,
+          remark: value.remark
         }
       });
     }
   }
 
   return <>
-    <Dialog
-      maxWidth="sm"
-      open={isCloseDialogOpen}
-      onClose={handleCancelCloseDialog}
-    >
-      <DialogTitle>{t("cancel update order detail")}</DialogTitle>
-      <DialogContent>
-        {t("are you sure cancel update order detail?")}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={handleCancelCloseDialog}
-          color="primary"
-        >
-          {t("cancel")}
-        </Button>
-        <Button
-          onClick={handleOkCloseDialog}
-          color="primary"
-        >
-          {t("ok")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <DialogConfirm open={isCloseDialogOpen}
+                   onClose={handleCancelCloseDialog}
+                   title={t("cancel update order detail")}
+                   content={t("are you sure cancel update order detail?")}
+                   onConfirm={handleOkCloseDialog}/>
     <Modal
       disableAutoFocus
       open={isOpen}
@@ -258,29 +197,24 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
               <UserOrderDetailStatusSelect
                 fullWidth
                 label={t("order detail status")}
-                error={!userOrderDetail.order_detail_status.is_valid}
-                helperText={userOrderDetail.order_detail_status.feedback}
+                error={Boolean(error.order_detail_status)}
+                helperText={error.order_detail_status}
                 required
-                value={userOrderDetail.order_detail_status.value}
+                value={value.order_detail_status}
                 onChange={(value: unknown) => {
-                  setUserOrderDetail(
-                    update(userOrderDetail, {
-                      order_detail_status: { value: { $set: value } }
-                    })
-                  );
+                  setValue("order_detail_status", value);
                 }}
                 only={[
                   USER_ORDER_DETAIL.ORDER_DETAIL_STATUS.PAID,
                   USER_ORDER_DETAIL.ORDER_DETAIL_STATUS.SHIPPED
                 ]}
                 disabled={
-                  userOrderDetail.order_detail_status
-                    .disabled ||
+                  disable.order_detail_status ||
                   ![
                     USER_ORDER_DETAIL.ORDER_DETAIL_STATUS.PAID,
                     USER_ORDER_DETAIL.ORDER_DETAIL_STATUS.SHIPPED
                   ].includes(
-                    userOrderDetail.order_detail_status.value
+                    value.order_detail_status
                   )
                 }
               />
@@ -450,20 +384,14 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                disabled={userOrderDetail.product_shipping_track_number.disabled}
-                error={!userOrderDetail.product_shipping_track_number.is_valid}
+                disabled={disable.product_shipping_track_number}
+                error={Boolean(error.product_shipping_track_number)}
                 label={t("shipping track number")}
-                value={userOrderDetail.product_shipping_track_number.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setUserOrderDetail(
-                    update(userOrderDetail, {
-                      product_shipping_track_number: {
-                        value: { $set: e.target.value }
-                      }
-                    })
-                  );
+                value={value.product_shipping_track_number}
+                onChange={(e) => {
+                  setValue("product_shipping_track_number", e.target.value);
                 }}
-                helperText={userOrderDetail.product_shipping_track_number.feedback}
+                helperText={error.product_shipping_track_number}
                 fullWidth
               />
             </Grid>
@@ -485,18 +413,14 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                disabled={userOrderDetail.remark.disabled}
-                error={!userOrderDetail.remark.is_valid}
+                disabled={disable.remark}
+                error={Boolean(error.remark)}
                 label={t("remark")}
-                value={userOrderDetail.remark.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setUserOrderDetail(
-                    update(userOrderDetail, {
-                      remark: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.remark}
+                onChange={(e) => {
+                  setValue("remark", e.target.value);
                 }}
-                helperText={userOrderDetail.remark.feedback}
+                helperText={error.remark}
                 fullWidth
                 InputLabelProps={{
                   shrink: true
@@ -620,12 +544,7 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={async () => {
-                          if (
-                            await checkUserOrderDetailForm()
-                          )
-                            updateUserOrderDetail();
-                        }}
+                        onClick={updateUserOrderDetail}
                       >
                         {t("update user order detail")}
                       </Button>

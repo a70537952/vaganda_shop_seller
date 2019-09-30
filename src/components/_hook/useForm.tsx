@@ -10,20 +10,6 @@ declare class ApolloError extends Error {
 }
 
 
-interface UseForm {
-  disable: Record<FieldsKey, boolean>;
-  error: Record<FieldsKey, string>;
-  value: Record<FieldsKey, any>;
-  setError: (field: FieldsKey, newError: string) => void;
-  setValue: (field: FieldsKey, newValue: string) => void;
-  setDisable: (field: FieldsKey | '', newDisable?: boolean) => void;
-  validate: (field?: FieldsKey) => boolean;
-  isValid: boolean;
-  resetError: () => void;
-  resetValue: () => void;
-  checkApolloError: (error: ApolloError) => void;
-}
-
 interface Fields {
   [key: string] : {
     emptyMessage?: string,
@@ -34,9 +20,7 @@ interface Fields {
 }
 
 
-type FieldsKey = keyof Fields;
-
-function useForm(fields: Fields): UseForm {
+function useForm(fields: Fields) {
   const [error, setError] = useState<Record<keyof Fields , string>>({});
 
   let initialValue: Record<keyof Fields, unknown> = {};
@@ -53,7 +37,7 @@ function useForm(fields: Fields): UseForm {
     );
   }
 
-  function setNewDisable(field:keyof Fields | '', newDisable?: boolean) {
+  function setNewDisable(field?:keyof Fields, newDisable?: boolean) {
     if(field) {
       setDisable(disable => update(disable, {
           [field]: { $set: Boolean(newDisable)}
