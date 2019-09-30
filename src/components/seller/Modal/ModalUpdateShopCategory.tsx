@@ -1,17 +1,11 @@
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Modal from "../../_modal/Modal";
 import { makeStyles, Theme } from "@material-ui/core/styles/index";
-import update from "immutability-helper";
 import React, { useContext, useEffect, useState } from "react";
 import { useApolloClient } from "react-apollo";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { AppContext } from "../../../contexts/Context";
-import FormUtil, { Fields } from "../../../utils/FormUtil";
 import { useTranslation } from "react-i18next";
 import ShopCategorySelect from "../../_select/ShopCategorySelect";
 import useToast from "../../_hook/useToast";
@@ -21,6 +15,9 @@ import { useUpdateShopCategoryMutation } from "../../../graphql/mutation/shopMut
 import { shopFragments } from "../../../graphql/fragment/query/ShopFragment";
 import { shopQuery } from "../../../graphql/query/ShopQuery";
 import { IShopFragmentModalUpdateShopCategory } from "../../../graphql/fragmentType/query/ShopFragmentInterface";
+import useForm from "../../_hook/useForm";
+import DialogConfirm from "../../_dialog/DialogConfirm";
+import ButtonSubmit from "../../ButtonSubmit";
 
 interface IProps {
   shopId: string;
@@ -50,19 +47,19 @@ export default function ModalUpdateShopCategory(props: IProps) {
     toggle,
     isOpen
   } = props;
-
-  let shopCategoryFields = [
-    {
-      field: "shop_category_id",
-      isCheckEmpty: true,
-      emptyMessage: t("please select shop category"),
-      value: ""
+  const {
+    value, error, disable,
+    setDisable, setValue,
+    validate, checkApolloError, resetValue
+  } = useForm({
+    shop_category_id: {
+      value: "",
+      emptyMessage: t("please select shop category")
     }
-  ];
+  });
 
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState<boolean>(false);
-  const [shopCategory, setShopCategory] = useState<Fields>(FormUtil.generateFieldsState(shopCategoryFields));
 
   const [
     updateShopCategoryMutation,
@@ -75,7 +72,7 @@ export default function ModalUpdateShopCategory(props: IProps) {
       handleOkCloseDialog();
     },
     onError: async (error) => {
-      await checkShopCategoryForm(error);
+      await checkApolloError(error);
     }
   });
 
@@ -94,22 +91,15 @@ export default function ModalUpdateShopCategory(props: IProps) {
       });
 
       let shop = data.shop.items[0];
-      setShopCategory(
-        update(shopCategory, {
-          shop_category_id: {
-            value: { $set: shop.shop_category_id },
-            disabled: { $set: disabled }
-          }
-        })
-      );
-
+      setValue("shop_category_id", shop.shop_category_id);
+      setDisable("", disabled);
       setIsDataLoaded(true);
     }
   }
 
   function resetStateData() {
     setIsDataLoaded(true);
-    setShopCategory(shopCategory => FormUtil.generateResetFieldsStateHook(shopCategoryFields, shopCategory));
+    resetValue();
   }
 
   function handleCancelCloseDialog() {
@@ -126,65 +116,23 @@ export default function ModalUpdateShopCategory(props: IProps) {
     setIsCloseDialogOpen(true);
   }
 
-  async function checkShopCategoryForm(error?: any) {
-    let {
-      state: checkedEmptyState,
-      isValid: emptyIsValid
-    } = FormUtil.generateFieldsEmptyErrorHook(
-      shopCategoryFields,
-      shopCategory
-    );
-
-    let {
-      state: checkedErrorState,
-      isValid: validationIsValid
-    } = FormUtil.validationErrorHandlerHook(
-      shopCategoryFields,
-      error,
-      checkedEmptyState
-    );
-
-    setShopCategory(checkedErrorState);
-
-    return emptyIsValid && validationIsValid;
-  }
-
   async function editShopCategory() {
-    if (await checkShopCategoryForm()) {
+    if (await validate()) {
       updateShopCategoryMutation({
         variables: {
           shop_id: shopId,
-          shop_category_id: shopCategory.shop_category_id.value
+          shop_category_id: value.shop_category_id
         }
       });
     }
   }
 
   return <>
-    <Dialog
-      maxWidth="sm"
-      open={isCloseDialogOpen}
-      onClose={handleCancelCloseDialog}
-    >
-      <DialogTitle>{t("cancel edit shop category")}</DialogTitle>
-      <DialogContent>
-        {t("are you sure cancel edit shop category?")}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={handleCancelCloseDialog}
-          color="primary"
-        >
-          {t("cancel")}
-        </Button>
-        <Button
-          onClick={handleOkCloseDialog}
-          color="primary"
-        >
-          {t("ok")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <DialogConfirm open={isCloseDialogOpen}
+                   onClose={handleCancelCloseDialog}
+                   title={t("cancel edit shop category")}
+                   content={t("are you sure cancel edit shop category?")}
+                   onConfirm={handleOkCloseDialog}/>
     <Modal
       disableAutoFocus
       open={isOpen}
@@ -205,23 +153,13 @@ export default function ModalUpdateShopCategory(props: IProps) {
             <Grid item xs={12}>
               <ShopCategorySelect
                 label={t("shop category")}
-                error={
-                  !shopCategory.shop_category_id.is_valid
-                }
-                helperText={
-                  shopCategory.shop_category_id.feedback
-                }
-                disabled={
-                  shopCategory.shop_category_id.disabled
-                }
+                error={Boolean(error.shop_category_id)}
+                helperText={error.shop_category_id}
+                disabled={disable.shop_category_id}
                 required
-                value={shopCategory.shop_category_id.value}
+                value={value.shop_category_id}
                 onChange={(value: unknown) => {
-                  setShopCategory(
-                    update(shopCategory, {
-                      shop_category_id: { value: { $set: value } }
-                    })
-                  );
+                  setValue("shop_category_id", value);
                 }}
                 fullWidth
               />
@@ -244,28 +182,12 @@ export default function ModalUpdateShopCategory(props: IProps) {
               </Grid>
               <Grid item>
                 {context.permission.includes("UPDATE_SHOP_SETTING") && shopId && (
-                  <>
-                    {isUpdatingShopCategoryMutation ?
-                      <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                      >
-                        {t("updating...")}
-                      </Button>
-                      :
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={async () => {
-                          if (await checkShopCategoryForm())
-                            editShopCategory();
-                        }}
-                      >
-                        {t("update shop category")}
-                      </Button>
-                    }
-                  </>
+                  <ButtonSubmit onClick={editShopCategory}
+                                variant="contained"
+                                color="primary"
+                                loading={isUpdatingShopCategoryMutation}
+                                loadingLabel={t("updating...")}
+                                label={t("update shop category")}/>
                 )}
               </Grid>
             </Grid>
