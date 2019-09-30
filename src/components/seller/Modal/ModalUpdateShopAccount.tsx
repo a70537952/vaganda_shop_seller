@@ -1,17 +1,11 @@
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Modal from "../../_modal/Modal";
 import { makeStyles, Theme } from "@material-ui/core/styles/index";
-import update from "immutability-helper";
 import React, { useContext, useEffect, useState } from "react";
 import { useApolloClient } from "react-apollo";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { AppContext } from "../../../contexts/Context";
-import FormUtil, { Fields } from "../../../utils/FormUtil";
 import { useTranslation } from "react-i18next";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -22,6 +16,9 @@ import { useUpdateShopAccountMutation } from "../../../graphql/mutation/shopSett
 import { shopSettingFragments } from "../../../graphql/fragment/query/ShopSettingFragment";
 import { IShopSettingFragmentModalUpdateShopAccount } from "../../../graphql/fragmentType/query/ShopSettingFragmentInterface";
 import { shopSettingQuery, ShopSettingVars } from "../../../graphql/query/ShopSettingQuery";
+import useForm from "../../_hook/useForm";
+import DialogConfirm from "../../_dialog/DialogConfirm";
+import ButtonSubmit from "../../ButtonSubmit";
 
 
 interface IProps {
@@ -52,19 +49,19 @@ export default function ModalUpdateShopAccount(props: IProps) {
     toggle,
     isOpen
   } = props;
-
-  let shopAccountFields = [
-    {
-      field: "account",
-      isCheckEmpty: true,
-      emptyMessage: t("please enter shop account"),
-      value: ""
+  const {
+    value, error, disable,
+    setDisable, setValue,
+    validate, checkApolloError, resetValue
+  } = useForm({
+    account: {
+      value: "",
+      emptyMessage: t("please enter shop account")
     }
-  ];
+  });
 
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState<boolean>(false);
-  const [shopAccount, setShopAccount] = useState<Fields>(FormUtil.generateFieldsState(shopAccountFields));
 
   const [
     updateShopAccountMutation,
@@ -77,7 +74,7 @@ export default function ModalUpdateShopAccount(props: IProps) {
       handleOkCloseDialog();
     },
     onError: async (error) => {
-      await checkShopAccountForm(error);
+      await checkApolloError(error);
     }
   });
 
@@ -96,22 +93,15 @@ export default function ModalUpdateShopAccount(props: IProps) {
       });
 
       let shopSetting = data.shopSetting.items[0];
-      setShopAccount(
-        update(shopAccount, {
-          account: {
-            value: { $set: shopSetting ? shopSetting.value : "" },
-            disabled: { $set: disabled }
-          }
-        })
-      );
-
+      setValue("account", shopSetting ? shopSetting.value : "");
+      setDisable("", disabled);
       setIsDataLoaded(true);
     }
   }
 
   function resetStateData() {
     setIsDataLoaded(true);
-    setShopAccount(shopAccount => FormUtil.generateResetFieldsStateHook(shopAccountFields, shopAccount));
+    resetValue();
   }
 
   function handleCancelCloseDialog() {
@@ -128,65 +118,23 @@ export default function ModalUpdateShopAccount(props: IProps) {
     setIsCloseDialogOpen(true);
   }
 
-  async function checkShopAccountForm(error?: any) {
-    let {
-      state: checkedEmptyState,
-      isValid: emptyIsValid
-    } = FormUtil.generateFieldsEmptyErrorHook(
-      shopAccountFields,
-      shopAccount
-    );
-
-    let {
-      state: checkedErrorState,
-      isValid: validationIsValid
-    } = FormUtil.validationErrorHandlerHook(
-      shopAccountFields,
-      error,
-      checkedEmptyState
-    );
-
-    setShopAccount(checkedErrorState);
-
-    return emptyIsValid && validationIsValid;
-  }
-
   async function updateShopAccount() {
-    if (await checkShopAccountForm()) {
+    if (await validate()) {
       updateShopAccountMutation({
         variables: {
           shop_id: shopId,
-          account: shopAccount.account.value
+          account: value.account
         }
       });
     }
   }
 
   return <>
-    <Dialog
-      maxWidth="sm"
-      open={isCloseDialogOpen}
-      onClose={handleCancelCloseDialog}
-    >
-      <DialogTitle>{t("cancel update shop account")}</DialogTitle>
-      <DialogContent>
-        {t("are you sure cancel update shop account?")}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={handleCancelCloseDialog}
-          color="primary"
-        >
-          {t("cancel")}
-        </Button>
-        <Button
-          onClick={handleOkCloseDialog}
-          color="primary"
-        >
-          {t("ok")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <DialogConfirm open={isCloseDialogOpen}
+                   onClose={handleCancelCloseDialog}
+                   title={t("cancel update shop account")}
+                   content={t("are you sure cancel update shop account?")}
+                   onConfirm={handleOkCloseDialog}/>
     <Modal
       disableAutoFocus
       open={isOpen}
@@ -213,18 +161,14 @@ export default function ModalUpdateShopAccount(props: IProps) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                disabled={shopAccount.account.disabled}
-                error={!shopAccount.account.is_valid}
+                disabled={disable.account}
+                error={Boolean(error.account)}
                 label={t("shop account")}
-                value={shopAccount.account.value}
-                onChange={(e: any) => {
-                  setShopAccount(
-                    update(shopAccount, {
-                      account: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.account}
+                onChange={(e) => {
+                  setValue("account", e.target.value);
                 }}
-                helperText={shopAccount.account.feedback}
+                helperText={error.account}
                 margin="normal"
                 InputProps={{
                   startAdornment: (
@@ -252,27 +196,12 @@ export default function ModalUpdateShopAccount(props: IProps) {
               </Grid>
               <Grid item>
                 {context.permission.includes("UPDATE_SHOP_SETTING") && shopId && (
-                  <>
-                    {isUpdatingShopAccountMutation ?
-                      <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                      >
-                        {t("updating...")}
-                      </Button>
-                      :
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={async () => {
-                          if (await checkShopAccountForm())
-                            updateShopAccount();
-                        }}>
-                        {t("update shop account")}
-                      </Button>
-                    }
-                  </>
+                  <ButtonSubmit onClick={updateShopAccount}
+                                variant="contained"
+                                color="primary"
+                                loading={isUpdatingShopAccountMutation}
+                                loadingLabel={t("updating...")}
+                                label={t("update shop account")}/>
                 )}
               </Grid>
             </Grid>
