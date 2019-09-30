@@ -64,7 +64,7 @@ function useForm(fields: Fields) {
     let isValid = true;
     if(field) {
       let emptyMessage = fields[field].emptyMessage;
-      if(emptyMessage && String(value[field]).trim() === '') {
+      if(emptyMessage && (!value[field] || String(value[field]).trim() === '')) {
         setNewError(field, emptyMessage);
         isValid = false;
       } else {
@@ -72,7 +72,7 @@ function useForm(fields: Fields) {
       }
     } else {
       Object.keys(fields).forEach(field => {
-        if(String(value[field]).trim() === '') {
+        if(!value[field] || String(value[field]).trim() === '') {
           let emptyMessage = fields[field].emptyMessage;
           if(emptyMessage) {
             setNewError(field, emptyMessage);

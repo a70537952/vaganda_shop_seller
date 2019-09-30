@@ -1,17 +1,11 @@
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Modal from "../../_modal/Modal";
 import { makeStyles, Theme } from "@material-ui/core/styles/index";
-import update from "immutability-helper";
 import React, { useContext, useEffect, useState } from "react";
 import { useApolloClient } from "react-apollo";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { AppContext } from "../../../contexts/Context";
-import FormUtil, { Fields } from "../../../utils/FormUtil";
 import { useTranslation } from "react-i18next";
 import TextField from "@material-ui/core/TextField";
 import CountrySelect from "../../_select/CountrySelect";
@@ -29,6 +23,9 @@ import { useUpdateShopAddressMutation } from "../../../graphql/mutation/shopAddr
 import { shopAddressFragments } from "../../../graphql/fragment/query/ShopAddressFragment";
 import { IShopAddressFragmentModalUpdateShopAddress } from "../../../graphql/fragmentType/query/ShopAddressFragmentInterface";
 import { shopAddressQuery, ShopAddressVars } from "../../../graphql/query/ShopAddressQuery";
+import useForm from "../../_hook/useForm";
+import DialogConfirm from "../../_dialog/DialogConfirm";
+import ButtonSubmit from "../../ButtonSubmit";
 
 interface IProps {
   shopId: string;
@@ -58,44 +55,51 @@ export default function ModalUpdateShopAddress(props: IProps) {
     toggle,
     isOpen
   } = props;
-
-  let shopAddressFields = [
-    {
-      field: "has_physical_shop",
+  const {
+    value, error, disable,
+    setDisable, setValue,
+    validate, checkApolloError, resetValue
+  } = useForm({
+    has_physical_shop: {
       value: false
     },
-    {
-      field: "address_1"
+    address_1: {
+      value: "",
+      emptyMessage: t('please enter address')
     },
-    {
-      field: "address_2"
+    address_2: {
+      value: ""
     },
-    {
-      field: "address_3"
+    address_3: {
+      value: ""
     },
-    {
-      field: "city"
+    city: {
+      value: "",
+      emptyMessage: t('please enter city')
     },
-    {
-      field: "state"
+    state: {
+      value: "",
+      emptyMessage: t('please enter state')
     },
-    {
-      field: "postal_code"
+    postal_code: {
+      value: "",
+      emptyMessage: t('please enter postal code')
     },
-    {
-      field: "country"
+    country: {
+      value: "",
+      emptyMessage: t('please enter country')
     },
-    {
-      field: "latitude"
+    latitude: {
+      value: "",
+      emptyMessage: t('please place marker of your shop location')
     },
-    {
-      field: "longitude"
+    longitude: {
+      value: ""
     }
-  ];
+  });
 
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState<boolean>(false);
-  const [shopAddress, setShopAddress] = useState<Fields>(FormUtil.generateFieldsState(shopAddressFields));
 
   const [
     updateShopAddressMutation,
@@ -108,7 +112,7 @@ export default function ModalUpdateShopAddress(props: IProps) {
       handleOkCloseDialog();
     },
     onError: async (error) => {
-      await checkShopAddressForm(error);
+      await checkApolloError(error);
     }
   });
 
@@ -126,60 +130,25 @@ export default function ModalUpdateShopAddress(props: IProps) {
         variables: { shop_id: shopId }
       });
 
-      let isDisabled = disabled;
       let shopAddressData = data.shopAddress.items[0];
-      setShopAddress(
-        update(shopAddress, {
-          has_physical_shop: {
-            value: { $set: !!shopAddressData.shop.has_physical_shop },
-            disabled: { $set: isDisabled }
-          },
-          address_1: {
-            value: { $set: shopAddressData.address_1 || "" },
-            disabled: { $set: isDisabled }
-          },
-          address_2: {
-            value: { $set: shopAddressData.address_2 || "" },
-            disabled: { $set: isDisabled }
-          },
-          address_3: {
-            value: { $set: shopAddressData.address_3 || "" },
-            disabled: { $set: isDisabled }
-          },
-          city: {
-            value: { $set: shopAddressData.city || "" },
-            disabled: { $set: isDisabled }
-          },
-          state: {
-            value: { $set: shopAddressData.state || "" },
-            disabled: { $set: isDisabled }
-          },
-          postal_code: {
-            value: { $set: shopAddressData.postal_code || "" },
-            disabled: { $set: isDisabled }
-          },
-          country: {
-            value: { $set: shopAddressData.country || "" },
-            disabled: { $set: isDisabled }
-          },
-          latitude: {
-            value: { $set: shopAddressData.latitude || "" },
-            disabled: { $set: isDisabled }
-          },
-          longitude: {
-            value: { $set: shopAddressData.longitude || "" },
-            disabled: { $set: isDisabled }
-          }
-        })
-      );
-
+      setValue("has_physical_shop", shopAddressData.shop.has_physical_shop);
+      setValue("address_1", shopAddressData.address_1);
+      setValue("address_2", shopAddressData.address_2);
+      setValue("address_3", shopAddressData.address_3);
+      setValue("city", shopAddressData.city);
+      setValue("state", shopAddressData.state);
+      setValue("postal_code", shopAddressData.postal_code);
+      setValue("country", shopAddressData.country);
+      setValue("latitude", shopAddressData.latitude);
+      setValue("longitude", shopAddressData.longitude);
+      setDisable("", disabled);
       setIsDataLoaded(true);
     }
   }
 
   function resetStateData() {
     setIsDataLoaded(true);
-    setShopAddress(shopAddress => FormUtil.generateResetFieldsStateHook(shopAddressFields, shopAddress));
+    resetValue();
   }
 
   function handleCancelCloseDialog() {
@@ -196,74 +165,32 @@ export default function ModalUpdateShopAddress(props: IProps) {
     setIsCloseDialogOpen(true);
   }
 
-  async function checkShopAddressForm(error?: any) {
-    let {
-      state: checkedEmptyState,
-      isValid: emptyIsValid
-    } = FormUtil.generateFieldsEmptyErrorHook(
-      shopAddressFields,
-      shopAddress
-    );
-
-    let {
-      state: checkedErrorState,
-      isValid: validationIsValid
-    } = FormUtil.validationErrorHandlerHook(
-      shopAddressFields,
-      error,
-      checkedEmptyState
-    );
-
-    setShopAddress(checkedErrorState);
-
-    return emptyIsValid && validationIsValid;
-  }
-
   async function updateShopAddress() {
-    if (await checkShopAddressForm()) {
+    if (!value.has_physical_shop || (value.has_physical_shop && await validate())) {
       updateShopAddressMutation({
         variables: {
           shop_id: shopId,
-          has_physical_shop: shopAddress.has_physical_shop.value,
-          address_1: shopAddress.address_1.value,
-          address_2: shopAddress.address_2.value,
-          address_3: shopAddress.address_3.value,
-          city: shopAddress.city.value,
-          state: shopAddress.state.value,
-          postal_code: shopAddress.postal_code.value,
-          country: shopAddress.country.value,
-          latitude: shopAddress.latitude.value,
-          longitude: shopAddress.longitude.value
+          has_physical_shop: value.has_physical_shop,
+          address_1: value.address_1,
+          address_2: value.address_2,
+          address_3: value.address_3,
+          city: value.city,
+          state: value.state,
+          postal_code: value.postal_code,
+          country: value.country,
+          latitude: value.latitude,
+          longitude: value.longitude
         }
       });
     }
   }
 
   return <>
-    <Dialog
-      maxWidth="sm"
-      open={isCloseDialogOpen}
-      onClose={handleCancelCloseDialog}
-    >
-      <DialogTitle>{t("cancel edit shop address")}</DialogTitle>
-      <DialogContent>
-        {t("are you sure cancel edit address?")}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={handleCancelCloseDialog}
-          color="primary"
-        >
-          {t("cancel")}
-        </Button>
-        <Button
-          onClick={handleOkCloseDialog}
-          color="primary"
-        >
-          {t("ok")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <DialogConfirm open={isCloseDialogOpen}
+                   onClose={handleCancelCloseDialog}
+                   title={t("cancel edit shop address")}
+                   content={t("are you sure cancel edit address?")}
+                   onConfirm={handleOkCloseDialog}/>
     <Modal
       disableAutoFocus
       open={isOpen}
@@ -285,29 +212,16 @@ export default function ModalUpdateShopAddress(props: IProps) {
               <FormControl
                 margin="none"
                 fullWidth
-                error={
-                  !shopAddress.has_physical_shop.is_valid
-                }
+                error={Boolean(error.has_physical_shop)}
               >
                 <FormGroup row>
                   <FormControlLabel
                     control={
                       <Checkbox
-                        disabled={
-                          shopAddress.has_physical_shop
-                            .disabled
-                        }
-                        checked={
-                          shopAddress.has_physical_shop.value
-                        }
+                        disabled={disable.has_physical_shop}
+                        checked={value.has_physical_shop}
                         onChange={e => {
-                          setShopAddress(
-                            update(shopAddress, {
-                              has_physical_shop: {
-                                value: { $set: e.target.checked }
-                              }
-                            })
-                          );
+                          setValue("has_physical_shop", e.target.checked);
                         }}
                         color="primary"
                       />
@@ -315,176 +229,117 @@ export default function ModalUpdateShopAddress(props: IProps) {
                     label={t("do you have physical shop?")}
                   />
                 </FormGroup>
-                {shopAddress.has_physical_shop.feedback && (
+                {Boolean(error.has_physical_shop) && (
                   <FormHelperText>
-                    {shopAddress.has_physical_shop.feedback}
+                    {error.has_physical_shop}
                   </FormHelperText>
                 )}
               </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
-                required={
-                  shopAddress.has_physical_shop.value
-                }
-                error={!shopAddress.address_1.is_valid}
+                required={value.has_physical_shop}
+                error={Boolean(error.address_1)}
                 label={t("address 1")}
-                value={shopAddress.address_1.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setShopAddress(
-                    update(shopAddress, {
-                      address_1: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.address_1}
+                onChange={(e) => {
+                  setValue("address_1", e.target.value);
                 }}
-                helperText={shopAddress.address_1.feedback}
+                helperText={error.address_1}
                 margin="normal"
-                disabled={
-                  shopAddress.address_1.disabled ||
-                  !shopAddress.has_physical_shop.value
-                }
+                disabled={disable.address_1 || !value.has_physical_shop}
                 fullWidth
               />
               <TextField
-                error={!shopAddress.address_2.is_valid}
+                error={Boolean(error.address_2)}
                 label={t("address 2")}
-                value={shopAddress.address_2.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setShopAddress(
-                    update(shopAddress, {
-                      address_2: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.address_2}
+                onChange={(e) => {
+                  setValue("address_2", e.target.value);
                 }}
-                helperText={shopAddress.address_2.feedback}
+                helperText={error.address_2}
                 margin="normal"
-                disabled={
-                  shopAddress.address_2.disabled ||
-                  !shopAddress.has_physical_shop.value
-                }
+                disabled={disable.address_2 || !value.has_physical_shop}
                 fullWidth
               />
               <TextField
-                error={!shopAddress.address_3.is_valid}
+                error={Boolean(error.address_3)}
                 label={t("address 3")}
-                value={shopAddress.address_3.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setShopAddress(
-                    update(shopAddress, {
-                      address_3: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.address_3}
+                onChange={(e) => {
+                  setValue("address_3", e.target.value);
                 }}
-                helperText={shopAddress.address_3.feedback}
+                helperText={error.address_3}
                 margin="normal"
-                disabled={
-                  shopAddress.address_3.disabled ||
-                  !shopAddress.has_physical_shop.value
-                }
+                disabled={disable.address_3 || !value.has_physical_shop}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                required={
-                  shopAddress.has_physical_shop.value
-                }
-                error={!shopAddress.city.is_valid}
+                error={Boolean(error.city)}
+                required={value.has_physical_shop}
                 label={t("city")}
-                value={shopAddress.city.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setShopAddress(
-                    update(shopAddress, {
-                      city: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.city}
+                onChange={(e) => {
+                  setValue("city", e.target.value);
                 }}
-                helperText={shopAddress.city.feedback}
+                helperText={error.city}
                 margin="normal"
-                disabled={
-                  shopAddress.city.disabled ||
-                  !shopAddress.has_physical_shop.value
-                }
+                disabled={disable.city || !value.has_physical_shop}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                required={
-                  shopAddress.has_physical_shop.value
-                }
-                error={!shopAddress.state.is_valid}
+                error={Boolean(error.state)}
+                required={value.has_physical_shop}
                 label={t("state")}
-                value={shopAddress.state.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setShopAddress(
-                    update(shopAddress, {
-                      state: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.state}
+                onChange={(e) => {
+                  setValue("state", e.target.value);
                 }}
-                helperText={shopAddress.state.feedback}
+                helperText={error.state}
                 margin="normal"
-                disabled={
-                  shopAddress.state.disabled ||
-                  !shopAddress.has_physical_shop.value
-                }
+                disabled={disable.state || !value.has_physical_shop}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                required={
-                  shopAddress.has_physical_shop.value
-                }
-                error={!shopAddress.postal_code.is_valid}
+                error={Boolean(error.postal_code)}
+                required={value.has_physical_shop}
                 label={t("postal code")}
-                value={shopAddress.postal_code.value}
-                onChange={(e: { target: { value: any } }) => {
-                  setShopAddress(
-                    update(shopAddress, {
-                      postal_code: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.postal_code}
+                onChange={(e) => {
+                  setValue("postal_code", e.target.value);
                 }}
-                helperText={shopAddress.postal_code.feedback}
+                helperText={error.postal_code}
                 margin="normal"
-                disabled={
-                  shopAddress.postal_code.disabled ||
-                  !shopAddress.has_physical_shop.value
-                }
+                disabled={disable.postal_code || !value.has_physical_shop}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CountrySelect
-                required={
-                  shopAddress.has_physical_shop.value
-                }
+                error={Boolean(error.country)}
+                required={value.has_physical_shop}
                 label={t("country")}
-                error={!shopAddress.country.is_valid}
-                helperText={shopAddress.country.feedback}
-                value={shopAddress.country.value}
-                onChange={(value: unknown) => {
-                  setShopAddress(
-                    update(shopAddress, {
-                      country: { value: { $set: value } }
-                    })
-                  );
+                helperText={error.country}
+                value={value.country}
+                onChange={(value) => {
+                  setValue("country", value);
                 }}
                 margin="normal"
                 fullWidth
-                disabled={
-                  shopAddress.country.disabled ||
-                  !shopAddress.has_physical_shop.value
-                }
+                disabled={disable.country || !value.has_physical_shop}
               />
             </Grid>
             <Grid container item xs={12} spacing={3}>
               <Grid item xs={12}>
-                {!shopAddress.latitude.disabled &&
-                !shopAddress.longitude.disabled &&
-                shopAddress.has_physical_shop.value && (
+                {!disable.latitude &&
+                !disable.longitude &&
+                value.has_physical_shop && (
                   <FormControl margin="normal" fullWidth>
                     <div style={{ height: "400px", width: "100%" }}>
                       <Geolocation
@@ -496,18 +351,16 @@ export default function ModalUpdateShopAddress(props: IProps) {
                             getCurrentPosition
                           } = geoData;
 
-                          let latitude = shopAddress
-                            .latitude.value
-                            ? shopAddress.latitude.value
+                          let latitude = value.latitude
+                            ? value.latitude
                             : position &&
                             position.coords &&
                             position.coords.latitude
                               ? position.coords.latitude
                               : null;
 
-                          let longitude = shopAddress
-                            .longitude.value
-                            ? shopAddress.longitude.value
+                          let longitude = value.longitude
+                            ? value.longitude
                             : position &&
                             position.coords &&
                             position.coords.longitude
@@ -521,31 +374,15 @@ export default function ModalUpdateShopAddress(props: IProps) {
                               onClick={(data: any) => {
                                 let { x, y, lat, lng, event } = data;
 
-                                setShopAddress(
-                                  update(shopAddress, {
-                                    latitude: {
-                                      value: { $set: lat }
-                                    },
-                                    longitude: {
-                                      value: { $set: lng }
-                                    }
-                                  })
-                                );
+                                setValue("latitude", lat);
+                                setValue("longitude", lng);
                               }}
                             >
-                              {shopAddress.latitude
-                                .value !== "" &&
-                              shopAddress.longitude
-                                .value !== "" && (
+                              {value.latitude !== "" &&
+                              value.longitude !== "" && (
                                 <GoogleMapMarker
-                                  lat={
-                                    shopAddress.latitude
-                                      .value
-                                  }
-                                  lng={
-                                    shopAddress.longitude
-                                      .value
-                                  }
+                                  lat={value.latitude}
+                                  lng={value.longitude}
                                 />
                               )}
                             </GoogleMap>
@@ -556,18 +393,14 @@ export default function ModalUpdateShopAddress(props: IProps) {
                   </FormControl>
                 )}
                 <div>
-                  {shopAddress.latitude.is_valid === false &&
-                  shopAddress.latitude.feedback !== "" && (
+                  {Boolean(error.latitude) && (
                     <FormHelperText error>
-                      {shopAddress.latitude.feedback}
+                      {error.latitude}
                     </FormHelperText>
                   )}
-                  {shopAddress.longitude.is_valid ===
-                  false &&
-                  shopAddress.longitude.feedback !==
-                  "" && (
+                  {Boolean(error.longitude) && (
                     <FormHelperText error>
-                      {shopAddress.longitude.feedback}
+                      {error.longitude}
                     </FormHelperText>
                   )}
                 </div>
@@ -591,28 +424,12 @@ export default function ModalUpdateShopAddress(props: IProps) {
               </Grid>
               <Grid item>
                 {context.permission.includes("UPDATE_SHOP_SETTING") && shopId && (
-                  <>
-                    {isUpdatingShopAddressMutation ?
-                      <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                      >
-                        {t("updating...")}
-                      </Button>
-                      :
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={async () => {
-                          if (await checkShopAddressForm())
-                            updateShopAddress();
-                        }}
-                      >
-                        {t("update shop address")}
-                      </Button>
-                    }
-                  </>
+                  <ButtonSubmit onClick={updateShopAddress}
+                                variant="contained"
+                                color="primary"
+                                loading={isUpdatingShopAddressMutation}
+                                loadingLabel={t("updating...")}
+                                label={t("update shop address")}/>
                 )}
               </Grid>
             </Grid>

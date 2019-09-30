@@ -380,5 +380,8 @@
   "close": "关闭",
   "you cant delete shop owner admin": "您无法删除商店所有者管理员",
   "creating": "创建中",
-  "editing": "编辑中"
+  "editing": "编辑中",
+  "please enter address": "请输入地址",
+  "please enter country": "请输入国家",
+  "please place marker of your shop location": "请放置您商店位置的标记"
 }
