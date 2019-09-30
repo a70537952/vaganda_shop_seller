@@ -120,7 +120,7 @@ export default function ModalCreateEditShopProductCategory(props: IProps) {
       let shopProductCategoryData = data.shopProductCategory.items[0];
 
       setValue("title", shopProductCategoryData.title);
-      setDisable("title", disabled);
+      setDisable("", disabled);
       setIsDataLoaded(true);
     }
   }

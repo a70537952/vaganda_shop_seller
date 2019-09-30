@@ -1,26 +1,23 @@
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Modal from "../../_modal/Modal";
 import { makeStyles, Theme } from "@material-ui/core/styles/index";
-import update from "immutability-helper";
 import React, { useContext, useEffect, useState } from "react";
 import { useApolloClient } from "react-apollo";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { AppContext } from "../../../contexts/Context";
-import FormUtil, { Fields } from "../../../utils/FormUtil";
 import { useTranslation } from "react-i18next";
 import TextField from "@material-ui/core/TextField";
 import useToast from "../../_hook/useToast";
 import { WithPagination } from "../../../graphql/query/Query";
 import { useUpdateShopInfoMutation } from "../../../graphql/mutation/shopInfoMutation/UpdateShopInfoMutation";
 import { shopInfoFragments } from "../../../graphql/fragment/query/ShopInfoFragment";
-import { shopContactInfoQuery, ShopContactInfoVars } from "../../../graphql/query/ShopContactInfoQuery";
+import { ShopContactInfoVars } from "../../../graphql/query/ShopContactInfoQuery";
 import { IShopInfoFragmentModalUpdateShopInfo } from "../../../graphql/fragmentType/query/ShopInfoFragmentInterface";
 import { shopInfoQuery } from "../../../graphql/query/ShopInfoQuery";
+import useForm from "../../_hook/useForm";
+import DialogConfirm from "../../_dialog/DialogConfirm";
+import ButtonSubmit from "../../ButtonSubmit";
 
 interface IProps {
   shopId: string;
@@ -45,22 +42,23 @@ export default function ModalUpdateShopInfo(props: IProps) {
   const { toast } = useToast();
   const client = useApolloClient();
   const {
+    value, error, disable,
+    setDisable, setValue,
+    validate, checkApolloError, resetValue
+  } = useForm({
+    summary: {
+      value: ""
+    }
+  });
+  const {
     shopId,
     disabled,
     toggle,
     isOpen
   } = props;
 
-  let shopInfoFields = [
-    {
-      field: "summary",
-      value: ""
-    }
-  ];
-
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState<boolean>(false);
-  const [shopInfo, setShopInfo] = useState<Fields>(FormUtil.generateFieldsState(shopInfoFields));
 
   const [
     updateShopInfoMutation,
@@ -73,7 +71,7 @@ export default function ModalUpdateShopInfo(props: IProps) {
       handleOkCloseDialog();
     },
     onError: async (error) => {
-      await checkShopInfoForm(error);
+      await checkApolloError(error);
     }
   });
 
@@ -92,22 +90,15 @@ export default function ModalUpdateShopInfo(props: IProps) {
       });
 
       let shopInfoData = data.shopInfo.items[0];
-      setShopInfo(
-        update(shopInfo, {
-          summary: {
-            value: { $set: shopInfoData.summary },
-            disabled: { $set: disabled }
-          }
-        })
-      );
-
+      setValue("summary", shopInfoData.summary);
+      setDisable("", disabled);
       setIsDataLoaded(true);
     }
   }
 
   function resetStateData() {
     setIsDataLoaded(true);
-    setShopInfo(shopInfo => FormUtil.generateResetFieldsStateHook(shopInfoFields, shopInfo));
+    resetValue();
   }
 
   function handleCancelCloseDialog() {
@@ -124,65 +115,23 @@ export default function ModalUpdateShopInfo(props: IProps) {
     setIsCloseDialogOpen(true);
   }
 
-  async function checkShopInfoForm(error?: any) {
-    let {
-      state: checkedEmptyState,
-      isValid: emptyIsValid
-    } = FormUtil.generateFieldsEmptyErrorHook(
-      shopInfoFields,
-      shopInfo
-    );
-
-    let {
-      state: checkedErrorState,
-      isValid: validationIsValid
-    } = FormUtil.validationErrorHandlerHook(
-      shopInfoFields,
-      error,
-      checkedEmptyState
-    );
-
-    setShopInfo(checkedErrorState);
-
-    return emptyIsValid && validationIsValid;
-  }
-
   async function updateShopInfo() {
-    if (await checkShopInfoForm()) {
+    if (await validate()) {
       updateShopInfoMutation({
         variables: {
           shop_id: shopId,
-          summary: shopInfo.summary.value
+          summary: value.summary
         }
       });
     }
   }
 
   return <>
-    <Dialog
-      maxWidth="sm"
-      open={isCloseDialogOpen}
-      onClose={handleCancelCloseDialog}
-    >
-      <DialogTitle>{t("cancel edit shop info")}</DialogTitle>
-      <DialogContent>
-        {t("are you sure cancel edit shop info?")}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={handleCancelCloseDialog}
-          color="primary"
-        >
-          {t("cancel")}
-        </Button>
-        <Button
-          onClick={handleOkCloseDialog}
-          color="primary"
-        >
-          {t("ok")}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <DialogConfirm open={isCloseDialogOpen}
+                   onClose={handleCancelCloseDialog}
+                   title={t("cancel edit shop info")}
+                   content={t("are you sure cancel edit shop info?")}
+                   onConfirm={handleOkCloseDialog}/>
     <Modal
       disableAutoFocus
       open={isOpen}
@@ -202,18 +151,14 @@ export default function ModalUpdateShopInfo(props: IProps) {
           <>
             <Grid item xs={12}>
               <TextField
-                disabled={shopInfo.summary.disabled}
-                error={!shopInfo.summary.is_valid}
+                disabled={disable.summary}
+                error={Boolean(error.summary)}
                 label={t("shop summary")}
-                value={shopInfo.summary.value}
-                onChange={(e: any) => {
-                  setShopInfo(
-                    update(shopInfo, {
-                      summary: { value: { $set: e.target.value } }
-                    })
-                  );
+                value={value.summary}
+                onChange={(e) => {
+                  setValue("summary", e.target.value);
                 }}
-                helperText={shopInfo.summary.feedback}
+                helperText={error.summary}
                 margin="normal"
                 placeholder={t("describe your shop...")}
                 fullWidth
@@ -239,29 +184,14 @@ export default function ModalUpdateShopInfo(props: IProps) {
                 </Button>
               </Grid>
               <Grid item>
+
                 {context.permission.includes("UPDATE_SHOP_SETTING") && shopId && (
-                  <>
-                    {isUpdatingShopInfoMutation ?
-                      <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                      >
-                        {t("updating...")}
-                      </Button>
-                      :
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={async () => {
-                          if (await checkShopInfoForm())
-                            updateShopInfo();
-                        }}
-                      >
-                        {t("update shop info")}
-                      </Button>
-                    }
-                  </>
+                  <ButtonSubmit onClick={updateShopInfo}
+                                variant="contained"
+                                color="primary"
+                                loading={isUpdatingShopInfoMutation}
+                                loadingLabel={t("updating...")}
+                                label={t("update shop info")}/>
                 )}
               </Grid>
             </Grid>

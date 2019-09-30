@@ -25,6 +25,7 @@ import { IUserOrderDetailFragmentModalUpdateUserOrderDetail } from "../../../gra
 import { userOrderDetailQuery, UserOrderDetailVars } from "../../../graphql/query/UserOrderDetailQuery";
 import useForm from "../../_hook/useForm";
 import DialogConfirm from "../../_dialog/DialogConfirm";
+import ButtonSubmit from "../../ButtonSubmit";
 
 interface IProps {
   orderDetailId: string;
@@ -531,25 +532,12 @@ export default function ModalUpdateUserOrderDetail(props: IProps) {
                 {context.permission.includes(
                   "UPDATE_SHOP_USER_ORDER_DETAIL"
                 ) && orderDetailId && (
-                  <>
-                    {isUpdatingUserOrderDetailMutation ?
-                      <Button
-                        disabled
-                        variant="contained"
-                        color="primary"
-                      >
-                        {t("editing...")}
-                      </Button>
-                      :
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={updateUserOrderDetail}
-                      >
-                        {t("update user order detail")}
-                      </Button>
-                    }
-                  </>
+                  <ButtonSubmit onClick={updateUserOrderDetail}
+                                variant="contained"
+                                color="primary"
+                                loading={isUpdatingUserOrderDetailMutation}
+                                loadingLabel={t("editing...")}
+                                label={t("update user order detail")}/>
                 )}
               </Grid>
             </Grid>
