@@ -11,7 +11,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Modal from "../../_modal/Modal";
+import Modal from "../../../_modal/Modal";
 import Paper from "@material-ui/core/Paper";
 import Step from "@material-ui/core/Step";
 import StepButton from "@material-ui/core/StepButton";
@@ -25,28 +25,31 @@ import BraftEditor from "braft-editor";
 import update from "immutability-helper";
 import React, { useContext, useEffect, useState } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { AppContext } from "../../../contexts/Context";
-import { productQuery, ProductVars } from "../../../graphql/query/ProductQuery";
-import FormUtil from "../../../utils/FormUtil";
-import DiscountUnitSelect from "../../_select/DiscountUnitSelect";
-import LengthHeightWidthSelect from "../../_select/LengthHeightWidthSelect";
-import ProductCategorySelect from "../../_select/ProductCategorySelect";
-import RemovableImage from "../../RemovableImage";
-import UploadImageMutation from "../../UploadImageMutation";
-import WeightSelect from "../../_select/WeightSelect";
+import { AppContext } from "../../../../contexts/Context";
+import { productQuery, ProductVars } from "../../../../graphql/query/ProductQuery";
+import FormUtil from "../../../../utils/FormUtil";
+import DiscountUnitSelect from "../../../_select/DiscountUnitSelect";
+import LengthHeightWidthSelect from "../../../_select/LengthHeightWidthSelect";
+import ProductCategorySelect from "../../../_select/ProductCategorySelect";
+import RemovableImage from "../../../RemovableImage";
+import UploadImageMutation from "../../../UploadImageMutation";
+import WeightSelect from "../../../_select/WeightSelect";
 import { useTranslation } from "react-i18next";
 import Typography from "@material-ui/core/Typography";
 import Switch from "@material-ui/core/Switch";
-import CountrySelect from "../../_select/CountrySelect";
-import PRODUCT_SHIPPING from "../../../constant/PRODUCT_SHIPPING";
-import axios from "../../../axios";
-import { productFragments } from "../../../graphql/fragment/query/ProductFragment";
-import { IProductFragmentModalCreateEditProduct } from "../../../graphql/fragmentType/query/ProductFragmentInterface";
-import useToast from "../../_hook/useToast";
-import { useCreateProductMutation } from "../../../graphql/mutation/productMutation/CreateProductMutation";
-import { useEditProductMutation } from "../../../graphql/mutation/productMutation/EditProductMutation";
+import CountrySelect from "../../../_select/CountrySelect";
+import PRODUCT_SHIPPING from "../../../../constant/PRODUCT_SHIPPING";
+import axios from "../../../../axios";
+import { productFragments } from "../../../../graphql/fragment/query/ProductFragment";
+import { IProductFragmentModalCreateEditProduct } from "../../../../graphql/fragmentType/query/ProductFragmentInterface";
+import useToast from "../../../_hook/useToast";
+import { useCreateProductMutation } from "../../../../graphql/mutation/productMutation/CreateProductMutation";
+import { useEditProductMutation } from "../../../../graphql/mutation/productMutation/EditProductMutation";
 import { useApolloClient } from "@apollo/react-hooks";
-import { WithPagination } from "../../../graphql/query/Query";
+import { WithPagination } from "../../../../graphql/query/Query";
+import useForm from "../../../_hook/useForm";
+import DialogConfirm from "../../../_dialog/DialogConfirm";
+import ButtonSubmit from "../../../ButtonSubmit";
 
 interface IProps {
   productId?: string;
@@ -182,6 +185,76 @@ export default function ModalCreateEditProduct(props: IProps) {
   let productShippingObj = {
     ...FormUtil.generateFieldsState(productShippingFields)
   };
+
+  const productInfoForm = useForm({
+    title: {
+      value: "",
+      validationField: "productInfoTitle",
+      emptyMessage: t("please enter product title")
+    },
+    product_category_id: {
+      value: "",
+      validationField: "productInfoProductCategoryId",
+      emptyMessage: t("please select product category")
+    },
+    description: {
+      value: BraftEditor.createEditorState("")
+    },
+    extra_option: {
+      value: []
+    },
+    width: {
+      value: 0,
+      validationField: "productInfoWidth",
+      emptyMessage: t("please enter product width")
+    },
+    width_unit: {
+      value: "cm",
+      validationField: "productInfoWidthUnit",
+      emptyMessage: t("please select product width unit")
+    },
+    height: {
+      value: 0,
+      validationField: "productInfoHeight",
+      emptyMessage: t("please enter product height")
+    },
+    height_unit: {
+      value: "cm",
+      validationField: "productInfoHeightUnit",
+      emptyMessage: t("please select product height unit")
+    },
+    length: {
+      value: 0,
+      validationField: "productInfoLength",
+      emptyMessage: t("please enter product length")
+    },
+    length_unit: {
+      value: "cm",
+      validationField: "productInfoLengthUnit",
+      emptyMessage: t("please select product length unit")
+    },
+    weight: {
+      value: 0,
+      validationField: "productInfoWeight",
+      emptyMessage: t("please enter product weight")
+    },
+    weight_unit: {
+      value: "kg",
+      validationField: "productInfoWeightUnit",
+      emptyMessage: t("please select product weight unit")
+    },
+    is_publish: {
+      value: false,
+      validationField: "productInfoIsPublish",
+      emptyMessage: t("please select product is publish")
+    },
+    uploadedImages: {
+      value: [],
+      validationField: "productInfoImages",
+      emptyMessage: t("please upload at least 1 product image")
+    }
+  });
+
   let productInfoFields = [
     {
       field: "title",
@@ -289,9 +362,11 @@ export default function ModalCreateEditProduct(props: IProps) {
     "product shipping"
   ]);
 
-  const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true );
+  const [isDataLoaded, setIsDataLoaded] = useState<boolean>(true);
   const [activeStep, setActiveStep] = useState<number>(0);
   const [isCloseDialogOpen, setIsCloseDialogOpen] = useState<boolean>(false);
+
+
   const [productInfo, setProductInfo] = useState<any>({
     ...FormUtil.generateFieldsState(productInfoFields),
     uploadingImageCount: 0
@@ -918,7 +993,8 @@ export default function ModalCreateEditProduct(props: IProps) {
   async function createProduct() {
     if (
       (await checkSectionInfoField()) &&
-      (await checkSectionTypeField())
+      (await checkSectionTypeField()) &&
+      (await checkSectionShippingField())
     ) {
       createProductMutation({
         variables: {
@@ -974,7 +1050,8 @@ export default function ModalCreateEditProduct(props: IProps) {
   async function editProduct() {
     if (
       (await checkSectionInfoField()) &&
-      (await checkSectionTypeField())
+      (await checkSectionTypeField()) &&
+      (await checkSectionShippingField())
     ) {
       editProductMutation({
         variables: {
@@ -1070,36 +1147,15 @@ export default function ModalCreateEditProduct(props: IProps) {
 
   return (
     <>
-      <Dialog
-        maxWidth="sm"
-        open={isCloseDialogOpen}
-        onClose={handleCancelCloseDialog}
-      >
-        <DialogTitle>
-          {productId
-            ? t("cancel edit product")
-            : t("cancel add product")}
-        </DialogTitle>
-        <DialogContent>
-          {productId
-            ? t("are you sure cancel edit product?")
-            : t("are you sure cancel add product?")}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleCancelCloseDialog}
-            color="primary"
-          >
-            {t("cancel")}
-          </Button>
-          <Button
-            onClick={handleOkCloseDialog}
-            color="primary"
-          >
-            {t("ok")}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogConfirm open={isCloseDialogOpen}
+                     onClose={handleCancelCloseDialog}
+                     title={productId
+                       ? t("cancel edit product")
+                       : t("cancel add product")}
+                     content={productId
+                       ? t("are you sure cancel edit product?")
+                       : t("are you sure cancel add product?")}
+                     onConfirm={handleOkCloseDialog}/>
       <Modal
         disableAutoFocus
         open={isOpen}
@@ -2360,56 +2416,20 @@ export default function ModalCreateEditProduct(props: IProps) {
 
                     <Grid item>
                       {context.permission.includes("CREATE_PRODUCT") && !productId && (
-                        <>
-                          {isCreatingProductMutation ?
-                            <Button
-                              disabled
-                              variant="contained"
-                              color="primary"
-                            >
-                              {t("creating...")}
-                            </Button>
-                            :
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={async () => {
-                                if (
-                                  await checkSectionShippingField()
-                                )
-                                  createProduct();
-                              }}
-                            >
-                              {t("create product")}
-                            </Button>
-                          }
-                        </>
+                          <ButtonSubmit onClick={createProduct}
+                                        variant="contained"
+                                        color="primary"
+                                        loading={isCreatingProductMutation}
+                                        loadingLabel={t("creating...")}
+                                        label={t("create product")}/>
                       )}
                       {context.permission.includes("UPDATE_PRODUCT") && productId && (
-                        <>
-                          {isEditingProductMutation ?
-                            <Button
-                              disabled
-                              variant="contained"
-                              color="primary"
-                            >
-                              {t("editing...")}
-                            </Button>
-                            :
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={async () => {
-                                if (
-                                  await checkSectionShippingField()
-                                )
-                                  editProduct();
-                              }}
-                            >
-                              {t("edit product")}
-                            </Button>
-                          }
-                        </>
+                          <ButtonSubmit onClick={editProduct}
+                                        variant="contained"
+                                        color="primary"
+                                        loading={isEditingProductMutation}
+                                        loadingLabel={t("editing...")}
+                                        label={t("edit product")}/>
                       )}
                     </Grid>
                   </Grid>

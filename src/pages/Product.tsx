@@ -81,7 +81,7 @@ export default function Product() {
     createEditProduct: boolean,
     createEditShopProductCategory: boolean
   }>({
-    createEditProduct: false,
+    createEditProduct: true,
     createEditShopProductCategory: false
   });
   const [editingProduct, setEditingProduct] = useState<IProductFragmentProduct | undefined>(undefined);
