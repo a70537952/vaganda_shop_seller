@@ -270,75 +270,92 @@ export default function ModalCreateEditShopAdminRole(props: IProps) {
             </Grid>
             <Grid item container justify={"center"} xs={12}>
               <Grid container item spacing={1} xs={11}>
-                {shopAdminRolePermissions.map(shopAdminRolePermission => {
-                  let section = shopAdminRolePermission.permissionSection;
-                  let sectionPermissions = shopAdminRolePermission.permission;
-                  return (
-                    <React.Fragment key={section}>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="subtitle1"
-                          display="inline"
-                        >
-                          {t("permission$$" + section)}
-                        </Typography>
-                        <Checkbox
-                          disabled={value.is_shop_owner_role || disable.permission}
-                          checked={
-                            new Set(
-                              Array.from(value.permission)
-                                .filter((permission) =>
-                                  sectionPermissions.includes(permission as string)
-                                )
-                            ).size === sectionPermissions.length
-                          }
-                          onChange={(event, checked) => {
-                            let newPermissions;
-                            if (checked) {
-                              newPermissions = [
-                                ...Array.from(value.permission),
-                                ...sectionPermissions
-                              ];
-                            } else {
-                              newPermissions = Array.from(value.permission).filter(
-                                (permission) =>
-                                  !sectionPermissions.includes(permission as string)
-                              );
-                            }
-                            setValue("permission", new Set(newPermissions));
-                          }}
-                          color="primary"
-                        />
-                      </Grid>
-                      {sectionPermissions.map(
-                        (permission) => (
-                          <Grid
-                            item
-                            xs={6}
-                            sm={4}
-                            md={3}
-                            key={permission}
+                {loading ?
+                  <React.Fragment>
+                    {new Array(4).fill(6).map((ele, index) => {
+                      return (
+                        <Grid key={index} item xs={12}>
+                          <Skeleton
+                            variant={"rect"}
+                            height={50}
+                          />
+                        </Grid>
+                      );
+                    })}
+                  </React.Fragment>
+                :
+                <>
+                  {shopAdminRolePermissions.map(shopAdminRolePermission => {
+                    let section = shopAdminRolePermission.permissionSection;
+                    let sectionPermissions = shopAdminRolePermission.permission;
+                    return (
+                      <React.Fragment key={section}>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="subtitle1"
+                            display="inline"
                           >
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disabled={value.is_shop_owner_role || disable.permission}
-                                  checked={value.permission.has(permission)}
-                                  onChange={() => handlePermissionOnChange(permission)}
-                                  value={permission}
-                                  color="primary"
-                                />
+                            {t("permission$$" + section)}
+                          </Typography>
+                          <Checkbox
+                            disabled={value.is_shop_owner_role || disable.permission}
+                            checked={
+                              new Set(
+                                Array.from(value.permission)
+                                  .filter((permission) =>
+                                    sectionPermissions.includes(permission as string)
+                                  )
+                              ).size === sectionPermissions.length
+                            }
+                            onChange={(event, checked) => {
+                              let newPermissions;
+                              if (checked) {
+                                newPermissions = [
+                                  ...Array.from(value.permission),
+                                  ...sectionPermissions
+                                ];
+                              } else {
+                                newPermissions = Array.from(value.permission).filter(
+                                  (permission) =>
+                                    !sectionPermissions.includes(permission as string)
+                                );
                               }
-                              label={t(
-                                "permission$$" + permission
-                              )}
-                            />
-                          </Grid>
-                        )
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+                              setValue("permission", new Set(newPermissions));
+                            }}
+                            color="primary"
+                          />
+                        </Grid>
+                        {sectionPermissions.map(
+                          (permission) => (
+                            <Grid
+                              item
+                              xs={6}
+                              sm={4}
+                              md={3}
+                              key={permission}
+                            >
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    disabled={value.is_shop_owner_role || disable.permission}
+                                    checked={value.permission.has(permission)}
+                                    onChange={() => handlePermissionOnChange(permission)}
+                                    value={permission}
+                                    color="primary"
+                                  />
+                                }
+                                label={t(
+                                  "permission$$" + permission
+                                )}
+                              />
+                            </Grid>
+                          )
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </>
+                }
               </Grid>
             </Grid>
             <Grid
