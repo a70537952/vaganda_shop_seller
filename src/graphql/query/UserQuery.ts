@@ -60,8 +60,8 @@ export function useUserQuery<TData = any>(fragment: DocumentNode, options?: Quer
 
 export function userQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query User(
-    
+    query User
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -100,10 +100,10 @@ $where_like_ip: String,
 $where_like_last_login_at: String,
 $where_like_email_verified_at: String,
 $where_like_remember_token: String,
-$except_self: Boolean,
-    ) {
-        user(
-        
+$except_self: Boolean,)
+     {
+        user
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -142,8 +142,8 @@ where_like_ip: $where_like_ip,
 where_like_last_login_at: $where_like_last_login_at,
 where_like_email_verified_at: $where_like_email_verified_at,
 where_like_remember_token: $where_like_remember_token,
-except_self: $except_self,
-        ){
+except_self: $except_self,)
+        {
             items {
                 ...fragment
            }

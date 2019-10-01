@@ -102,8 +102,8 @@ export function useProductQuery<TData = any>(fragment: DocumentNode, options?: Q
 
 export function productQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query Product(
-    
+    query Product
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -184,10 +184,10 @@ $where_not_is_publish: String,
 $where_not_product_rating: String,
 $sort_price: String,
 $where_like_product_category: String,
-$where_shop_product_category_id: String,
-    ) {
-        product(
-        
+$where_shop_product_category_id: String,)
+     {
+        product
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -268,8 +268,8 @@ where_not_is_publish: $where_not_is_publish,
 where_not_product_rating: $where_not_product_rating,
 sort_price: $sort_price,
 where_like_product_category: $where_like_product_category,
-where_shop_product_category_id: $where_shop_product_category_id,
-        ){
+where_shop_product_category_id: $where_shop_product_category_id,)
+        {
             items {
                 ...fragment
            }

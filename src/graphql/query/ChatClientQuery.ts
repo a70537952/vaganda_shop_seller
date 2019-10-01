@@ -55,8 +55,8 @@ export function useChatClientQuery<TData = any>(fragment: DocumentNode, options?
 
 export function chatClientQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ChatClient(
-    
+    query ChatClient
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -90,10 +90,10 @@ $where_not_chat_id: String,
 $where_not_client_type: String,
 $where_not_client_id: String,
 $where_not_is_open_chat: String,
-$where_not_is_read: String,
-    ) {
-        chatClient(
-        
+$where_not_is_read: String,)
+     {
+        chatClient
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -127,8 +127,8 @@ where_not_chat_id: $where_not_chat_id,
 where_not_client_type: $where_not_client_type,
 where_not_client_id: $where_not_client_id,
 where_not_is_open_chat: $where_not_is_open_chat,
-where_not_is_read: $where_not_is_read,
-        ){
+where_not_is_read: $where_not_is_read,)
+        {
             items {
                 ...fragment
            }

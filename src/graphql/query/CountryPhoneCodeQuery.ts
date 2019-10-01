@@ -39,8 +39,8 @@ export function useCountryPhoneCodeQuery<TData = any>(fragment: DocumentNode, op
 
 export function countryPhoneCodeQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query CountryPhoneCode(
-    
+    query CountryPhoneCode
+    (
 $created_at: String,
 $updated_at: String,
 $id: ID,
@@ -58,10 +58,10 @@ $where_like_updated_at: String,
 $where_like_id: String,
 $where_like_name: String,
 $where_like_country_code: String,
-$where_like_phone_code: String,
-    ) {
-        countryPhoneCode(
-        
+$where_like_phone_code: String,)
+     {
+        countryPhoneCode
+        (
 created_at: $created_at,
 updated_at: $updated_at,
 id: $id,
@@ -79,8 +79,8 @@ where_like_updated_at: $where_like_updated_at,
 where_like_id: $where_like_id,
 where_like_name: $where_like_name,
 where_like_country_code: $where_like_country_code,
-where_like_phone_code: $where_like_phone_code,
-        ){
+where_like_phone_code: $where_like_phone_code,)
+        {
             ...fragment
         }
     }

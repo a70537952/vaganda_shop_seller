@@ -45,8 +45,8 @@ export function useProductCategoryQuery<TData = any>(fragment: DocumentNode, opt
 
 export function productCategoryQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ProductCategory(
-    
+    query ProductCategory
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -70,10 +70,10 @@ $where_like_title: String,
 $where_like_parent_category_id: String,
 $where_like_image: String,
 $where_like_extra_option: String,
-$parent_category_id_is_null: Boolean,
-    ) {
-        productCategory(
-        
+$parent_category_id_is_null: Boolean,)
+     {
+        productCategory
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -97,8 +97,8 @@ where_like_title: $where_like_title,
 where_like_parent_category_id: $where_like_parent_category_id,
 where_like_image: $where_like_image,
 where_like_extra_option: $where_like_extra_option,
-parent_category_id_is_null: $parent_category_id_is_null,
-        ){
+parent_category_id_is_null: $parent_category_id_is_null,)
+        {
             items {
                 ...fragment
            }

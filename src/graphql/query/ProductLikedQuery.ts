@@ -43,8 +43,8 @@ export function useProductLikedQuery<TData = any>(fragment: DocumentNode, option
 
 export function productLikedQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ProductLiked(
-    
+    query ProductLiked
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -66,10 +66,10 @@ $where_not_created_at: String,
 $where_not_updated_at: String,
 $where_not_id: String,
 $where_not_product_id: String,
-$where_not_user_id: String,
-    ) {
-        productLiked(
-        
+$where_not_user_id: String,)
+     {
+        productLiked
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -91,8 +91,8 @@ where_not_created_at: $where_not_created_at,
 where_not_updated_at: $where_not_updated_at,
 where_not_id: $where_not_id,
 where_not_product_id: $where_not_product_id,
-where_not_user_id: $where_not_user_id,
-        ){
+where_not_user_id: $where_not_user_id,)
+        {
             items {
                 ...fragment
            }

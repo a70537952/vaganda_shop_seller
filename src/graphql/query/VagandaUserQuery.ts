@@ -53,8 +53,8 @@ export function useVagandaUserQuery<TData = any>(fragment: DocumentNode, options
 
 export function vagandaUserQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query VagandaUser(
-    
+    query VagandaUser
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -86,10 +86,10 @@ $where_like_vaganda_user_gender: String,
 $where_like_vaganda_user_id: String,
 $where_like_vaganda_email: String,
 $where_like_vaganda_access_token: String,
-$where_like_vaganda_refresh_token: String,
-    ) {
-        vagandaUser(
-        
+$where_like_vaganda_refresh_token: String,)
+     {
+        vagandaUser
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -121,8 +121,8 @@ where_like_vaganda_user_gender: $where_like_vaganda_user_gender,
 where_like_vaganda_user_id: $where_like_vaganda_user_id,
 where_like_vaganda_email: $where_like_vaganda_email,
 where_like_vaganda_access_token: $where_like_vaganda_access_token,
-where_like_vaganda_refresh_token: $where_like_vaganda_refresh_token,
-        ){
+where_like_vaganda_refresh_token: $where_like_vaganda_refresh_token,)
+        {
             items {
                 ...fragment
            }

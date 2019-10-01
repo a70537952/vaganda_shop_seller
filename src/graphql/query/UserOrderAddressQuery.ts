@@ -71,8 +71,8 @@ export function useUserOrderAddressQuery<TData = any>(fragment: DocumentNode, op
 
 export function userOrderAddressQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query UserOrderAddress(
-    
+    query UserOrderAddress
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -122,10 +122,10 @@ $where_not_address_3: String,
 $where_not_city: String,
 $where_not_state: String,
 $where_not_postal_code: String,
-$where_not_country: String,
-    ) {
-        userOrderAddress(
-        
+$where_not_country: String,)
+     {
+        userOrderAddress
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -175,8 +175,8 @@ where_not_address_3: $where_not_address_3,
 where_not_city: $where_not_city,
 where_not_state: $where_not_state,
 where_not_postal_code: $where_not_postal_code,
-where_not_country: $where_not_country,
-        ){
+where_not_country: $where_not_country,)
+        {
             items {
                 ...fragment
            }

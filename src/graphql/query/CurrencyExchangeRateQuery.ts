@@ -59,8 +59,8 @@ export function useCurrencyExchangeRateQuery<TData = any>(fragment: DocumentNode
 
 export function currencyExchangeRateQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query CurrencyExchangeRate(
-    
+    query CurrencyExchangeRate
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -98,10 +98,10 @@ $where_not_base: String,
 $where_not_target: String,
 $where_not_rate: String,
 $where_not_source: String,
-$where_in_target: [String],
-    ) {
-        currencyExchangeRate(
-        
+$where_in_target: [String],)
+     {
+        currencyExchangeRate
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -139,8 +139,8 @@ where_not_base: $where_not_base,
 where_not_target: $where_not_target,
 where_not_rate: $where_not_rate,
 where_not_source: $where_not_source,
-where_in_target: $where_in_target,
-        ){
+where_in_target: $where_in_target,)
+        {
             items {
                 ...fragment
            }

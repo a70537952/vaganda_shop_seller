@@ -47,8 +47,8 @@ export function useUserCartQuery<TData = any>(fragment: DocumentNode, options?: 
 
 export function userCartQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query UserCart(
-    
+    query UserCart
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -74,10 +74,10 @@ $where_not_updated_at: String,
 $where_not_id: String,
 $where_not_user_id: String,
 $where_not_product_type_id: String,
-$where_not_quantity: String,
-    ) {
-        userCart(
-        
+$where_not_quantity: String,)
+     {
+        userCart
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -103,8 +103,8 @@ where_not_updated_at: $where_not_updated_at,
 where_not_id: $where_not_id,
 where_not_user_id: $where_not_user_id,
 where_not_product_type_id: $where_not_product_type_id,
-where_not_quantity: $where_not_quantity,
-        ){
+where_not_quantity: $where_not_quantity,)
+        {
             items {
                 ...fragment
            }

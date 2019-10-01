@@ -71,8 +71,8 @@ export function useUserOrderQuery<TData = any>(fragment: DocumentNode, options?:
 
 export function userOrderQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query UserOrder(
-    
+    query UserOrder
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -122,10 +122,10 @@ $where_not_user_email: String,
 $where_not_user_contact_number: String,
 $where_not_order_paid_currency: String,
 $where_not_order_paid_price: String,
-$where_not_order_status: String,
-    ) {
-        userOrder(
-        
+$where_not_order_status: String,)
+     {
+        userOrder
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -175,8 +175,8 @@ where_not_user_email: $where_not_user_email,
 where_not_user_contact_number: $where_not_user_contact_number,
 where_not_order_paid_currency: $where_not_order_paid_currency,
 where_not_order_paid_price: $where_not_order_paid_price,
-where_not_order_status: $where_not_order_status,
-        ){
+where_not_order_status: $where_not_order_status,)
+        {
             items {
                 ...fragment
            }

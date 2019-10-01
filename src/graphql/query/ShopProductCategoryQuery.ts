@@ -39,8 +39,8 @@ export function useShopProductCategoryQuery<TData = any>(fragment: DocumentNode,
 
 export function shopProductCategoryQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopProductCategory(
-    
+    query ShopProductCategory
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -58,10 +58,10 @@ $where_like_updated_at: String,
 $where_like_id: String,
 $where_like_shop_id: String,
 $where_like_title: String,
-$sort_product_count: String,
-    ) {
-        shopProductCategory(
-        
+$sort_product_count: String,)
+     {
+        shopProductCategory
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -79,8 +79,8 @@ where_like_updated_at: $where_like_updated_at,
 where_like_id: $where_like_id,
 where_like_shop_id: $where_like_shop_id,
 where_like_title: $where_like_title,
-sort_product_count: $sort_product_count,
-        ){
+sort_product_count: $sort_product_count,)
+        {
             items {
                 ...fragment
            }

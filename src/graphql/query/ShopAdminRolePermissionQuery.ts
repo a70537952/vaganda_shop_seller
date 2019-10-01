@@ -20,12 +20,12 @@ export function useShopAdminRolePermissionQuery<TData = any>(fragment: DocumentN
 
 export function shopAdminRolePermissionQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopAdminRolePermission(
+    query ShopAdminRolePermission
     
-    ) {
-        shopAdminRolePermission(
+     {
+        shopAdminRolePermission
         
-        ){
+        {
             ...fragment
         }
     }

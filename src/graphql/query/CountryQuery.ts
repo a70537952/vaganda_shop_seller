@@ -33,8 +33,8 @@ export function useCountryQuery<TData = any>(fragment: DocumentNode, options?: Q
 
 export function countryQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query Country(
-    
+    query Country
+    (
 $created_at: String,
 $updated_at: String,
 $id: ID,
@@ -46,10 +46,10 @@ $sort_name: String,
 $where_like_created_at: String,
 $where_like_updated_at: String,
 $where_like_id: String,
-$where_like_name: String,
-    ) {
-        country(
-        
+$where_like_name: String,)
+     {
+        country
+        (
 created_at: $created_at,
 updated_at: $updated_at,
 id: $id,
@@ -61,8 +61,8 @@ sort_name: $sort_name,
 where_like_created_at: $where_like_created_at,
 where_like_updated_at: $where_like_updated_at,
 where_like_id: $where_like_id,
-where_like_name: $where_like_name,
-        ){
+where_like_name: $where_like_name,)
+        {
             ...fragment
         }
     }

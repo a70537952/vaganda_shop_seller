@@ -76,6 +76,7 @@ export default function ReactTable(props: any) {
       Header: () => (
         <Checkbox
           color="primary"
+          indeterminate={selected.size > 0 && selected.size < data.length}
           checked={
             data.length !== 0 && selected.size === data.length
           }

@@ -44,8 +44,8 @@ export function useShopQuery<TData = any>(fragment: DocumentNode, options?: Quer
 
 export function shopQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query Shop(
-    
+    query Shop
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -68,10 +68,10 @@ $where_like_id: String,
 $where_like_user_id: String,
 $where_like_shop_category_id: String,
 $where_like_name: String,
-$where_like_has_physical_shop: String,
-    ) {
-        shop(
-        
+$where_like_has_physical_shop: String,)
+     {
+        shop
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -94,8 +94,8 @@ where_like_id: $where_like_id,
 where_like_user_id: $where_like_user_id,
 where_like_shop_category_id: $where_like_shop_category_id,
 where_like_name: $where_like_name,
-where_like_has_physical_shop: $where_like_has_physical_shop,
-        ){
+where_like_has_physical_shop: $where_like_has_physical_shop,)
+        {
             items {
                 ...fragment
            }

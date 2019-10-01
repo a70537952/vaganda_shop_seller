@@ -44,8 +44,8 @@ export function useShopInfoQuery<TData = any>(fragment: DocumentNode, options?: 
 
 export function shopInfoQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopInfo(
-    
+    query ShopInfo
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -68,10 +68,10 @@ $where_like_id: String,
 $where_like_shop_id: String,
 $where_like_summary: String,
 $where_like_logo: String,
-$where_like_banner: String,
-    ) {
-        shopInfo(
-        
+$where_like_banner: String,)
+     {
+        shopInfo
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -94,8 +94,8 @@ where_like_id: $where_like_id,
 where_like_shop_id: $where_like_shop_id,
 where_like_summary: $where_like_summary,
 where_like_logo: $where_like_logo,
-where_like_banner: $where_like_banner,
-        ){
+where_like_banner: $where_like_banner,)
+        {
             items {
                 ...fragment
            }

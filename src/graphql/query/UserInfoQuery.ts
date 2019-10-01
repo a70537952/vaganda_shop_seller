@@ -47,8 +47,8 @@ export function useUserInfoQuery<TData = any>(fragment: DocumentNode, options?: 
 
 export function userInfoQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query UserInfo(
-    
+    query UserInfo
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -74,10 +74,10 @@ $where_like_avatar: String,
 $where_like_cover: String,
 $except_self: Boolean,
 $has_avatar: Boolean,
-$has_cover: Boolean,
-    ) {
-        userInfo(
-        
+$has_cover: Boolean,)
+     {
+        userInfo
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -103,8 +103,8 @@ where_like_avatar: $where_like_avatar,
 where_like_cover: $where_like_cover,
 except_self: $except_self,
 has_avatar: $has_avatar,
-has_cover: $has_cover,
-        ){
+has_cover: $has_cover,)
+        {
             items {
                 ...fragment
            }

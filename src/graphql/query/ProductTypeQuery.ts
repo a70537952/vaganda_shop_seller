@@ -53,8 +53,8 @@ export function useProductTypeQuery<TData = any>(fragment: DocumentNode, options
 
 export function productTypeQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ProductType(
-    
+    query ProductType
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -86,10 +86,10 @@ $where_like_quantity: String,
 $where_like_price: String,
 $where_like_currency: String,
 $where_like_discount: String,
-$where_like_discount_unit: String,
-    ) {
-        productType(
-        
+$where_like_discount_unit: String,)
+     {
+        productType
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -121,8 +121,8 @@ where_like_quantity: $where_like_quantity,
 where_like_price: $where_like_price,
 where_like_currency: $where_like_currency,
 where_like_discount: $where_like_discount,
-where_like_discount_unit: $where_like_discount_unit,
-        ){
+where_like_discount_unit: $where_like_discount_unit,)
+        {
             items {
                 ...fragment
            }

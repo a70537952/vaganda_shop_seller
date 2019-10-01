@@ -59,8 +59,8 @@ export function useUserOrderDetailCommentImageQuery<TData = any>(fragment: Docum
 
 export function userOrderDetailCommentImageQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query UserOrderDetailCommentImage(
-    
+    query UserOrderDetailCommentImage
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -98,10 +98,10 @@ $where_not_path: String,
 $where_not_extension: String,
 $where_not_mime_type: String,
 $where_not_width: String,
-$where_not_height: String,
-    ) {
-        userOrderDetailCommentImage(
-        
+$where_not_height: String,)
+     {
+        userOrderDetailCommentImage
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -139,8 +139,8 @@ where_not_path: $where_not_path,
 where_not_extension: $where_not_extension,
 where_not_mime_type: $where_not_mime_type,
 where_not_width: $where_not_width,
-where_not_height: $where_not_height,
-        ){
+where_not_height: $where_not_height,)
+        {
             items {
                 ...fragment
            }

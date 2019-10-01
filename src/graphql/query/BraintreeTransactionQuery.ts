@@ -67,8 +67,8 @@ export function useBraintreeTransactionQuery<TData = any>(fragment: DocumentNode
 
 export function braintreeTransactionQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query BraintreeTransaction(
-    
+    query BraintreeTransaction
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -114,10 +114,10 @@ $where_not_braintree_status: String,
 $where_not_currency: String,
 $where_not_amount: String,
 $where_not_status: String,
-$where_not_error: String,
-    ) {
-        braintreeTransaction(
-        
+$where_not_error: String,)
+     {
+        braintreeTransaction
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -163,8 +163,8 @@ where_not_braintree_status: $where_not_braintree_status,
 where_not_currency: $where_not_currency,
 where_not_amount: $where_not_amount,
 where_not_status: $where_not_status,
-where_not_error: $where_not_error,
-        ){
+where_not_error: $where_not_error,)
+        {
             items {
                 ...fragment
            }

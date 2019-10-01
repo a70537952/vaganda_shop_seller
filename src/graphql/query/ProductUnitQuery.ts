@@ -33,8 +33,8 @@ export function useProductUnitQuery<TData = any>(fragment: DocumentNode, options
 
 export function productUnitQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ProductUnit(
-    
+    query ProductUnit
+    (
 $created_at: String,
 $updated_at: String,
 $id: ID,
@@ -46,10 +46,10 @@ $sort_unit_name: String,
 $where_like_created_at: String,
 $where_like_updated_at: String,
 $where_like_id: String,
-$where_like_unit_name: String,
-    ) {
-        productUnit(
-        
+$where_like_unit_name: String,)
+     {
+        productUnit
+        (
 created_at: $created_at,
 updated_at: $updated_at,
 id: $id,
@@ -61,8 +61,8 @@ sort_unit_name: $sort_unit_name,
 where_like_created_at: $where_like_created_at,
 where_like_updated_at: $where_like_updated_at,
 where_like_id: $where_like_id,
-where_like_unit_name: $where_like_unit_name,
-        ){
+where_like_unit_name: $where_like_unit_name,)
+        {
             ...fragment
         }
     }

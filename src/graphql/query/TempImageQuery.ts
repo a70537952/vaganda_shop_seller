@@ -48,8 +48,8 @@ export function useTempImageQuery<TData = any>(fragment: DocumentNode, options?:
 
 export function tempImageQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query TempImage(
-    
+    query TempImage
+    (
 $created_at: String,
 $updated_at: String,
 $id: ID,
@@ -76,10 +76,10 @@ $where_like_path: String,
 $where_like_extension: String,
 $where_like_mime_type: String,
 $where_like_width: String,
-$where_like_height: String,
-    ) {
-        tempImage(
-        
+$where_like_height: String,)
+     {
+        tempImage
+        (
 created_at: $created_at,
 updated_at: $updated_at,
 id: $id,
@@ -106,8 +106,8 @@ where_like_path: $where_like_path,
 where_like_extension: $where_like_extension,
 where_like_mime_type: $where_like_mime_type,
 where_like_width: $where_like_width,
-where_like_height: $where_like_height,
-        ){
+where_like_height: $where_like_height,)
+        {
             ...fragment
         }
     }

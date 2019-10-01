@@ -56,8 +56,8 @@ export function useShopContactInfoQuery<TData = any>(fragment: DocumentNode, opt
 
 export function shopContactInfoQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopContactInfo(
-    
+    query ShopContactInfo
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -92,10 +92,10 @@ $where_like_telephone_country_code: String,
 $where_like_telephone: String,
 $where_like_phone_country_code: String,
 $where_like_phone: String,
-$where_like_is_phone_verified: String,
-    ) {
-        shopContactInfo(
-        
+$where_like_is_phone_verified: String,)
+     {
+        shopContactInfo
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -130,8 +130,8 @@ where_like_telephone_country_code: $where_like_telephone_country_code,
 where_like_telephone: $where_like_telephone,
 where_like_phone_country_code: $where_like_phone_country_code,
 where_like_phone: $where_like_phone,
-where_like_is_phone_verified: $where_like_is_phone_verified,
-        ){
+where_like_is_phone_verified: $where_like_is_phone_verified,)
+        {
             items {
                 ...fragment
            }

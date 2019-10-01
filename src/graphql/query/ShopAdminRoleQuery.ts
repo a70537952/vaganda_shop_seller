@@ -44,8 +44,8 @@ export function useShopAdminRoleQuery<TData = any>(fragment: DocumentNode, optio
 
 export function shopAdminRoleQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopAdminRole(
-    
+    query ShopAdminRole
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -68,10 +68,10 @@ $where_like_id: String,
 $where_like_shop_id: String,
 $where_like_title: String,
 $where_like_permission: String,
-$where_like_is_shop_owner_role: String,
-    ) {
-        shopAdminRole(
-        
+$where_like_is_shop_owner_role: String,)
+     {
+        shopAdminRole
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -94,8 +94,8 @@ where_like_id: $where_like_id,
 where_like_shop_id: $where_like_shop_id,
 where_like_title: $where_like_title,
 where_like_permission: $where_like_permission,
-where_like_is_shop_owner_role: $where_like_is_shop_owner_role,
-        ){
+where_like_is_shop_owner_role: $where_like_is_shop_owner_role,)
+        {
             items {
                 ...fragment
            }

@@ -38,8 +38,8 @@ export function usePasswordResetQuery<TData = any>(fragment: DocumentNode, optio
 
 export function passwordResetQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query PasswordReset(
-    
+    query PasswordReset
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -56,10 +56,10 @@ $where_like_created_at: String,
 $where_like_updated_at: String,
 $where_like_id: String,
 $where_like_email: String,
-$where_like_token: String,
-    ) {
-        passwordReset(
-        
+$where_like_token: String,)
+     {
+        passwordReset
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -76,8 +76,8 @@ where_like_created_at: $where_like_created_at,
 where_like_updated_at: $where_like_updated_at,
 where_like_id: $where_like_id,
 where_like_email: $where_like_email,
-where_like_token: $where_like_token,
-        ){
+where_like_token: $where_like_token,)
+        {
             items {
                 ...fragment
            }

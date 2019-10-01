@@ -183,8 +183,8 @@ export function useUserOrderDetailQuery<TData = any>(fragment: DocumentNode, opt
 
 export function userOrderDetailQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query UserOrderDetail(
-    
+    query UserOrderDetail
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -346,10 +346,10 @@ $where_not_remark: String,
 $where_not_is_commented: String,
 $where_not_auto_received_at: String,
 $where_not_shipped_at: String,
-$where_not_received_at: String,
-    ) {
-        userOrderDetail(
-        
+$where_not_received_at: String,)
+     {
+        userOrderDetail
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -511,8 +511,8 @@ where_not_remark: $where_not_remark,
 where_not_is_commented: $where_not_is_commented,
 where_not_auto_received_at: $where_not_auto_received_at,
 where_not_shipped_at: $where_not_shipped_at,
-where_not_received_at: $where_not_received_at,
-        ){
+where_not_received_at: $where_not_received_at,)
+        {
             items {
                 ...fragment
            }

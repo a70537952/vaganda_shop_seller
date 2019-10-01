@@ -59,8 +59,8 @@ export function useProductShippingQuery<TData = any>(fragment: DocumentNode, opt
 
 export function productShippingQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ProductShipping(
-    
+    query ProductShipping
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -98,10 +98,10 @@ $where_not_shipping_method: String,
 $where_not_shipping_currency: String,
 $where_not_shipping_fee: String,
 $where_not_shipping_country: String,
-$where_not_is_disabled: String,
-    ) {
-        productShipping(
-        
+$where_not_is_disabled: String,)
+     {
+        productShipping
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -139,8 +139,8 @@ where_not_shipping_method: $where_not_shipping_method,
 where_not_shipping_currency: $where_not_shipping_currency,
 where_not_shipping_fee: $where_not_shipping_fee,
 where_not_shipping_country: $where_not_shipping_country,
-where_not_is_disabled: $where_not_is_disabled,
-        ){
+where_not_is_disabled: $where_not_is_disabled,)
+        {
             items {
                 ...fragment
            }

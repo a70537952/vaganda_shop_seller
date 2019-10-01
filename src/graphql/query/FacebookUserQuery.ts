@@ -56,8 +56,8 @@ export function useFacebookUserQuery<TData = any>(fragment: DocumentNode, option
 
 export function facebookUserQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query FacebookUser(
-    
+    query FacebookUser
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -92,10 +92,10 @@ $where_like_facebook_user_id: String,
 $where_like_facebook_profile_link: String,
 $where_like_facebook_email: String,
 $where_like_facebook_short_access_token: String,
-$where_like_facebook_user_avatar: String,
-    ) {
-        facebookUser(
-        
+$where_like_facebook_user_avatar: String,)
+     {
+        facebookUser
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -130,8 +130,8 @@ where_like_facebook_user_id: $where_like_facebook_user_id,
 where_like_facebook_profile_link: $where_like_facebook_profile_link,
 where_like_facebook_email: $where_like_facebook_email,
 where_like_facebook_short_access_token: $where_like_facebook_short_access_token,
-where_like_facebook_user_avatar: $where_like_facebook_user_avatar,
-        ){
+where_like_facebook_user_avatar: $where_like_facebook_user_avatar,)
+        {
             items {
                 ...fragment
            }

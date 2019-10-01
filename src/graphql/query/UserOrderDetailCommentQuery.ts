@@ -60,8 +60,8 @@ export function useUserOrderDetailCommentQuery<TData = any>(fragment: DocumentNo
 
 export function userOrderDetailCommentQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query UserOrderDetailComment(
-    
+    query UserOrderDetailComment
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -100,10 +100,10 @@ $where_not_shop_id: String,
 $where_not_product_id: String,
 $where_not_comment: String,
 $where_not_star: String,
-$withImage: Boolean,
-    ) {
-        userOrderDetailComment(
-        
+$withImage: Boolean,)
+     {
+        userOrderDetailComment
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -142,8 +142,8 @@ where_not_shop_id: $where_not_shop_id,
 where_not_product_id: $where_not_product_id,
 where_not_comment: $where_not_comment,
 where_not_star: $where_not_star,
-withImage: $withImage,
-        ){
+withImage: $withImage,)
+        {
             items {
                 ...fragment
            }

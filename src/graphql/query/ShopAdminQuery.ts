@@ -43,8 +43,8 @@ export function useShopAdminQuery<TData = any>(fragment: DocumentNode, options?:
 
 export function shopAdminQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopAdmin(
-    
+    query ShopAdmin
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -66,10 +66,10 @@ $where_like_shop_id: String,
 $where_like_user_id: String,
 $where_like_shop_admin_role_id: String,
 $where_like_userName: String,
-$where_like_shop_admin_roleTitle: String,
-    ) {
-        shopAdmin(
-        
+$where_like_shop_admin_roleTitle: String,)
+     {
+        shopAdmin
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -91,8 +91,8 @@ where_like_shop_id: $where_like_shop_id,
 where_like_user_id: $where_like_user_id,
 where_like_shop_admin_role_id: $where_like_shop_admin_role_id,
 where_like_userName: $where_like_userName,
-where_like_shop_admin_roleTitle: $where_like_shop_admin_roleTitle,
-        ){
+where_like_shop_admin_roleTitle: $where_like_shop_admin_roleTitle,)
+        {
             items {
                 ...fragment
            }

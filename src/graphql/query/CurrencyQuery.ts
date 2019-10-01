@@ -39,8 +39,8 @@ export function useCurrencyQuery<TData = any>(fragment: DocumentNode, options?: 
 
 export function currencyQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query Currency(
-    
+    query Currency
+    (
 $created_at: String,
 $updated_at: String,
 $id: ID,
@@ -58,10 +58,10 @@ $where_like_updated_at: String,
 $where_like_id: String,
 $where_like_country: String,
 $where_like_currency: String,
-$where_like_iso: String,
-    ) {
-        currency(
-        
+$where_like_iso: String,)
+     {
+        currency
+        (
 created_at: $created_at,
 updated_at: $updated_at,
 id: $id,
@@ -79,8 +79,8 @@ where_like_updated_at: $where_like_updated_at,
 where_like_id: $where_like_id,
 where_like_country: $where_like_country,
 where_like_currency: $where_like_currency,
-where_like_iso: $where_like_iso,
-        ){
+where_like_iso: $where_like_iso,)
+        {
             ...fragment
         }
     }

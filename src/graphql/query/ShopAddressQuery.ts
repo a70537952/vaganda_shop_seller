@@ -62,8 +62,8 @@ export function useShopAddressQuery<TData = any>(fragment: DocumentNode, options
 
 export function shopAddressQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopAddress(
-    
+    query ShopAddress
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -104,10 +104,10 @@ $where_like_state: String,
 $where_like_postal_code: String,
 $where_like_country: String,
 $where_like_latitude: String,
-$where_like_longitude: String,
-    ) {
-        shopAddress(
-        
+$where_like_longitude: String,)
+     {
+        shopAddress
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -148,8 +148,8 @@ where_like_state: $where_like_state,
 where_like_postal_code: $where_like_postal_code,
 where_like_country: $where_like_country,
 where_like_latitude: $where_like_latitude,
-where_like_longitude: $where_like_longitude,
-        ){
+where_like_longitude: $where_like_longitude,)
+        {
             items {
                 ...fragment
            }

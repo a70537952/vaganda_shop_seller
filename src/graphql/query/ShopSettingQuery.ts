@@ -41,8 +41,8 @@ export function useShopSettingQuery<TData = any>(fragment: DocumentNode, options
 
 export function shopSettingQuery(fragment: DocumentNode): DocumentNode {
     return gql`
-    query ShopSetting(
-    
+    query ShopSetting
+    (
 $offset: Int,
 $limit: Int,
 $created_at: String,
@@ -62,10 +62,10 @@ $where_like_updated_at: String,
 $where_like_id: String,
 $where_like_shop_id: String,
 $where_like_title: String,
-$where_like_value: String,
-    ) {
-        shopSetting(
-        
+$where_like_value: String,)
+     {
+        shopSetting
+        (
 offset: $offset,
 limit: $limit,
 created_at: $created_at,
@@ -85,8 +85,8 @@ where_like_updated_at: $where_like_updated_at,
 where_like_id: $where_like_id,
 where_like_shop_id: $where_like_shop_id,
 where_like_title: $where_like_title,
-where_like_value: $where_like_value,
-        ){
+where_like_value: $where_like_value,)
+        {
             items {
                 ...fragment
            }
