@@ -11,3 +11,14 @@ export interface IUserFragmentIndex {
     avatar_large: string;
   }
 }
+
+export interface IUserFragmentModalCreateEditShopAdmin {
+  id: string;
+  username: string;
+  name: string;
+  user_info: {
+    id: string;
+    gender: string;
+    avatar: string;
+  }
+}

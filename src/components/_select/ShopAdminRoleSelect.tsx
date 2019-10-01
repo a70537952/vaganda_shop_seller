@@ -46,8 +46,8 @@ export default function ShopAdminRoleSelect(props: IProps) {
   });
 
   useEffect(() => {
-    onChange(value, shopAdminRoles.find((role: any) => role.id === value));
-  }, [value]);
+    onChange(value, shopAdminRoles.find((role) => role.id === value));
+  }, [value, loading]);
 
   let shopAdminRoles: IShopAdminRoleFragmentShopAdminRoleSelect[] = [];
 
@@ -70,12 +70,12 @@ export default function ShopAdminRoleSelect(props: IProps) {
       onChange={option => {
         onChange(
           option.value,
-          shopAdminRoles.find((role: any) => role.id === option.value)
+          shopAdminRoles.find((role) => role.id === option.value)
         );
       }}
       options={[
         ...[{ value: '', label: t('global$$none') }],
-        ...shopAdminRoles.map((shopAdminRole: any) => ({
+        ...shopAdminRoles.map((shopAdminRole) => ({
           value: shopAdminRole.id,
           label: shopAdminRole.title
         }))

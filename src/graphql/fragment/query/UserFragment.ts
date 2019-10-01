@@ -15,5 +15,17 @@ export let userFragments: any = {
         avatar_large
       }
     }
+  `,
+  ModalCreateEditShopAdmin: gql`
+    fragment fragment on User {
+      id
+      username
+      name
+      user_info {
+        id
+        gender
+        avatar
+      }
+    }
   `
 };
