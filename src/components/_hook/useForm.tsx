@@ -19,6 +19,21 @@ interface Fields {
   }
 }
 
+export interface UseForm {
+  disable: Record<FieldsKey, boolean>;
+  error: Record<FieldsKey, string>;
+  value: Record<FieldsKey, any>;
+  setError: (field: FieldsKey, newError: string) => void;
+  setValue: (field: FieldsKey, newValue: unknown) => void;
+  setDisable: (field: FieldsKey | '', newDisable?: boolean) => void;
+  validate: (field?: FieldsKey) => boolean;
+  isValid: boolean;
+  resetError: () => void;
+  resetValue: () => void;
+  checkApolloError: (error: ApolloError) => void;
+}
+
+type FieldsKey = keyof Fields;
 
 function useForm(fields: Fields) {
   const [error, setError] = useState<Record<keyof Fields , string>>({});
