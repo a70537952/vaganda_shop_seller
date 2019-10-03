@@ -21,7 +21,7 @@ import { useEditShopAdminRoleMutation } from "../../../graphql/mutation/shopAdmi
 import useForm from "../../_hook/useForm";
 import DialogConfirm from "../../_dialog/DialogConfirm";
 import ButtonSubmit from "../../ButtonSubmit";
-import { useShopAdminRolePermissionQuery } from "../../../graphql/query/ShopAdminRolePermissionQuery";
+import { useShopAdminRolePermissionQuery } from "../../../graphql/query/customQuery/ShopAdminRolePermissionQuery";
 import { shopAdminRolePermissionFragments } from "../../../graphql/fragment/query/ShopAdminRolePermissionFragment";
 import { IShopAdminRolePermissionFragmentDefaultFragment } from "../../../graphql/fragmentType/query/ShopAdminRolePermissionFragmentInterface";
 
@@ -80,9 +80,26 @@ export default function ModalCreateEditShopAdminRole(props: IProps) {
   const { data, loading } = useShopAdminRolePermissionQuery<IShopAdminRolePermissionFragmentDefaultFragment>(shopAdminRolePermissionFragments.DefaultFragment);
 
   let shopAdminRolePermissions: IShopAdminRolePermissionFragmentDefaultFragment[] = [];
+  let permissionSectionOrder = [
+    'SHOP_ORDER_DETAIL',
+    'SHOP_USER_ORDER_DETAIL_COMMENT',
+    'PRODUCT',
+    'SHOP_PRODUCT_CATEGORY',
+    'SHOP_PRODUCT_CATEGORY_PRODUCT',
+    'SHOP_ADMIN',
+    'SHOP_ADMIN_ROLE',
+    'SHOP_NOTIFICATION_SETTING',
+    'SHOP_SETTING'
+  ];
   if (data) {
     shopAdminRolePermissions = data.shopAdminRolePermission;
+
+    shopAdminRolePermissions.sort((a, b) => {
+      return permissionSectionOrder.indexOf(a.permissionSection) -
+        permissionSectionOrder.indexOf(b.permissionSection)
+    });
   }
+
   const [
     createShopAdminRoleMutation,
     { loading: isCreatingShopAdminRoleMutation }

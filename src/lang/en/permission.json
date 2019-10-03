@@ -1,5 +1,4 @@
 {
-  "": "",
   "SHOP_ADMIN_ROLE": "Shop admin role",
   "VIEW_SHOP_ADMIN_ROLE": "View shop admin role",
   "CREATE_SHOP_ADMIN_ROLE": "Create shop admin role",
@@ -32,5 +31,8 @@
   "VIEW_SHOP_USER_ORDER_DETAIL": "View shop order detail",
   "UPDATE_SHOP_USER_ORDER_DETAIL": "Update shop order detail",
   "SHOP_USER_ORDER_DETAIL_COMMENT": "Shop user order detail comment",
-  "VIEW_SHOP_USER_ORDER_DETAIL_COMMENT": "View shop user order detail comment"
+  "VIEW_SHOP_USER_ORDER_DETAIL_COMMENT": "View shop user order detail comment",
+  "SHOP_NOTIFICATION_SETTING": "Shop Notification Setting",
+  "VIEW_SHOP_NOTIFICATION_SETTING": "View shop Notification Setting",
+  "UPDATE_SHOP_NOTIFICATION_SETTING": "Update shop Notification Setting"
 }
