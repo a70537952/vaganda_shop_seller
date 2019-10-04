@@ -5,9 +5,11 @@ import { initReactI18next } from "react-i18next";
 import enGlobal from "../lang/en/global.json";
 import enSeller from "../lang/en/seller.json";
 import enPermission from "../lang/en/permission.json";
+import enNotificationSetting from "../lang/en/notificationSetting.json";
 import zhGlobal from "../lang/zh/global.json";
 import zhSeller from "../lang/zh/seller.json";
 import zhPermission from "../lang/zh/permission.json";
+import zhNotificationSetting from "../lang/zh/notificationSetting.json";
 
 // not like to use this?
 // have a look at the Quick start guide
@@ -17,12 +19,14 @@ const resources = {
   en: {
     global: enGlobal,
     seller: enSeller,
-    permission: enPermission
+    permission: enPermission,
+    notificationSetting: enNotificationSetting
   },
   zh: {
     global: zhGlobal,
     seller: zhSeller,
-    permission: zhPermission
+    permission: zhPermission,
+    notificationSetting: zhNotificationSetting
   }
 };
 

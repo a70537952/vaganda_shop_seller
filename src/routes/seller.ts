@@ -15,6 +15,7 @@ import Dashboard from "../pages/Dashboard";
 import Product from "../pages/Product";
 import ProductCategory from "../pages/ProductCategory";
 import Setting from "../pages/Setting";
+import SettingNotification from "../pages/SettingNotification";
 import OrderDetail from "../pages/OrderDetail";
 import OrderComment from "../pages/OrderComment";
 
@@ -88,6 +89,16 @@ export default <any>{
       icon: PermIdentityIcon
     },
     permission: ['VIEW_SHOP_ADMIN_ROLE']
+  },
+  notificationSetting: {
+    path: '/setting/notification',
+    exact: true,
+    component: SettingNotification,
+    showInDrawer: {
+      text: 'notification setting',
+      icon: SettingsIcon
+    },
+    permission: ['VIEW_SHOP_NOTIFICATION_SETTING']
   },
   setting: {
     path: '/setting',

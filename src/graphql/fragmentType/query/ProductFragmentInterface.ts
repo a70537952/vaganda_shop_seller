@@ -78,7 +78,7 @@ export interface IProductFragmentModalCreateEditProduct {
 export interface IProductFragmentProduct {
   id: string;
   title: string;
-  is_publish: string;
+  is_publish: number;
   created_at: string;
   shop_product_category_product: {
     id: string;

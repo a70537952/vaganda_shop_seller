@@ -22,8 +22,8 @@ import useForm from "../../_hook/useForm";
 import DialogConfirm from "../../_dialog/DialogConfirm";
 import ButtonSubmit from "../../ButtonSubmit";
 import { useShopAdminRolePermissionQuery } from "../../../graphql/query/customQuery/ShopAdminRolePermissionQuery";
-import { shopAdminRolePermissionFragments } from "../../../graphql/fragment/query/ShopAdminRolePermissionFragment";
-import { IShopAdminRolePermissionFragmentDefaultFragment } from "../../../graphql/fragmentType/query/ShopAdminRolePermissionFragmentInterface";
+import { shopAdminRolePermissionFragments } from "../../../graphql/fragment/query/customQuery/ShopAdminRolePermissionFragment";
+import { IShopAdminRolePermissionFragmentDefaultFragment } from "../../../graphql/fragmentType/query/customQuery/ShopAdminRolePermissionFragmentInterface";
 
 interface IProps {
   shopAdminRoleId?: string;
