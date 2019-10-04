@@ -7,6 +7,8 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import CategoryIcon from "@material-ui/icons/Category";
 import ReceiptIcon from "@material-ui/icons/Receipt";
 import CommentIcon from "@material-ui/icons/Comment";
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+
 
 import Error404 from "../components/seller/Error404";
 import Admin from "../pages/Admin";
@@ -96,7 +98,7 @@ export default <any>{
     component: SettingNotification,
     showInDrawer: {
       text: 'notification setting',
-      icon: SettingsIcon
+      icon: NotificationsNoneIcon
     },
     permission: ['VIEW_SHOP_NOTIFICATION_SETTING']
   },
