@@ -24,6 +24,7 @@ import ButtonSubmit from "../../ButtonSubmit";
 import { useShopAdminRolePermissionQuery } from "../../../graphql/query/customQuery/ShopAdminRolePermissionQuery";
 import { shopAdminRolePermissionFragments } from "../../../graphql/fragment/query/customQuery/ShopAdminRolePermissionFragment";
 import { IShopAdminRolePermissionFragmentDefaultFragment } from "../../../graphql/fragmentType/query/customQuery/ShopAdminRolePermissionFragmentInterface";
+import LoadingSkeleton from "../../LoadingSkeleton";
 
 interface IProps {
   shopAdminRoleId?: string;
@@ -288,18 +289,7 @@ export default function ModalCreateEditShopAdminRole(props: IProps) {
             <Grid item container justify={"center"} xs={12}>
               <Grid container item spacing={1} xs={11}>
                 {loading ?
-                  <React.Fragment>
-                    {new Array(4).fill(6).map((ele, index) => {
-                      return (
-                        <Grid key={index} item xs={12}>
-                          <Skeleton
-                            variant={"rect"}
-                            height={50}
-                          />
-                        </Grid>
-                      );
-                    })}
-                  </React.Fragment>
+                  <LoadingSkeleton/>
                 :
                 <>
                   {shopAdminRolePermissions.map(shopAdminRolePermission => {
@@ -417,15 +407,7 @@ export default function ModalCreateEditShopAdminRole(props: IProps) {
             </Grid>
           </>
         ) : (
-          <React.Fragment>
-            {new Array(4).fill(6).map((ele, index) => {
-              return (
-                <Grid key={index} item xs={12}>
-                  <Skeleton variant={"rect"} height={50}/>
-                </Grid>
-              );
-            })}
-          </React.Fragment>
+          <LoadingSkeleton/>
         )}
       </Grid>
     </Modal>

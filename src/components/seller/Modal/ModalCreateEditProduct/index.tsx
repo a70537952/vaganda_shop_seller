@@ -27,6 +27,7 @@ import ProductInfo from "./ProductInfo";
 import ProductDescription from "./ProductDescription";
 import ProductType from "./ProductType";
 import ProductShipping from "./ProductShipping";
+import LoadingSkeleton from "../../../LoadingSkeleton";
 
 interface IProps {
   productId?: string;
@@ -872,15 +873,7 @@ export default function ModalCreateEditProduct(props: IProps) {
             </Grid>
           </>
         ) : (
-          <Grid container spacing={1}>
-            {new Array(4).fill(6).map((ele, index) => {
-              return (
-                <Grid key={index} item xs={12}>
-                  <Skeleton variant={"rect"} height={50}/>
-                </Grid>
-              );
-            })}
-          </Grid>
+          <LoadingSkeleton/>
         )}
       </Modal>
     </>

@@ -21,6 +21,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Switch from "@material-ui/core/Switch";
+import LoadingSkeleton from "../components/LoadingSkeleton";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -107,15 +108,7 @@ export default function Setting() {
   },[isLoadingShopNotificationSettingType, isLoadingShopNotificationSetting]);
 
   if (isLoadingShopNotificationSetting || isLoadingShopNotificationSettingType) {
-    return <>
-      {new Array(4).fill(6).map((ele, index) => {
-        return (
-          <Grid key={index} item xs={12}>
-            <Skeleton variant={"rect"} height={50}/>
-          </Grid>
-        );
-      })}
-    </>;
+    return <LoadingSkeleton />;
   }
 
   let disabled = !context.permission.includes("UPDATE_SHOP_NOTIFICATION_SETTING");

@@ -19,6 +19,7 @@ import { IShopContactInfoFragmentModalUpdateShopContactInfo } from "../../../gra
 import useForm from "../../_hook/useForm";
 import DialogConfirm from "../../_dialog/DialogConfirm";
 import ButtonSubmit from "../../ButtonSubmit";
+import LoadingSkeleton from "../../LoadingSkeleton";
 
 interface IProps {
   shopId: string;
@@ -309,15 +310,7 @@ export default function ModalUpdateShopContactInfo(props: IProps) {
             </Grid>
           </>
         ) : (
-          <React.Fragment>
-            {new Array(4).fill(6).map((ele, index) => {
-              return (
-                <Grid key={index} item xs={12}>
-                  <Skeleton variant={"rect"} height={50}/>
-                </Grid>
-              );
-            })}
-          </React.Fragment>
+          <LoadingSkeleton/>
         )}
       </Grid>
     </Modal>

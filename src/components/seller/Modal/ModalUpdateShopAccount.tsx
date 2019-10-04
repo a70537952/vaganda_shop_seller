@@ -19,6 +19,7 @@ import { shopSettingQuery, ShopSettingVars } from "../../../graphql/query/ShopSe
 import useForm from "../../_hook/useForm";
 import DialogConfirm from "../../_dialog/DialogConfirm";
 import ButtonSubmit from "../../ButtonSubmit";
+import LoadingSkeleton from "../../LoadingSkeleton";
 
 
 interface IProps {
@@ -207,15 +208,7 @@ export default function ModalUpdateShopAccount(props: IProps) {
             </Grid>
           </>
         ) : (
-          <>
-            {new Array(4).fill(6).map((ele, index) => {
-              return (
-                <Grid key={index} item xs={12}>
-                  <Skeleton variant={"rect"} height={50}/>
-                </Grid>
-              );
-            })}
-          </>
+          <LoadingSkeleton/>
         )}
       </Grid>
     </Modal>

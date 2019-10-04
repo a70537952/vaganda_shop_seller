@@ -35,6 +35,7 @@ import ButtonSubmit from "../../ButtonSubmit";
 import { useUserLazyQuery } from "../../../graphql/query/UserQuery";
 import { userFragments } from "../../../graphql/fragment/query/UserFragment";
 import { IUserFragmentModalCreateEditShopAdmin } from "../../../graphql/fragmentType/query/UserFragmentInterface";
+import LoadingSkeleton from "../../LoadingSkeleton";
 
 interface IProps {
   shopAdminId?: string;
@@ -514,15 +515,7 @@ export default function ModalCreateEditShopAdmin(props: IProps) {
             </Grid>
           </>
         ) : (
-          <React.Fragment>
-            {new Array(4).fill(6).map((ele, index) => {
-              return (
-                <Grid key={index} item xs={12}>
-                  <Skeleton variant={"rect"} height={50}/>
-                </Grid>
-              );
-            })}
-          </React.Fragment>
+          <LoadingSkeleton/>
         )}
       </Grid>
     </Modal>
