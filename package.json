@@ -30,6 +30,7 @@
     "@types/react-select": "^3.0.4",
     "@types/react-table": "^6.8.5",
     "@types/react-window": "^1.8.1",
+    "@types/socket.io-client": "^1.4.32",
     "apollo-boost": "^0.4.4",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-link": "^1.2.12",

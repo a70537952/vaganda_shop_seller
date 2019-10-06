@@ -34,6 +34,7 @@ import { useCookies } from "react-cookie";
 import { getCookieKey, getGlobalCookieOption } from "../../utils/CookieUtil";
 import useTheme from "@material-ui/core/styles/useTheme";
 import { useMediaQuery } from "@material-ui/core";
+import Chat from "./Chat";
 
 const useStyles = makeStyles((theme: Theme) => {
   const drawerWidth = 265;
@@ -283,7 +284,8 @@ export default function Header() {
                   exact={route.exact}
                   className={classes.drawerListItem}
                   activeClassName={classes.currentActiveListItem}
-                  {...({ component: NavLink, to: route.path } as any)}
+                  component={NavLink}
+                  to={route.path}
                 >
                   <ListItemIcon>
                     {React.createElement(route.showInDrawer.icon, {})}
@@ -363,5 +365,6 @@ export default function Header() {
         </Switch>
       </ErrorBoundary>
     </main>
+    <Chat />
   </div>;
 }

@@ -138,6 +138,20 @@ export default function Index() {
     }
   }
 
+  useEffect(() => {
+    if(context.user) {
+      Echo.private('App.User.' + context.user.id);
+        // .listen('.ExampleEvent', (e: any) => {
+        //   console.log('e', e);
+        // });
+
+      return () => {
+        Echo.leave('App.User.' + context.user.id);
+      };
+    }
+  }, [JSON.stringify(context.user)]);
+
+
   const supportsHistory = "pushState" in window.history;
   const primaryMain = "#ff5722";
   const primaryLight = "#ff784e";

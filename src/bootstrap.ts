@@ -1,4 +1,8 @@
 import parseDomain from "parse-domain";
+import Echo from 'laravel-echo';
+import io from 'socket.io-client';
+import Cookies from "js-cookie";
+import { getCookieKey } from "./utils/CookieUtil";
 
 if (window.location.hostname === 'localhost' && process.env.REACT_APP_SELLER_DOMAIN) {
   window.location.hostname = process.env.REACT_APP_SELLER_DOMAIN;
@@ -25,21 +29,17 @@ declare var window: Window;
  * allows your team to easily build robust real-time web applications.
  */
 
-window.io = require('socket.io-client');
+window.io = io;
 
 let echoConfig = {
   broadcaster: 'socket.io',
-  host: 'socket.' + domain + ':6001'
+  host: 'socket.' + domain + ':6001',
+  auth:        {
+    headers: {
+      Authorization: 'Bearer ' + Cookies.get(getCookieKey('api_token')),
+    },
+  },
 };
 
-// if (hostname !== 'vaganda.shop') {
-// 	// development
-// 	echoConfig.key = '4c1006abc85868d19e49';
-// 	echoConfig.encrypted = true;
-// } else {
-// 	// production
-// 	echoConfig.key = 'f73a254e543c4d7f71f0';
-// 	echoConfig.encrypted = true;
-// }
 
-// window.Echo = new Echo(echoConfig);
+window.Echo = new Echo(echoConfig);
