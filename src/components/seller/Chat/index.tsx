@@ -1,5 +1,5 @@
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useEffect } from "react";
 import Popper from "@material-ui/core/Popper";
 import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
@@ -12,6 +12,13 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import useForm from "../../_hook/useForm";
 import SendIcon from '@material-ui/icons/Send';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 
 interface IProps {
 
@@ -62,6 +69,19 @@ export default function Chat(props: IProps) {
   const {} = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+  // useEffect(() => {
+  //   if(context.user) {
+  //     Echo.private('App.User.' + context.user.id);
+  //     // .listen('.ExampleEvent', (e: any) => {
+  //     //   console.log('e', e);
+  //     // });
+  //
+  //     return () => {
+  //       Echo.leave('App.User.' + context.user.id);
+  //     };
+  //   }
+  // }, [JSON.stringify(context.user)]);
+
   function handleClick(event: React.MouseEvent<HTMLElement>) {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   }
@@ -77,14 +97,14 @@ export default function Chat(props: IProps) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   let chatPaperContainerStyle = {
-    width: "570px",
-    height: "510px"
+    width: "700px",
+    height: "610px"
   };
 
   if (isMobile) {
     chatPaperContainerStyle = {
-      width: "570px",
-      height: "510px"
+      width: "700px",
+      height: "610px"
     };
   }
 
@@ -102,12 +122,33 @@ export default function Chat(props: IProps) {
         <Fade {...TransitionProps} timeout={350}>
           <Paper className={classes.rootPaper} style={chatPaperContainerStyle}>
             <Grid container className={classes.rootGrid}>
-              <Grid item xs={3} md={3}>
+              <Grid item xs={4} md={4}>
                 <Paper className={classes.chatLeftPaper} square elevation={0}>
-                  123
+                  <List>
+                    <ListItem alignItems="flex-start"
+                              selected={true}>
+                      <ListItemAvatar>
+                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={"Ali Connors"}
+                        secondary={
+                            <Typography
+                              component="span"
+                              variant="body2"
+
+                              color="textPrimary"
+                            >
+                              Ali Connors
+                            </Typography>
+                        }
+                      />
+                    </ListItem>
+                    <Divider component="li" />
+                  </List>
                 </Paper>
               </Grid>
-              <Grid item xs={9} md={9}>
+              <Grid item xs={8} md={8}>
                 <Paper className={classes.chatRightPaper} square elevation={0}>
                   <Paper className={classes.chatInputPaper} square elevation={0}>
                     <Grid className={classes.chatInputGrid} container spacing={1} alignContent={'space-between'}>

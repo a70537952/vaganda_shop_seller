@@ -140,13 +140,13 @@ export default function Index() {
 
   useEffect(() => {
     if(context.user) {
-      Echo.private('App.User.' + context.user.id);
+      Echo.private('App.Chat.' + context.user.id);
         // .listen('.ExampleEvent', (e: any) => {
         //   console.log('e', e);
         // });
 
       return () => {
-        Echo.leave('App.User.' + context.user.id);
+        Echo.leave('App.Chat.' + context.user.id);
       };
     }
   }, [JSON.stringify(context.user)]);
