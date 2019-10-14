@@ -42,6 +42,7 @@ where_not_client_type?: String;
 where_not_client_id?: String;
 where_not_is_open_chat?: String;
 where_not_is_read?: String;
+sort_chat_last_message_at?: SortField;
 }
 
 export function useChatClientLazyQuery<TData = any>(fragment: DocumentNode, options?: QueryHookOptions<{ chatClient: WithPagination<TData> }, ChatClientVars>
@@ -90,7 +91,8 @@ $where_not_chat_id: String,
 $where_not_client_type: String,
 $where_not_client_id: String,
 $where_not_is_open_chat: String,
-$where_not_is_read: String,)
+$where_not_is_read: String,
+$sort_chat_last_message_at: String,)
      {
         chatClient
         (
@@ -127,7 +129,8 @@ where_not_chat_id: $where_not_chat_id,
 where_not_client_type: $where_not_client_type,
 where_not_client_id: $where_not_client_id,
 where_not_is_open_chat: $where_not_is_open_chat,
-where_not_is_read: $where_not_is_read,)
+where_not_is_read: $where_not_is_read,
+sort_chat_last_message_at: $sort_chat_last_message_at,)
         {
             items {
                 ...fragment

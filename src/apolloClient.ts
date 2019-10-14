@@ -1,9 +1,14 @@
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { InMemoryCache, IntrospectionFragmentMatcher } from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
 import { ApolloLink, from } from "apollo-link";
 import { createUploadLink } from "apollo-upload-client";
 import NProgress from "nprogress";
 import axios from "./axios";
+import fragmentTypes from './fragmentTypes.json';
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData: fragmentTypes
+});
 
 const customFetch = (uri: string, options: any) => {
   let optionsBody = options.body;
@@ -20,7 +25,7 @@ const customFetch = (uri: string, options: any) => {
 };
 const link = createUploadLink({ fetch: customFetch });
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({ fragmentMatcher });
 
 const beforeMiddleware = new ApolloLink((operation: any, forward: any) => {
   NProgress.start();

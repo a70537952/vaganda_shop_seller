@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { getCookieKey } from "./utils/CookieUtil";
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.baseURL = 'https://api.vagandashop.local/';
+axios.defaults.baseURL = `https://${process.env.REACT_APP_API_URL}/`;
 
 let apiToken = Cookies.get(getCookieKey('api_token'));
 
