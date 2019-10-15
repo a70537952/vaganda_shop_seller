@@ -199,7 +199,9 @@ export default function Header() {
             color="inherit"
             className={classes.unsetBackground}
           >
+            {context.user &&
             <UserAvatar user={context.user}/>
+            }
           </IconButton>
           <Popover
             anchorEl={anchorEl}

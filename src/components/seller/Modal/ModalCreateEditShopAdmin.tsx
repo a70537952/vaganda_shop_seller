@@ -336,9 +336,9 @@ export default function ModalCreateEditShopAdmin(props: IProps) {
                       selected={isHighlighted}
                       component="div"
                     >
-                      <ListItem alignItems="flex-start">
+                      <ListItem>
                         <ListItemAvatar>
-                          <UserAvatar user={suggestion}/>
+                          <UserAvatar user={suggestion} size={40}/>
                         </ListItemAvatar>
                         <ListItemText
                           primary={suggestion.name}

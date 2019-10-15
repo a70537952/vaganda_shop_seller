@@ -29,6 +29,32 @@ export let chatClientFragments: any = {
           }
         }
       }
+      chat_clients {
+        id
+        chat_id
+        client_type
+        client_id
+        client {
+          ... on User {
+            id
+            name
+            user_info {
+              id
+              avatar
+              avatar_small
+            }
+          }
+         ... on Shop {
+            id
+            name
+            shop_info {
+              id
+              logo
+              logo_small
+            }
+          }
+        }
+      }
       chat {
         id
         chat_type

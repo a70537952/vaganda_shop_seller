@@ -25,6 +25,7 @@ export let userFragments: any = {
         id
         gender
         avatar
+        avatar_small
       }
     }
   `

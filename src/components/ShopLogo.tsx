@@ -7,8 +7,20 @@ import {StyledComponentProps} from '@material-ui/core/styles/withStyles';
 import {Link} from 'react-router-dom';
 import {homePath} from '../utils/RouteUtil';
 
+
 interface IProps extends StyledComponentProps {
-    shop: any;
+    shop: {
+        id: string
+        shop_info: {
+            logo: string;
+            logo_original?: string
+            logo_small?: string;
+            logo_medium?: string;
+            logo_large?: string;
+            logo_extra?: string;
+        }
+        [key: string] : any
+    };
     className?: string;
     withLink?: boolean;
     imageSize?:
@@ -17,21 +29,19 @@ interface IProps extends StyledComponentProps {
         | 'logo_medium'
         | 'logo_large'
         | 'logo_extra';
+    size?: number;
 }
 
 
-const useStyles = makeStyles({
-    logo: {
-        width: 30,
-        height: 30
-    }
-});
-
 export default function ShopLogo(props: IProps) {
-    const classes = useStyles();
     const {
-        className, shop, withLink, imageSize
+        className, shop, withLink, imageSize, size
     } = props;
+    let logoSize = size || 30;
+    let style = {
+        width: logoSize,
+        height: logoSize
+    };
 
 
     let shopLink: any = {
@@ -47,7 +57,6 @@ export default function ShopLogo(props: IProps) {
             : ({} as any))
     };
 
-    let logoClass = classnames(classes.logo, className);
     let imageKey = imageSize || 'logo_medium';
 
     return <React.Fragment>
@@ -58,18 +67,18 @@ export default function ShopLogo(props: IProps) {
                 shop.shop_info[imageKey] ? (
                     <Avatar
                         src={shop.shop_info[imageKey]}
-                        className={logoClass}
+                        className={className} style={style}
                         {...shopLink}
                     />
                 ) : (
-                    <Avatar className={logoClass} {...shopLink}>
+                    <Avatar className={className} style={style} {...shopLink}>
                         {shop.name[0].toUpperCase()}
                     </Avatar>
                 )}
             </React.Fragment>
         ) : (
             <React.Fragment>
-                <Store className={className}/>
+                <Store className={className} style={style}/>
             </React.Fragment>
         )}
     </React.Fragment>;

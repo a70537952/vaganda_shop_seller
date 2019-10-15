@@ -20,5 +20,6 @@ export interface IUserFragmentModalCreateEditShopAdmin {
     id: string;
     gender: string;
     avatar: string;
+    avatar_small: string;
   }
 }

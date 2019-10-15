@@ -26,6 +26,13 @@ export interface IChatClientFragmentChat {
   is_open_chat: number;
   is_read: number;
   client: IChatClientFragmentChatIClientUser | IChatClientFragmentChatIClientShop
+  chat_clients: {
+    id: string;
+    chat_id: string;
+    client_type: string;
+    client_id: string;
+    client: IChatClientFragmentChatIClientUser | IChatClientFragmentChatIClientShop
+  } []
   chat: {
     id: string;
     chat_type: string;

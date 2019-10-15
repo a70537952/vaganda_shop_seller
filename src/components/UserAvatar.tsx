@@ -7,42 +7,42 @@ import {StyledComponentProps} from '@material-ui/core/styles/withStyles';
 
 interface IProps extends StyledComponentProps {
     className?: string;
-    user?: any;
+    user?: {
+        id: string
+        user_info: {
+            avatar: string;
+            avatar_small: string;
+        }
+        [key: string] : any
+    };
+    size?: number;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-    avatar: {
-        width: 30,
-        height: 30
-    }
-}));
 
 export default function UserAvatar(props: IProps) {
-    const classes = useStyles();
     const {
-        className, user
+        className, user, size
     } = props;
-    let avatarClass = classnames(classes.avatar, className);
+    let avatarSize = size || 30;
+    let style = {
+        width: avatarSize,
+        height: avatarSize
+    };
 
-    return <React.Fragment>
-        {user ? (
-            <React.Fragment>
-                {user.user_info && user.user_info.avatar ? (
-                    <Avatar
-                        alt={'avatar'}
-                        src={user.user_info.avatar_small}
-                        className={avatarClass}
-                    />
-                ) : (
-                    <Avatar alt={'avatar'} className={avatarClass}>
-                        {user.name[0].toUpperCase()}
-                    </Avatar>
-                )}
-            </React.Fragment>
+    if(!user) {
+        return <AccountCircle className={className} style={style}/>;
+    }
+
+    return user.user_info && user.user_info.avatar ? (
+            <Avatar
+                alt={'avatar'}
+                src={user.user_info.avatar_small}
+                className={className}
+                style={style}
+            />
         ) : (
-            <React.Fragment>
-                <AccountCircle className={className}/>
-            </React.Fragment>
-        )}
-    </React.Fragment>;
+            <Avatar alt={'avatar'} className={className} style={style}>
+                {user.name[0].toUpperCase()}
+            </Avatar>
+        );
 }

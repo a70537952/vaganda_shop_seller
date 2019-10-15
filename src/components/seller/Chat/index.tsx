@@ -28,6 +28,9 @@ import {
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CHAT_CLIENT from "../../../constant/CHAT_CLIENT";
 import CHAT_MESSAGE from "../../../constant/CHAT_MESSAGE";
+import UserAvatar from "../../UserAvatar";
+import ShopLogo from "../../ShopLogo";
+import LinesEllipsis from "react-lines-ellipsis";
 
 interface IProps {
 
@@ -174,19 +177,19 @@ export default function Chat(props: IProps) {
                       <List>
                         {chatClients.map(
                           chatClient => {
-                            let chatAvatar = "";
-                            let chatName = "";
+                            let chatOtherClient = chatClient.chat_clients.find(client =>
+                              client.client_type !== chatClient.client_type || client.client_id !== chatClient.client_id) || chatClient.chat_clients[0];
 
-                            if (chatClient.client_type === CHAT_CLIENT.CLIENT_TYPE.USER) {
-                              let client = chatClient.client as IChatClientFragmentChatIClientUser;
-                              chatName = client.name;
-                              chatAvatar = client.user_info.avatar_small;
+                            let chatName = "";
+                            let chatOtherClientSender = null;
+                            if (chatOtherClient.client_type === CHAT_CLIENT.CLIENT_TYPE.USER) {
+                              chatOtherClientSender = chatOtherClient.client as IChatClientFragmentChatIClientUser;
+                              chatName = chatOtherClientSender.name;
                             }
 
-                            if (chatClient.client_type === CHAT_CLIENT.CLIENT_TYPE.SHOP) {
-                              let client = chatClient.client as IChatClientFragmentChatIClientShop;
-                              chatName = client.name;
-                              chatAvatar = client.shop_info.logo_small;
+                            if (chatOtherClient.client_type === CHAT_CLIENT.CLIENT_TYPE.SHOP) {
+                              chatOtherClientSender = chatOtherClient.client as IChatClientFragmentChatIClientShop;
+                              chatName = chatOtherClientSender.name;
                             }
 
                             let latestChatMessage = chatClient.chat.latest_chat_message;
@@ -205,21 +208,29 @@ export default function Chat(props: IProps) {
                             }
 
                             return <React.Fragment key={chatClient.id}>
-                              <ListItem alignItems="flex-start" selected={false}>
-                                <ListItemAvatar>
-                                  <Avatar alt={chatName} src={chatAvatar}/>
-                                </ListItemAvatar>
+                              <ListItem selected={false} button>
+                                {chatOtherClientSender &&
+                                  <ListItemAvatar>
+                                    <>
+                                      {chatClient.client_type === CHAT_CLIENT.CLIENT_TYPE.USER &&
+                                      <UserAvatar size={40} user={chatOtherClientSender as IChatClientFragmentChatIClientUser}/>
+                                      }
+                                      {chatClient.client_type === CHAT_CLIENT.CLIENT_TYPE.SHOP &&
+                                      <ShopLogo shop={chatOtherClientSender as IChatClientFragmentChatIClientShop}/>
+                                      }
+                                    </>
+                                  </ListItemAvatar>
+                                }
                                 <ListItemText
                                   primary={chatName}
-                                  secondary={
-                                    <Typography
-                                      component="span"
-                                      variant={'body2'}
-                                      color="textPrimary"
-                                    >
-                                      {chatPreviewText}
-                                    </Typography>
-                                  }
+                                  secondary={<LinesEllipsis
+                                    style={{ whiteSpace: 'pre-wrap' }}
+                                    text={chatPreviewText}
+                                    maxLine="2"
+                                    ellipsis="..."
+                                    trimRight
+                                    basedOn="letters"
+                                  />}
                                 />
                               </ListItem>
                               <Divider component="li"/>
