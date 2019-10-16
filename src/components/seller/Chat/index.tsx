@@ -11,32 +11,16 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import TextField from "@material-ui/core/TextField";
 import useForm from "../../_hook/useForm";
 import SendIcon from "@material-ui/icons/Send";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import { useChatClientQuery } from "../../../graphql/query/ChatClientQuery";
-import { chatClientFragments } from "../../../graphql/fragment/query/ChatClientFragment";
-import {
-  IChatClientFragmentChat,
-  IChatClientFragmentChatIClientShop,
-  IChatClientFragmentChatIClientUser
-} from "../../../graphql/fragmentType/query/ChatClientFragmentInterface";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import CHAT_CLIENT from "../../../constant/CHAT_CLIENT";
-import CHAT_MESSAGE from "../../../constant/CHAT_MESSAGE";
-import UserAvatar from "../../UserAvatar";
-import ShopLogo from "../../ShopLogo";
-import LinesEllipsis from "react-lines-ellipsis";
+import ChatLeftPanel from "./ChatLeftPanel";
 
 interface IProps {
 
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
+  popper: {
+    position: 'absolute'
+  },
   leftIcon: {
     marginRight: theme.spacing(1)
   },
@@ -52,14 +36,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   rootGrid: {
     height: "100%"
   },
-  chatLeftPaper: {
-    borderRight: "1px solid #ddd",
-    height: "100%"
-  },
   chatRightPaper: {
     height: "100%",
     background: "#eee",
-    position: "relative"
+    position: "relative",
+    borderLeft: "1px solid #ddd",
   },
   chatInputPaper: {
     borderTop: "1px solid #ddd",
@@ -72,6 +53,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   chatInputGrid: {
     height: "100%"
+  },
+  chatLeftContainer: {
+    height: "100%",
+    overflowY: "auto",
+    overflowX: "hidden"
   }
 }));
 
@@ -81,22 +67,7 @@ export default function Chat(props: IProps) {
   const {} = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const { loading: loadingChatClient, data: chatClientData } = useChatClientQuery<IChatClientFragmentChat>(chatClientFragments.Chat, {
-    variables: {
-      sort_chat_last_message_at: "desc",
-      limit: 10,
-      offset: 0
-    },
-    fetchPolicy: "network-only"
-  });
 
-  console.log("chatClientData", chatClientData);
-  let chatClients: IChatClientFragmentChat[] = [];
-
-  if (chatClientData) {
-    chatClients = chatClientData.chatClient.items;
-  }
-  console.log("chatClients", chatClients);
   // useEffect(() => {
   //   if(context.user) {
   //     Echo.private('App.User.' + context.user.id);
@@ -146,6 +117,8 @@ export default function Chat(props: IProps) {
       {t("chat")}
     </Button>
     <Popper open={open}
+            className={classes.popper}
+            keepMounted
             anchorEl={anchorEl}
             disablePortal
             transition
@@ -159,126 +132,47 @@ export default function Chat(props: IProps) {
         <Fade {...TransitionProps} timeout={350}>
           <Paper className={classes.rootPaper} style={chatPaperContainerStyle} elevation={3}>
             <Grid container className={classes.rootGrid}>
-              {loadingChatClient ?
-                <Grid container justify={"center"} alignContent={"center"} spacing={3}>
-                  <Grid container item xs={12} justify={"center"}>
-                    <CircularProgress color={"primary"}/>
-                  </Grid>
-                  <Grid container item xs={12} justify={"center"}>
-                    <Typography variant={"h6"} color={"primary"}>
-                      {t("loading chat")}...
-                    </Typography>
-                  </Grid>
+              <>
+                <Grid item xs={4} md={4} className={classes.chatLeftContainer}>
+                  <ChatLeftPanel/>
                 </Grid>
-                :
-                <>
-                  <Grid item xs={4} md={4}>
-                    <Paper className={classes.chatLeftPaper} square elevation={0}>
-                      <List>
-                        {chatClients.map(
-                          chatClient => {
-                            let chatOtherClient = chatClient.chat_clients.find(client =>
-                              client.client_type !== chatClient.client_type || client.client_id !== chatClient.client_id) || chatClient.chat_clients[0];
+                <Grid item xs={8} md={8}>
+                  <Paper className={classes.chatRightPaper} square elevation={0}>
+                    <Paper className={classes.chatInputPaper} square elevation={0}>
+                      <Grid className={classes.chatInputGrid} container spacing={1} alignContent={"space-between"}>
+                        <Grid xs={12} item>
+                          <TextField
+                            disabled={disable.message}
+                            error={Boolean(error.message)}
+                            placeholder={t("message...")}
+                            value={value.message}
+                            onChange={(e) => {
+                              setValue("message", e.target.value);
+                            }}
+                            helperText={error.message}
+                            margin="none"
+                            fullWidth
+                            multiline
+                          />
+                        </Grid>
+                        <Grid xs={12} container item justify={"space-between"} spacing={1}>
+                          <Grid item>
 
-                            let chatName = "";
-                            let chatOtherClientSender = null;
-                            if (chatOtherClient.client_type === CHAT_CLIENT.CLIENT_TYPE.USER) {
-                              chatOtherClientSender = chatOtherClient.client as IChatClientFragmentChatIClientUser;
-                              chatName = chatOtherClientSender.name;
-                            }
-
-                            if (chatOtherClient.client_type === CHAT_CLIENT.CLIENT_TYPE.SHOP) {
-                              chatOtherClientSender = chatOtherClient.client as IChatClientFragmentChatIClientShop;
-                              chatName = chatOtherClientSender.name;
-                            }
-
-                            let latestChatMessage = chatClient.chat.latest_chat_message;
-                            let chatPreviewText = "";
-
-                            if (latestChatMessage.type === CHAT_MESSAGE.MESSAGE_TYPE.TEXT) {
-                              chatPreviewText = latestChatMessage.body;
-                            }
-
-                            if (latestChatMessage.type === CHAT_MESSAGE.MESSAGE_TYPE.IMAGE) {
-                              chatPreviewText = `[${t("image")}]`;
-                            }
-
-                            if (latestChatMessage.type === CHAT_MESSAGE.MESSAGE_TYPE.NOTIFICATION) {
-                              chatPreviewText = `[${t("notification")}]`;
-                            }
-
-                            return <React.Fragment key={chatClient.id}>
-                              <ListItem selected={false} button>
-                                {chatOtherClientSender &&
-                                  <ListItemAvatar>
-                                    <>
-                                      {chatClient.client_type === CHAT_CLIENT.CLIENT_TYPE.USER &&
-                                      <UserAvatar size={40} user={chatOtherClientSender as IChatClientFragmentChatIClientUser}/>
-                                      }
-                                      {chatClient.client_type === CHAT_CLIENT.CLIENT_TYPE.SHOP &&
-                                      <ShopLogo shop={chatOtherClientSender as IChatClientFragmentChatIClientShop}/>
-                                      }
-                                    </>
-                                  </ListItemAvatar>
-                                }
-                                <ListItemText
-                                  primary={chatName}
-                                  secondary={<LinesEllipsis
-                                    style={{ whiteSpace: 'pre-wrap' }}
-                                    text={chatPreviewText}
-                                    maxLine="2"
-                                    ellipsis="..."
-                                    trimRight
-                                    basedOn="letters"
-                                  />}
-                                />
-                              </ListItem>
-                              <Divider component="li"/>
-                            </React.Fragment>;
-                          }
-                        )}
-                      </List>
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={8} md={8}>
-                    <Paper className={classes.chatRightPaper} square elevation={0}>
-                      <Paper className={classes.chatInputPaper} square elevation={0}>
-                        <Grid className={classes.chatInputGrid} container spacing={1} alignContent={"space-between"}>
-                          <Grid xs={12} item>
-                            <TextField
-                              disabled={disable.message}
-                              error={Boolean(error.message)}
-                              placeholder={t("message...")}
-                              value={value.message}
-                              onChange={(e) => {
-                                setValue("message", e.target.value);
-                              }}
-                              helperText={error.message}
-                              margin="none"
-                              fullWidth
-                              multiline
-                            />
                           </Grid>
-                          <Grid xs={12} container item justify={"space-between"} spacing={1}>
-                            <Grid item>
-
-                            </Grid>
-                            <Grid item>
-                              <Button color={"primary"}
-                                      size={"small"}
-                                      variant={"contained"}>
-                                {t("send")}
-                                <SendIcon fontSize={"small"} className={classes.rightIcon}/>
-                              </Button>
-                            </Grid>
+                          <Grid item>
+                            <Button color={"primary"}
+                                    size={"small"}
+                                    variant={"contained"}>
+                              {t("send")}
+                              <SendIcon fontSize={"small"} className={classes.rightIcon}/>
+                            </Button>
                           </Grid>
                         </Grid>
-                      </Paper>
+                      </Grid>
                     </Paper>
-                  </Grid>
-                </>
-              }
-
+                  </Paper>
+                </Grid>
+              </>
             </Grid>
           </Paper>
         </Fade>
