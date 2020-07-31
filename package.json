@@ -38,7 +38,7 @@
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.19.0",
     "braft-editor": "^2.3.7",
-    "braintree-web": "^3.51.0",
+    "braintree-web": "^3.64.1",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "enzyme": "^3.10.0",
